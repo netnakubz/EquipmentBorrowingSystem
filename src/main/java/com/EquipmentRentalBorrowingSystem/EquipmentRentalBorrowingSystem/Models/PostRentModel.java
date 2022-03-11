@@ -24,10 +24,9 @@ public class PostRentModel {
 
     @Column(name = "create_date")
     private Date create_date;
+
     public PostRentModel(){
-        Date date = new Date();
-        Timestamp timestamp = new Timestamp(date.getTime());
-        this.create_date = timestamp;
+    super();
     }
     public int getPostId() {
         return postId;

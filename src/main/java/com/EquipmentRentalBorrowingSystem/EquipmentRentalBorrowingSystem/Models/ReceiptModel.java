@@ -1,6 +1,7 @@
 package com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.Date;
 
 @Entity
@@ -11,7 +12,7 @@ public class ReceiptModel {
     @Column(name = "receipt_ID")
     private int receiptId;
 
-    @Column(name="user_id")
+    @Column(name = "user_id")
     private int userId;
 
     @Column(name = "item_ID")
@@ -20,8 +21,24 @@ public class ReceiptModel {
     @Column(name = "create_date")
     private Date create_date;
 
-    @Column(name="price")
+    @Column(name = "price")
     private int price;
+
+    public ReceiptModel() {
+        super();
+
+    }
+
+    public ReceiptModel(int userId,int itemId,int price){
+        Date date = new Date();
+        Timestamp timestamp = new Timestamp(date.getTime());
+        this.create_date = timestamp;
+        this.price = price;
+        this.userId = userId;
+        this.itemId = itemId;
+    }
+
+
 
     public int getReceiptId() {
         return receiptId;

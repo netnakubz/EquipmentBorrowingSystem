@@ -3,6 +3,7 @@ package com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Contro
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.PostBorrowModel;
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.PostRentModel;
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Services.PostService;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,17 +23,16 @@ public class PostController {
     }
 
     @PostMapping("/post/rent")
-    public ResponseEntity postRent(@RequestBody PostRentModel postRentModel) {
+    public ResponseEntity<String> postRent(@RequestBody  PostRentModel postRentModel) {
         Date date = new Date();
         Timestamp timestamp = new Timestamp(date.getTime());
         postRentModel.setCreate_date(timestamp);
         System.out.println(postRentModel.getDetails());
-        postService.post(postRentModel);
-        return new ResponseEntity<>("Post success", HttpStatus.OK);
+        return postService.post(postRentModel);
     }
 
     @PostMapping("/post/borrow")
-    public ResponseEntity post(@RequestBody PostBorrowModel postBorrowModel) {
+    public ResponseEntity<String> post(@RequestBody @NotNull PostBorrowModel postBorrowModel) {
         Date date = new Date();
         Timestamp timestamp = new Timestamp(date.getTime());
         postBorrowModel.setCreate_date(timestamp);
@@ -40,12 +40,12 @@ public class PostController {
     }
 
     @DeleteMapping("/delete/post")
-    public ResponseEntity delete(@RequestParam int postId) {
+    public ResponseEntity<String> delete(@RequestParam int postId) {
         return postService.deletePost(postId);
     }
 
     @PutMapping("/update/post")
-    public ResponseEntity update(@RequestBody PostRentModel postRentModel) {
+    public ResponseEntity<String> update(@RequestBody PostRentModel postRentModel) {
         return postService.updatePost(postRentModel, postRentModel.getPostId());
     }
 

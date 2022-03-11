@@ -29,6 +29,7 @@ public class ChatMessageModel {
     private Date sendTime;
 
     public ChatMessageModel() {
+        super();
 
     }
 

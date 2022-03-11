@@ -37,9 +37,8 @@ public class ContractModel {
     private boolean editStatus;
 
     public ContractModel(){
-        Date date = new Date();
-        Timestamp timestamp = new Timestamp(date.getTime());
-        this.start_date = timestamp;
+        super();
+
     }
     public int getContractId() {
         return contractId;

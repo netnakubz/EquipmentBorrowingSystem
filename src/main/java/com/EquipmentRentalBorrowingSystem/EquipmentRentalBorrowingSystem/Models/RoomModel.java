@@ -22,6 +22,8 @@ public class RoomModel {
     private int userTwo;
 
     public RoomModel() {
+        super();
+
     }
     public RoomModel(int userOne,int userTwo){
         this.userOne = userOne;

@@ -15,6 +15,7 @@ public class TypeModel {
 
     public TypeModel(){
         super();
+
     }
 
     public int getTypeId() {

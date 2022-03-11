@@ -4,7 +4,7 @@ plugins {
 	id 'java'
 }
 
-group = 'com.chatapp'
+group = 'com.EquipmentRentalBorrowingSystem'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
@@ -24,6 +24,7 @@ dependencies {
 	implementation 'org.webjars:bootstrap:5.1.1'
 	implementation 'org.webjars:jquery:3.6.0'
 	implementation 'org.springframework.boot:spring-boot-starter-websocket'
+	implementation 'org.jetbrains:annotations:20.1.0'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 

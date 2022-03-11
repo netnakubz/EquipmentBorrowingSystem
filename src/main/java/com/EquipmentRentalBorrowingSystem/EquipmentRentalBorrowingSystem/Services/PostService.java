@@ -21,12 +21,12 @@ public class PostService {
         this.postRentRepository = postRentRepository;
     }
 
-    public ResponseEntity post(PostRentModel postRentModel) {
+    public ResponseEntity<String> post(PostRentModel postRentModel) {
         PostRentModel r = postRentRepository.save(postRentModel);
         return new ResponseEntity<>("Post success", HttpStatus.OK);
     }
 
-    public ResponseEntity deletePost(int postId) {
+    public ResponseEntity<String> deletePost(int postId) {
         Optional<PostRentModel> postRentModel = postRentRepository.findById(postId);
         if (postRentModel.isPresent()) {
             postRentRepository.deleteById(postId);
@@ -35,7 +35,7 @@ public class PostService {
         return new ResponseEntity<>("Failed", HttpStatus.BAD_REQUEST);
     }
 
-    public ResponseEntity updatePost(PostRentModel postRentModel,int postId) {
+    public ResponseEntity<String> updatePost(PostRentModel postRentModel,int postId) {
         Optional<PostRentModel> prm = postRentRepository.findById(postId);
         if(prm.isPresent()){
             postRentRepository.save(postRentModel);

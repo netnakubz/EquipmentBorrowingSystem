@@ -24,6 +24,8 @@ public class PostBorrowModel {
     @Column(name = "create_date")
     private Date create_date;
     public PostBorrowModel(){
+        super();
+
     }
     public int getPostId() {
         return postId;

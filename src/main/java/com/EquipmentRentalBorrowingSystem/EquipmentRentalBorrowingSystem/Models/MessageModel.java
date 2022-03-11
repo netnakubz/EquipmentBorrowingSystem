@@ -25,9 +25,8 @@ public class MessageModel {
     private Date create_date;
 
     public MessageModel(){
-        Date date = new Date();
-        Timestamp timestamp = new Timestamp(date.getTime());
-        this.create_date = timestamp;
+        super();
+
     }
 
     public int getMessageId() {
