@@ -58,6 +58,4 @@ public class PostController {
     public List<PostRentModel> getPostWithFilter(@RequestParam String filter){
         return postService.getPostWithFilter(filter);
     }
-
-
 }

@@ -68,4 +68,19 @@ public class EquipmentService {
         }
         equipmentRepository.save(equipmentModel);
     }
+
+    public ResponseEntity<String> returnEquipment(int itemId){
+        Optional<EquipmentModel> equipmentModel = equipmentRepository.findById(itemId);
+        if(equipmentModel.isPresent()){
+            int quantity = equipmentModel.get().getQuantity();
+            equipmentModel.get().setQuantity(quantity+1);
+            equipmentRepository.save(equipmentModel.get());
+            return new ResponseEntity<>("Return successfully",HttpStatus.OK);
+        }
+        return new ResponseEntity<>("Return failed or item not found",HttpStatus.BAD_REQUEST);
+    }
+
+    public Optional<EquipmentModel> getEquipmentById(int equipmentId){
+        return equipmentRepository.findById(equipmentId);
+    }
 }

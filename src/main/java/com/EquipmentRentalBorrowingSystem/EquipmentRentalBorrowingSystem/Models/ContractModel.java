@@ -17,6 +17,9 @@ public class ContractModel {
     @Column(name = "user_ID_borrower")
     private int userIdBorrower;
 
+    @Column(name = "total_rent")
+    private int totalRent;
+
     @Column(name = "start_date")
     private Date startDate;
 
@@ -35,8 +38,27 @@ public class ContractModel {
     @Column(name = "edit_status")
     private boolean editStatus;
 
+    @Column(name = "item_ID")
+    private int itemId;
+
     public ContractModel() {
         super();
+    }
+
+    public int getTotalRent() {
+        return totalRent;
+    }
+
+    public void setTotalRent(int totalRent) {
+        this.totalRent = totalRent;
+    }
+
+    public int getItemId() {
+        return itemId;
+    }
+
+    public void setItemId(int itemId) {
+        this.itemId = itemId;
     }
 
     public int getContractId() {
@@ -113,16 +135,6 @@ public class ContractModel {
 
     @Override
     public String toString() {
-        return "ContractModel{" +
-                "contractId=" + contractId +
-                ", userIdOwner=" + userIdOwner +
-                ", userIdBorrower=" + userIdBorrower +
-                ", startDate=" + startDate +
-                ", endDate=" + endDate +
-                ", price=" + price +
-                ", fineLate=" + fineLate +
-                ", fineBroken=" + fineBroken +
-                ", editStatus=" + editStatus +
-                '}';
+        return "ContractModel{" + "contractId=" + contractId + ", userIdOwner=" + userIdOwner + ", userIdBorrower=" + userIdBorrower + ", totalRent=" + totalRent + ", startDate=" + startDate + ", endDate=" + endDate + ", price=" + price + ", fineLate=" + fineLate + ", fineBroken=" + fineBroken + ", editStatus=" + editStatus + ", itemId=" + itemId + '}';
     }
 }

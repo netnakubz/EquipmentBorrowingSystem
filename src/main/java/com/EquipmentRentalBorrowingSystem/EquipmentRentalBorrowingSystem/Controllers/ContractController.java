@@ -11,6 +11,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/v1")
 public class ContractController {
+    
     private final ContractService contractService;
 
     public ContractController(ContractService contractService) {
@@ -22,9 +23,18 @@ public class ContractController {
         contractService.makeAgreement(contractModel);
         return new ResponseEntity<>("Created agreement", HttpStatus.OK);
     }
+
     @GetMapping("/getAgreement")
     public Optional<ContractModel> getAgreement(@RequestParam int contractId){
-
         return contractService.getContract(contractId);
+    }
+
+    @PostMapping("/generateContract")
+    public Optional<ContractModel> generateContract(@RequestParam int contractId){
+        Optional<ContractModel> contractModel = contractService.getContract(contractId);
+        if(contractModel.isPresent()){
+            return contractService.generateContract(contractId);
+        }
+        return Optional.empty();
     }
 }
