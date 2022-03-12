@@ -5,7 +5,7 @@ import java.util.Optional;
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.UserModel;
 
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Services.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,7 +30,7 @@ public class UserController {
     }
 
     @PostMapping("/addUser")
-    public ResponseEntity<UserModel> addUser(@RequestBody UserModel userModel) {
+    public ResponseEntity<UserModel> addUser(@RequestBody @NotNull UserModel userModel) {
         if (userService.addUser(userModel)) {
             return new ResponseEntity<UserModel>(userModel, HttpStatus.OK);
         }

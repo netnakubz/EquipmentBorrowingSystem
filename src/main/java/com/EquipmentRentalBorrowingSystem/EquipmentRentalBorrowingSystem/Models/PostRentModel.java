@@ -1,8 +1,6 @@
 package com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models;
 
-import javax.annotation.processing.Generated;
 import javax.persistence.*;
-import java.sql.Timestamp;
 import java.util.Date;
 
 @Entity
@@ -25,9 +23,10 @@ public class PostRentModel {
     @Column(name = "create_date")
     private Date create_date;
 
-    public PostRentModel(){
-    super();
+    public PostRentModel() {
+        super();
     }
+
     public int getPostId() {
         return postId;
     }
@@ -70,6 +69,7 @@ public class PostRentModel {
 
     @Override
     public String toString() {
-        return "PostRentModel{" + "postId=" + postId + ", details='" + details + '\'' + ", itemId=" + itemId + ", userId=" + userId + ", create_date=" + create_date + '}';
+        return "PostRentModel{" + "postId=" + postId + ", details='" + details + '\'' + ", itemId=" + itemId
+                + ", userId=" + userId + ", create_date=" + create_date + '}';
     }
 }

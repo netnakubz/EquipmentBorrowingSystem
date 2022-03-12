@@ -11,6 +11,13 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+/*
+* @ author Kanit
+*
+* This Class is about managing equipment
+* use CRUD method
+*
+* */
 @Service
 public class EquipmentService {
     private final EquipmentRepository equipmentRepository;
@@ -26,7 +33,6 @@ public class EquipmentService {
         equipmentRepository.save(equipmentModel);
         return new ResponseEntity<>("Save", HttpStatus.OK);
     }
-
     public ResponseEntity<String> deleteEquipment(int itemId){
         Optional<EquipmentModel> equipmentModel = equipmentRepository.findById(itemId);
       if(equipmentModel.isPresent()){
@@ -40,18 +46,26 @@ public class EquipmentService {
         Optional<EquipmentModel> equipmentModel = equipmentRepository.findById(itemId);
         Optional<UserModel> userModel = userRepository.findById(userId);
         if (equipmentModel.isPresent() && userModel.isPresent()) {
-            updateEquipment(equipmentModel.get());
-            receiptService.createReceipt(equipmentModel.get(),userModel.get());
-            return new ResponseEntity<>("rent successfully", HttpStatus.OK);
+            if(equipmentModel.get().getQuantity() > 0){
+                updateEquipment(equipmentModel.get(),"Borrow");
+                receiptService.createReceipt(equipmentModel.get(),userModel.get());
+                return new ResponseEntity<>("rent successfully", HttpStatus.OK);
+            }
+            return new ResponseEntity<>("equipment not enough", HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>("rent failed", HttpStatus.BAD_REQUEST);
     }
 
 
-    public void updateEquipment(EquipmentModel equipmentModel) {
-        equipmentModel.setQuantity(equipmentModel.getQuantity() - 1);
-        equipmentModel.setTotalRent(equipmentModel.getTotalRent() + 1);
-        equipmentModel.setStatus(true);
+    public void updateEquipment(EquipmentModel equipmentModel, @NotNull String status) {
+        if(status.equalsIgnoreCase("borrow")){
+            equipmentModel.setQuantity(equipmentModel.getQuantity() - 1);
+            equipmentModel.setTotalRent(equipmentModel.getTotalRent() + 1);
+            equipmentModel.setStatus(true);
+        }else if(status.equalsIgnoreCase("return")){
+            equipmentModel.setQuantity(equipmentModel.getQuantity() + 1);
+            equipmentModel.setStatus(false);
+        }
         equipmentRepository.save(equipmentModel);
     }
 }

@@ -1,7 +1,6 @@
 package com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
 import java.util.Date;
 
 @Entity
@@ -19,10 +18,10 @@ public class ContractModel {
     private int userIdBorrower;
 
     @Column(name = "start_date")
-    private Date start_date;
+    private Date startDate;
 
     @Column(name = "end_date")
-    private Date end_date;
+    private Date endDate;
 
     @Column(name = "price")
     private int price;
@@ -33,13 +32,13 @@ public class ContractModel {
     @Column(name = "fine_broken")
     private int fineBroken;
 
-    @Column(name="edit_status")
+    @Column(name = "edit_status")
     private boolean editStatus;
 
-    public ContractModel(){
+    public ContractModel() {
         super();
-
     }
+
     public int getContractId() {
         return contractId;
     }
@@ -64,20 +63,20 @@ public class ContractModel {
         this.userIdBorrower = userIdBorrower;
     }
 
-    public Date getStart_date() {
-        return start_date;
+    public Date getStartDate() {
+        return startDate;
     }
 
-    public void setStart_date(Date start_date) {
-        this.start_date = start_date;
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
     }
 
-    public Date getEnd_date() {
-        return end_date;
+    public Date getEndDate() {
+        return endDate;
     }
 
-    public void setEnd_date(Date end_date) {
-        this.end_date = end_date;
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
 
     public int getPrice() {
@@ -118,8 +117,8 @@ public class ContractModel {
                 "contractId=" + contractId +
                 ", userIdOwner=" + userIdOwner +
                 ", userIdBorrower=" + userIdBorrower +
-                ", start_date=" + start_date +
-                ", end_date=" + end_date +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
                 ", price=" + price +
                 ", fineLate=" + fineLate +
                 ", fineBroken=" + fineBroken +
