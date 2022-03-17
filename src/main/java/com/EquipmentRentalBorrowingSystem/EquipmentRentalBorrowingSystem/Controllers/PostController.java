@@ -1,5 +1,6 @@
 package com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Controllers;
 
+import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.LikeModel;
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.PostBorrowModel;
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.PostRentModel;
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Services.PostService;
@@ -8,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
@@ -23,7 +25,7 @@ public class PostController {
     }
 
     @PostMapping("/post/rent")
-    public ResponseEntity<String> postRent(@RequestBody  PostRentModel postRentModel) {
+    public ResponseEntity<String> postRent(@RequestBody PostRentModel postRentModel) {
         Date date = new Date();
         Timestamp timestamp = new Timestamp(date.getTime());
         postRentModel.setCreate_date(timestamp);
@@ -50,12 +52,22 @@ public class PostController {
     }
 
     @GetMapping("/get/post")
-    public List<PostRentModel> getPost() {
+    public ResponseEntity<Iterable<PostRentModel>> getPost() {
         return postService.getPost();
     }
 
     @GetMapping("/filter/post")
-    public List<PostRentModel> getPostWithFilter(@RequestParam String filter){
+    public List<PostRentModel> getPostWithFilter(@RequestParam String filter) {
         return postService.getPostWithFilter(filter);
+    }
+
+    @PostMapping("/like/post")
+    public void likePost(@RequestBody LikeModel likeModel) {
+        postService.likePost(likeModel);
+    }
+
+    @GetMapping("/like/post")
+    public List<PostRentModel> getLikedPost(@RequestParam int userId){
+        return postService.likedPost(userId);
     }
 }

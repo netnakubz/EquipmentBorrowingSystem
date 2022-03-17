@@ -22,11 +22,23 @@ public class RoomService {
         this.roomRepository = roomRepository;
         this.chatMessageRepository = chatMessageRepository;
     }
+
+    /**
+     * Create room
+     * store two users into the room
+     * @param roomModel
+     * @return
+     */
     public RoomModel addRoom(RoomModel roomModel) {
         RoomModel chatRoom = new RoomModel(roomModel.getUserOne(),roomModel.getUserTwo());
         return  roomRepository.save(chatRoom);
     }
 
+    /**
+     *
+     * @param roomModel
+     * @return
+     */
     public List<ChatMessageModel> joinRoom(RoomModel roomModel) {
         RoomModel RoomModel = roomRepository.findRoomModelByUserOneAndUserTwoOrUserOneAndUserTwo(roomModel.getUserOne(), roomModel.getUserTwo(), roomModel.getUserTwo(), roomModel.getUserOne());
         if (RoomModel == null)
@@ -34,6 +46,11 @@ public class RoomService {
         return getMessage(RoomModel.getId());
     }
 
+    /**
+     * return messages to user
+     * @param id
+     * @return
+     */
     public List<ChatMessageModel> getMessage(int id) {
         List<ChatMessageModel> chatMessageModel = chatMessageRepository.findChatMessageModelsByRoomId(id);
         for(int i =0;i<chatMessageModel.size();i++){
@@ -44,6 +61,11 @@ public class RoomService {
         return chatMessageModel;
     }
 
+    /**
+     *
+     * @param chatMessageModel
+     * @return
+     */
     public ChatMessageModel sendMessage(ChatMessageModel chatMessageModel) {
         RoomModel roomModel = roomRepository.findRoomModelById(chatMessageModel.getRoomId());
         if(roomModel.getUserOne() == chatMessageModel.getSenderId() || roomModel.getUserTwo() == chatMessageModel.getSenderId()){

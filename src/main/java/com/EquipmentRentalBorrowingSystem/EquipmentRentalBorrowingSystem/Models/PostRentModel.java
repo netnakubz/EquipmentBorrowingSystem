@@ -1,5 +1,6 @@
 package com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models;
 
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -22,6 +23,17 @@ public class PostRentModel {
 
     @Column(name = "create_date")
     private Date create_date;
+
+    @Transient
+    private int like;
+
+    public int getLike() {
+        return like;
+    }
+
+    public void setLike(int like) {
+        this.like = like;
+    }
 
     public PostRentModel() {
         super();
@@ -69,7 +81,13 @@ public class PostRentModel {
 
     @Override
     public String toString() {
-        return "PostRentModel{" + "postId=" + postId + ", details='" + details + '\'' + ", itemId=" + itemId
-                + ", userId=" + userId + ", create_date=" + create_date + '}';
+        return "PostRentModel{" +
+                "postId=" + postId +
+                ", details='" + details + '\'' +
+                ", itemId=" + itemId +
+                ", userId=" + userId +
+                ", create_date=" + create_date +
+                ", like=" + like +
+                '}';
     }
 }

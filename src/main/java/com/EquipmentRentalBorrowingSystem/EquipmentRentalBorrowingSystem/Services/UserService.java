@@ -20,7 +20,7 @@ public class UserService {
     }
 
     public boolean addUser(UserModel personModel) {
-        userRepository.save(personModel);
+        UserModel userModel = userRepository.findUserByEmail(personModel.getEmail());
         return true;
     }
 }

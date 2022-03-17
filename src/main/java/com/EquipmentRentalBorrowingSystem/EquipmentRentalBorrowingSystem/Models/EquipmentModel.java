@@ -11,8 +11,8 @@ public class EquipmentModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int itemId;
 
-    @Column(name = "status")
-    private boolean status;
+    @Column(name = "display")
+    private boolean display;
 
     @Column(name = "total_rent")
     private int totalRent;
@@ -47,12 +47,12 @@ public class EquipmentModel {
         this.itemId = itemId;
     }
 
-    public boolean isStatus() {
-        return status;
+    public boolean isDisplay() {
+        return display;
     }
 
-    public void setStatus(boolean status) {
-        this.status = status;
+    public void setDisplay(boolean display) {
+        this.display = display;
     }
 
     public int getTotalRent() {
@@ -113,6 +113,6 @@ public class EquipmentModel {
 
     @Override
     public String toString() {
-        return "EquipmentModel{" + "itemId=" + itemId + ", status=" + status + ", totalRent=" + totalRent + ", create_date=" + create_date + ", quantity=" + quantity + ", price=" + price + ", typeId=" + typeId + ", name='" + name + '\'' + ", userId=" + userId + '}';
+        return "EquipmentModel{" + "itemId=" + itemId + ", status=" + display + ", totalRent=" + totalRent + ", create_date=" + create_date + ", quantity=" + quantity + ", price=" + price + ", typeId=" + typeId + ", name='" + name + '\'' + ", userId=" + userId + '}';
     }
 }

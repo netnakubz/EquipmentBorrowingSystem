@@ -13,7 +13,11 @@ public class ReceiptService {
     public ReceiptService(ReceiptRepository receiptRepository){
         this.receiptRepository = receiptRepository;
     }
-
+    /**
+     * Create receipt
+     * @param equipmentModel
+     * @param userModel
+     */
     public void createReceipt(EquipmentModel equipmentModel, UserModel userModel){
         ReceiptModel receiptModel = new ReceiptModel(userModel.getUserId(),equipmentModel.getItemId(),equipmentModel.getPrice());
         receiptRepository.save(receiptModel);

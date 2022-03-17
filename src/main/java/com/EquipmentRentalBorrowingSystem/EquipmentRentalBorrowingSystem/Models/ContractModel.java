@@ -1,6 +1,7 @@
 package com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.Date;
 
 @Entity
@@ -40,9 +41,23 @@ public class ContractModel {
 
     @Column(name = "item_ID")
     private int itemId;
-
-    public ContractModel() {
+    public ContractModel(){
         super();
+    }
+
+    public ContractModel(int userIdOwner, int userIdBorrower, int totalRent,int price, int fineLate, int fineBroken, boolean editStatus, int itemId) {
+        this.userIdOwner = userIdOwner;
+        this.userIdBorrower = userIdBorrower;
+        this.totalRent = totalRent;
+        Date date = new Date();
+        Timestamp timestamp = new Timestamp(date.getTime());
+        this.startDate = timestamp;
+        this.endDate = timestamp;
+        this.price = price;
+        this.fineLate = fineLate;
+        this.fineBroken = fineBroken;
+        this.editStatus = editStatus;
+        this.itemId = itemId;
     }
 
     public int getTotalRent() {
@@ -137,4 +152,5 @@ public class ContractModel {
     public String toString() {
         return "ContractModel{" + "contractId=" + contractId + ", userIdOwner=" + userIdOwner + ", userIdBorrower=" + userIdBorrower + ", totalRent=" + totalRent + ", startDate=" + startDate + ", endDate=" + endDate + ", price=" + price + ", fineLate=" + fineLate + ", fineBroken=" + fineBroken + ", editStatus=" + editStatus + ", itemId=" + itemId + '}';
     }
+
 }
