@@ -1,5 +1,6 @@
 package com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Controllers;
 
+import java.security.Principal;
 import java.util.Optional;
 
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.UserModel;
@@ -29,11 +30,14 @@ public class UserController {
         return userService.findUser(id);
     }
 
-    @PostMapping("/addUser")
-    public ResponseEntity<UserModel> addUser(@RequestBody @NotNull UserModel userModel) {
-        if (userService.addUser(userModel)) {
-            return new ResponseEntity<UserModel>(userModel, HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    @PostMapping("/authenticate")
+    public boolean authenticate(Principal principal) {
+        return userService.authenticated(principal);
+    }
+
+    @PostMapping("/updateUserInformation")
+    public ResponseEntity<UserModel> updateUserInformation(@RequestBody UserModel userModel, Principal principal) {
+        userModel.setLocalId(principal.getName());
+        return userService.addUserOrUpdate(userModel);
     }
 }

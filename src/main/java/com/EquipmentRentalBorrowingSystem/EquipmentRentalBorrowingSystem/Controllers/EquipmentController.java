@@ -5,6 +5,8 @@ import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Service
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/api/v1")
 public class EquipmentController {
@@ -33,5 +35,11 @@ public class EquipmentController {
     public ResponseEntity<String> addEquipment(@RequestBody EquipmentModel equipmentModel){
         return equipmentService.addEquipment(equipmentModel);
     }
+
+    @GetMapping("/Equipment")
+    public Optional<EquipmentModel> getEquipment(@RequestParam int itemId){
+        return equipmentService.getEquipmentById(itemId);
+    }
+
 
 }

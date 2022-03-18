@@ -16,25 +16,29 @@ public class UserModel {
     @Column(name = "user_ID")
     private int userId;
 
-    @Column(name="name")
+    @Column(name = "name")
     private String name;
 
-    @Column(name="surname")
+    @Column(name = "surname")
     private String surname;
 
-    @Column(name="email")
+    @Column(name = "email")
     private String email;
 
     @Column(name = "tel")
     private String tel;
 
-    @Column(name="last_login")
+    @Column(name = "last_login")
     private Date last_login;
 
     @Column(name = "create_date")
     private Date create_date;
 
-    public UserModel(){
+    @Column(name = "local_ID")
+    private String localId;
+
+
+    public UserModel() {
         super();
     }
 
@@ -94,6 +98,14 @@ public class UserModel {
         this.create_date = create_date;
     }
 
+    public String getLocalId() {
+        return localId;
+    }
+
+    public void setLocalId(String localId) {
+        this.localId = localId;
+    }
+
     @Override
     public String toString() {
         return "UserModel{" +
@@ -104,6 +116,9 @@ public class UserModel {
                 ", tel='" + tel + '\'' +
                 ", last_login=" + last_login +
                 ", create_date=" + create_date +
+                ", localId='" + localId + '\'' +
                 '}';
     }
 }
+
+

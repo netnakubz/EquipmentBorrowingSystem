@@ -28,8 +28,8 @@ dependencies {
 	implementation 'org.webjars:jquery:3.6.0'
 	implementation 'org.springframework.boot:spring-boot-starter-websocket'
 	implementation 'org.jetbrains:annotations:23.0.0'
-    implementation 'junit:junit:4.13.2'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	implementation 'junit:junit:4.13.2'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
 tasks.named('test') {
