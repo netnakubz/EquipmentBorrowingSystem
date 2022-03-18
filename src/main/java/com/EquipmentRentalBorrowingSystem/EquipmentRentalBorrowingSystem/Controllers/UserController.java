@@ -1,6 +1,8 @@
 package com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Controllers;
 
 import java.security.Principal;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Optional;
 
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.UserModel;
@@ -31,13 +33,17 @@ public class UserController {
     }
 
     @PostMapping("/authenticate")
-    public boolean authenticate(Principal principal) {
+    public ResponseEntity<UserModel> authenticate(Principal principal) {
         return userService.authenticated(principal);
     }
 
     @PostMapping("/updateUserInformation")
     public ResponseEntity<UserModel> updateUserInformation(@RequestBody UserModel userModel, Principal principal) {
+        Date date = new Date();
+        Timestamp timestamp = new Timestamp(date.getTime());
         userModel.setLocalId(principal.getName());
+        userModel.setCreate_date(timestamp);
+        userModel.setLast_login(timestamp);
         return userService.addUserOrUpdate(userModel);
     }
 }

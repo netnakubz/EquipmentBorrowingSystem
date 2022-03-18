@@ -1,6 +1,8 @@
 package com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Services;
 
 import java.security.Principal;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Optional;
 
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.UserModel;
@@ -17,7 +19,8 @@ public class UserService {
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
-    public ResponseEntity<UserModel> addUserOrUpdate(UserModel user){
+
+    public ResponseEntity<UserModel> addUserOrUpdate(UserModel user) {
         return new ResponseEntity<>(userRepository.save(user), HttpStatus.OK);
     }
 
@@ -35,14 +38,19 @@ public class UserService {
      * if user is existed
      * generate jwt with user id and user email
      *
-     * @param  principal
+     * @param principal
      * @return json web token
      */
-    public boolean authenticated(Principal principal) {
+    public ResponseEntity<UserModel> authenticated(Principal principal) {
         UserModel userModel = userRepository.findByLocalId(principal.getName());
-        return userModel != null;
+        if(userModel != null){
+            Date date = new Date();
+            Timestamp timestamp = new Timestamp(date.getTime());
+            userRepository.updateLastLogin(principal.getName(),timestamp);
+            return new ResponseEntity<>(userModel,HttpStatus.OK);
+        }
+        return new ResponseEntity<>(null,HttpStatus.OK);
     }
-
 
 
 }
