@@ -9,6 +9,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import antlr.collections.List;
+
+import java.security.Principal;
 import java.util.Optional;
 
 @Service
@@ -101,6 +104,15 @@ public class EquipmentService {
             return new ResponseEntity<>("Return successfully", HttpStatus.OK);
         }
         return new ResponseEntity<>("Return failed or item not found", HttpStatus.BAD_REQUEST);
+    }
+
+    /**
+     * get list of items when user post to lend
+     * @param principal
+     * @return
+     */
+    public ResponseEntity<Iterable<EquipmentModel>> getAllEquipment(Principal principal){
+        return equipmentRepository.findAllByUserId(principal.getName());
     }
 
     public Optional<EquipmentModel> getEquipmentById(int equipmentId) {

@@ -28,6 +28,22 @@ public class UserService {
         return userRepository.findById(id);
     }
 
+    public UserModel userInformation(Principal principal) {
+        return userRepository.findByLocalId(principal.getName());
+    }
+
+    /**
+     * Get user information
+     *
+     * @param id
+     * @return
+     */
+    public Optional<UserModel> getProfile(int id) {
+        Optional<UserModel> userInfo = userRepository.findById(id);
+        userInfo.get().setLocalId("null");
+        return userInfo;
+    }
+
     /**
      * Login function
      * check that user is existed yet
@@ -36,21 +52,19 @@ public class UserService {
      * to user so user will add more information
      * <p>
      * if user is existed
-     * generate jwt with user id and user email
      *
      * @param principal
      * @return json web token
      */
     public ResponseEntity<UserModel> authenticated(Principal principal) {
         UserModel userModel = userRepository.findByLocalId(principal.getName());
-        if(userModel != null){
-            Date date = new Date();
-            Timestamp timestamp = new Timestamp(date.getTime());
-            userRepository.updateLastLogin(principal.getName(),timestamp);
-            return new ResponseEntity<>(userModel,HttpStatus.OK);
-        }
-        return new ResponseEntity<>(null,HttpStatus.OK);
+        System.out.println(principal.getName());
+        if (userModel == null)
+            return new ResponseEntity<>(null, HttpStatus.OK);
+        Date date = new Date();
+        Timestamp timestamp = new Timestamp(date.getTime());
+        userRepository.updateLastLogin(principal.getName(), timestamp);
+        return new ResponseEntity<>(userModel, HttpStatus.OK);
     }
-
 
 }

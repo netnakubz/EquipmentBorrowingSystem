@@ -1,6 +1,5 @@
 package com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Services;
 
-import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.EquipmentModel;
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.LikeModel;
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.PostRentModel;
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Repositories.LikeRepository;
@@ -21,7 +20,7 @@ public class PostService {
         this.postRentRepository = postRentRepository;
         this.likeRepository = likeRepository;
     }
-
+    
     public ResponseEntity<String> post(PostRentModel postRentModel) {
         postRentRepository.save(postRentModel);
         return new ResponseEntity<>("Post success", HttpStatus.OK);
