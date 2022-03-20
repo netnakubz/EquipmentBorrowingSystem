@@ -7,12 +7,14 @@ import java.util.Optional;
 
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.UserModel;
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Repositories.UserRepository;
+import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Services.SecurityService;
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Services.UserService;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseToken;
 import com.google.firebase.internal.NonNull;
+import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,16 +24,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+
 @RestController
 @RequestMapping("/api/v1")
 public class UserController {
 
     private final UserService userService;
     private final UserRepository userRepository;
-
-    public UserController(UserService userService, UserRepository userRepository) {
+    private final SecurityService securityService;
+    public UserController(UserService userService, UserRepository userRepository,SecurityService securityService) {
         this.userService = userService;
         this.userRepository = userRepository;
+        this.securityService = securityService;
     }
 
     @GetMapping("/userInfo")
@@ -53,10 +58,9 @@ public class UserController {
 //        return userService.authenticated(principal);
     }
     @PostMapping("/temp")
-    public void temp(@NonNull String accessToken) throws  FirebaseAuthException{
-        
-        FirebaseToken decodeToken = FirebaseAuth.getInstance().verifyIdToken(accessToken);
-        System.out.println(decodeToken);
+    public ResponseEntity<UserModel> temp() throws  FirebaseAuthException{
+////        FirebaseToken decodeToken = FirebaseAuth.getInstance().verifyIdToken(accessToken);
+        return securityService.getUser();
     }
 
     @PostMapping("/updateUserInformation")
