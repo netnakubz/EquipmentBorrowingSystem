@@ -27,6 +27,7 @@ import java.util.Map;
 public class SecureConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     ObjectMapper objectMapper;
+
     @Bean
     public AuthenticationEntryPoint restAuthenticationEntryPoint() {
         return (httpServletRequest, httpServletResponse, e) -> {
@@ -42,6 +43,7 @@ public class SecureConfig extends WebSecurityConfigurerAdapter {
             System.out.println(errorObject);
         };
     }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http

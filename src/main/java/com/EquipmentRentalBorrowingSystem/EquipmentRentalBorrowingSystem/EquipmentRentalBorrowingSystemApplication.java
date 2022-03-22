@@ -10,4 +10,6 @@ public class EquipmentRentalBorrowingSystemApplication {
         SpringApplication.run(EquipmentRentalBorrowingSystemApplication.class, args);
     }
 
+
+
 }

@@ -2,18 +2,16 @@ package com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Servic
 
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.UserModel;
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Repositories.UserRepository;
-import com.google.api.Http;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseToken;
-import org.apache.coyote.Response;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Objects;
 
 @Service
 public class SecurityService {
@@ -25,6 +23,12 @@ public class SecurityService {
         this.httpServletRequest = httpServletRequest;
         this.userRepository = userRepository;
     }
+
+    public String getUserName() throws FirebaseAuthException {
+        ResponseEntity<UserModel> userModel = this.getCurrentUser();
+        return Objects.requireNonNull(userModel.getBody()).getName();
+    }
+
 
     public ResponseEntity<UserModel> getCurrentUser() throws FirebaseAuthException {
         String accessToken = this.getBearerToken(httpServletRequest);

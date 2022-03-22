@@ -64,15 +64,13 @@ public class RoomService {
     /**
      *
      * @param chatMessageModel
-     * @return
      */
-    public ChatMessageModel sendMessage(ChatMessageModel chatMessageModel) {
+    public void sendMessage(ChatMessageModel chatMessageModel) {
         RoomModel roomModel = roomRepository.findRoomModelById(chatMessageModel.getRoomId());
         if(roomModel.getUserOne() == chatMessageModel.getSenderId() || roomModel.getUserTwo() == chatMessageModel.getSenderId()){
             String input = chatMessageModel.getMessage();
             chatMessageModel.setMessage(AES.Encrypt(input));
-            return chatMessageRepository.save(chatMessageModel);
+            chatMessageRepository.save(chatMessageModel);
         }
-        return null;
     }
 }
