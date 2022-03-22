@@ -40,7 +40,7 @@ public class UserService {
      */
     public Optional<UserModel> getProfile(int id) {
         Optional<UserModel> userInfo = userRepository.findById(id);
-        userInfo.get().setLocalId("null");
+        userInfo.ifPresent(userModel -> userModel.setLocalId("null"));
         return userInfo;
     }
 

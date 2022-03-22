@@ -13,8 +13,6 @@ public interface UserRepository extends CrudRepository<UserModel, Integer> {
 
     UserModel findByLocalId(String id) throws UsernameNotFoundException;
 
-
-    @Query(value = "UPDATE user SET last_login = :timestamp WHERE local_id = :principal"
-            , nativeQuery = true)
-    Boolean updateLastLogin(@Param("principal") String principal,@Param("timestamp") Timestamp timestamp) throws UsernameNotFoundException;
+    @Query(value = "UPDATE user SET last_login = :timestamp WHERE local_id = :principal", nativeQuery = true)
+    Boolean updateLastLogin(@Param("principal") String principal, @Param("timestamp") Timestamp timestamp) throws UsernameNotFoundException;
 }

@@ -3,8 +3,12 @@ package com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Contro
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.EquipmentModel;
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Services.EquipmentService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.util.Objects;
 import java.util.Optional;
 
 @RestController
@@ -32,7 +36,8 @@ public class EquipmentController {
     }
 
     @PostMapping("/addEquipment")
-    public ResponseEntity<String> addEquipment(@RequestBody EquipmentModel equipmentModel){
+    public ResponseEntity<String> addEquipment(@RequestBody EquipmentModel equipmentModel,@RequestParam("image") MultipartFile multipartFile) throws IOException {
+        String fileName = StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
         return equipmentService.addEquipment(equipmentModel);
     }
 

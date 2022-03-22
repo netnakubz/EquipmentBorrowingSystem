@@ -20,18 +20,19 @@ public class SecurityService {
 
     private final HttpServletRequest httpServletRequest;
     private final UserRepository userRepository;
-    public SecurityService(HttpServletRequest httpServletRequest,UserRepository userRepository) {
+
+    public SecurityService(HttpServletRequest httpServletRequest, UserRepository userRepository) {
         this.httpServletRequest = httpServletRequest;
-        this.userRepository =userRepository;
+        this.userRepository = userRepository;
     }
 
-    public ResponseEntity<UserModel> getUser() throws FirebaseAuthException {
+    public ResponseEntity<UserModel> getCurrentUser() throws FirebaseAuthException {
         String accessToken = this.getBearerToken(httpServletRequest);
         FirebaseToken decodeToken = FirebaseAuth.getInstance().verifyIdToken(accessToken);
-        UserModel userModel = userRepository.findByLocalId(decodeToken.getTenantId());
+        UserModel userModel = userRepository.findByLocalId(decodeToken.getUid());
         if (userModel == null)
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-        return new ResponseEntity<>(userModel,HttpStatus.OK);
+        return new ResponseEntity<>(userModel, HttpStatus.OK);
     }
 
     public String getBearerToken(HttpServletRequest request) {

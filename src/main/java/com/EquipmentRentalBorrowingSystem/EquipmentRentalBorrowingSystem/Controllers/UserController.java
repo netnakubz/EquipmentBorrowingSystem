@@ -14,7 +14,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseToken;
 import com.google.firebase.internal.NonNull;
-import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,7 +23,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -39,28 +37,9 @@ public class UserController {
         this.securityService = securityService;
     }
 
-    @GetMapping("/userInfo")
-    public UserModel userInfo(Principal principal) {
-        return userService.userInformation(principal);
-    }
-
     @GetMapping("/profile")
     public Optional<UserModel> profile(@RequestParam int id) {
         return userService.getProfile(id);
-    }
-
-    @PostMapping("/authenticate")
-    public void authenticate(@NonNull String token) throws FirebaseAuthException {
-        FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(token);
-        System.out.println(decodedToken);
-//        System.out.println(principal.getAuthorities());
-//        System.out.println(principal.getUsername());
-//        return userService.authenticated(principal);
-    }
-    @PostMapping("/temp")
-    public ResponseEntity<UserModel> temp() throws  FirebaseAuthException{
-////        FirebaseToken decodeToken = FirebaseAuth.getInstance().verifyIdToken(accessToken);
-        return securityService.getUser();
     }
 
     @PostMapping("/updateUserInformation")
