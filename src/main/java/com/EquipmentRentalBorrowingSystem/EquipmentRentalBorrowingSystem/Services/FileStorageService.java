@@ -1,6 +1,8 @@
 package com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Services;
 
-import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.FileStorageService;
+import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Interfaces.FileStorageServiceInterface;
+import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.EquipmentModel;
+import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.ItemImgModel;
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.UserModel;
 import com.google.firebase.auth.FirebaseAuthException;
 import org.springframework.core.io.Resource;
@@ -19,14 +21,16 @@ import java.util.Objects;
 import java.util.stream.Stream;
 
 @Service
-public class FileStorageServiceImpl implements FileStorageService {
+public class FileStorageService implements FileStorageServiceInterface {
     private Path root;
     private final SecurityService securityService;
     private final EquipmentService equipmentService;
+    private final ItemImgService itemImgService;
 
-    public FileStorageServiceImpl(SecurityService securityService, EquipmentService equipmentService) {
+    public FileStorageService(SecurityService securityService, ItemImgService itemImgService, EquipmentService equipmentService) {
         super();
         this.securityService = securityService;
+        this.itemImgService = itemImgService;
         this.equipmentService = equipmentService;
     }
 
@@ -38,13 +42,14 @@ public class FileStorageServiceImpl implements FileStorageService {
             try {
                 Files.createDirectory(root);
             } catch (IOException e) {
-                System.out.println(e.getMessage());
+                System.out.println("Could not create directory : " + e.getMessage());
             }
         }
     }
 
+    // TODO: 23/3/2022 AD insert equipment into database first then get id of item
     @Override
-    public void save(MultipartFile file) throws FirebaseAuthException {
+    public void save(MultipartFile file, EquipmentModel equipmentModel) throws FirebaseAuthException, IOException {
         this.init();
         ResponseEntity<UserModel> userModel = securityService.getCurrentUser();
         Date date = new Date();
@@ -55,6 +60,11 @@ public class FileStorageServiceImpl implements FileStorageService {
         } catch (Exception e) {
             throw new RuntimeException("Could not copy file : " + e.getMessage());
         }
+        ItemImgModel itemImgModel = new ItemImgModel();
+        itemImgModel.setLocation("uploads/" + userModel.getBody().getName() + "-" + userModel.getBody().getUserId() + "/" + newName);
+        itemImgModel.setItemId(equipmentModel.getItemId());
+        String result = itemImgService.saveImg(itemImgModel);
+        System.out.println(result);
     }
 
     @Override

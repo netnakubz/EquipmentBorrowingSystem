@@ -2,25 +2,31 @@ package com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Contro
 
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.EquipmentModel;
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Services.EquipmentService;
-import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Services.FileStorageServiceImpl;
+import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Services.FileStorageService;
+import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Services.SecurityService;
 import com.google.firebase.auth.FirebaseAuthException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("/api/v1")
 public class EquipmentController {
 
     private final EquipmentService equipmentService;
-    private final FileStorageServiceImpl file;
+    private final FileStorageService fileStorageService;
+    private final SecurityService securityService;
 
-    public EquipmentController(EquipmentService equipmentService,FileStorageServiceImpl file) {
+    public EquipmentController(EquipmentService equipmentService, FileStorageService fileStorageService,SecurityService securityService) {
         this.equipmentService = equipmentService;
-        this.file = file;
+        this.fileStorageService = fileStorageService;
+        this.securityService = securityService;
     }
 
     @PostMapping("/rentEquipment")
@@ -38,16 +44,24 @@ public class EquipmentController {
         return equipmentService.deleteEquipment(itemId);
     }
 
-    //    @PostMapping("/addEquipment")
-//    public ResponseEntity<String> addEquipment(@RequestBody EquipmentModel equipmentModel,@RequestParam("image") MultipartFile multipartFile) throws IOException {
-//        String fileName = StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
-//        return equipmentService.addEquipment(equipmentModel);
-//    }
     @PostMapping("/uploadEquipment")
-    public void handleFileUpload(@RequestParam("file") MultipartFile[] multipartFile) throws IOException, FirebaseAuthException {
-        for (MultipartFile value : multipartFile) {
-            file.save(value);
-        }
+    public ResponseEntity<String> handleFileUpload(@RequestParam String name, @RequestParam int price, @RequestParam int quantity,@RequestParam int type, @RequestParam MultipartFile[] files) throws IOException, FirebaseAuthException {
+        EquipmentModel equipmentModel = new EquipmentModel();
+        equipmentModel.setName(name);
+        equipmentModel.setPrice(price);
+        equipmentModel.setQuantity(quantity);
+        equipmentModel.setUserId(Objects.requireNonNull(securityService.getCurrentUser().getBody()).getUserId());
+        equipmentModel.setTypeId(type);
+        EquipmentModel result = equipmentService.addEquipment(equipmentModel);
+        Stream.of(files).forEach(file -> {
+            try {
+                System.out.println(file.getOriginalFilename());
+                fileStorageService.save(file, result);
+            } catch (FirebaseAuthException | IOException e) {
+                e.printStackTrace();
+            }
+        });
+        return new ResponseEntity<>("Uploaded", HttpStatus.OK);
     }
 
     @GetMapping("/Equipment")

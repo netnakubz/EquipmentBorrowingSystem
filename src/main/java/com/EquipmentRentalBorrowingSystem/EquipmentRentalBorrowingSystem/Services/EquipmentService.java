@@ -33,10 +33,9 @@ public class EquipmentService {
      * @param equipmentModel
      * @return
      */
-    public ResponseEntity<String> addEquipment(@NotNull EquipmentModel equipmentModel) {
-//        equipmentRepository.save(equipmentModel);
+    public EquipmentModel addEquipment(@NotNull EquipmentModel equipmentModel) {
+        return equipmentRepository.save(equipmentModel);
 
-        return new ResponseEntity<>("Added", HttpStatus.OK);
     }
 
     /**
