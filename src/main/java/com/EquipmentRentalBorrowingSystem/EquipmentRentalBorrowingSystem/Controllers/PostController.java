@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -51,7 +52,7 @@ public class PostController {
     }
 
     @GetMapping("/get/post")
-    public ResponseEntity<Iterable<PostRentModel>> getPost() {
+    public List<Map<String, Object[]>> getPost() {
         return postService.getPost();
     }
 
@@ -66,7 +67,12 @@ public class PostController {
     }
 
     @GetMapping("/like/post")
-    public List<PostRentModel> getLikedPost(@RequestParam int userId){
+    public List<PostRentModel> getLikedPost(@RequestParam int userId) {
         return postService.likedPost(userId);
+    }
+
+    @GetMapping("/test")
+    public List<PostRentModel> test(){
+        return postService.test();
     }
 }

@@ -23,18 +23,21 @@ public class ContractService {
     /**
      * @param contractModel save the contract model
      */
-    public ResponseEntity<String> makeAgreement(ContractModel contractModel) {
-        Optional<ContractModel> resultContractModel = contractRepository.findById(contractModel.getContractId());
-        if (resultContractModel.isEmpty())
-            return new ResponseEntity<>("contract model not found", HttpStatus.BAD_REQUEST);
-
-        //Check quantity of equipment is more than or less than user wants
-        Optional<EquipmentModel> equipmentModel = equipmentService.getEquipmentById(resultContractModel.get().getItemId());
-        if (equipmentModel.get().getQuantity() <= contractModel.getTotalRent()) {
-            contractRepository.save(contractModel);
-            return new ResponseEntity<>("Saved", HttpStatus.OK);
-        }
-        return new ResponseEntity<>("There is something went wrong",HttpStatus.BAD_REQUEST);
+    public ResponseEntity<ContractModel> makeAgreement(ContractModel contractModel) {
+//         Optional<ContractModel> resultContractModel = contractRepository.findById(contractModel.getContractId());
+//         if (resultContractModel.isEmpty())
+//             return new ResponseEntity<>("contract model not found", HttpStatus.BAD_REQUEST);
+//         //Check quantity of equipment is more than or less than user wants
+//         Optional<EquipmentModel> equipmentModel = equipmentService.getEquipmentById(resultContractModel.get().getItemId());
+//         if(equipmentModel.isPresent()){
+//             if(equipmentModel.get().getQuantity() <= contractModel.getTotalRent()){
+//                 contractRepository.save(contractModel);
+//             }
+//             return new ResponseEntity<>("Saved", HttpStatus.OK);
+//         }
+//         return new ResponseEntity<>("There is something went wrong",HttpStatus.BAD_REQUEST);
+        ContractModel contractModel1 = contractRepository.save(contractModel);
+        return new ResponseEntity<>(contractModel1, HttpStatus.OK);
     }
 
     /**

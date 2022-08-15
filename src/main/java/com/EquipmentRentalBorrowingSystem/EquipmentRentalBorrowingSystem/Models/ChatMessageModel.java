@@ -6,49 +6,57 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
 import java.util.Date;
 
 @Entity
-@Table(name = "chat_message")
+@Table(name = "message")
 public class ChatMessageModel {
     @Id
-    @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    @Column(name = "message_ID")
+    // @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private String _id;
 
     @Column(name = "room_ID")
     private int roomId;
 
-    @Column(name = "sender_ID")
+    @Column(name = "user_ID")
     private int senderId;
 
     @Column(name = "message")
-    private String message;
+    private String text;
 
-    @Column(name = "send_time")
-    private Date sendTime;
+    @Column(name = "create_date")
+    private Date createdAt;
+
+    @Column(name="systemtext")
+    private boolean system;
+
+    @Column(name="function")
+    private String function;
+
+    @Transient
+    private User user;
 
     public ChatMessageModel() {
         super();
-
     }
 
-    public ChatMessageModel(int roomId,int senderId, String message) {
-        this.roomId = roomId;
-        this.senderId = senderId;
-        this.message = message;
-        Date LocalDateTime = new Date();
-        this.sendTime = LocalDateTime;
+    public String getFunction() {
+        return function;
     }
 
-
-
-    public int getId() {
-        return id;
+    public void setFunction(String function) {
+        this.function = function;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public String get_id() {
+        return _id;
+    }
+
+    public void set_id(String _id) {
+        this._id = _id;
     }
 
     public int getRoomId() {
@@ -67,19 +75,44 @@ public class ChatMessageModel {
         this.senderId = senderId;
     }
 
-    public String getMessage() {
-        return message;
+    public String getText() {
+        return text;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setText(String text) {
+        this.text = text;
     }
 
-    public Date getSendTime() {
-        return sendTime;
+    public Date getCreatedAt() {
+        return createdAt;
     }
 
-    public void setSendTime(Date sendTime) {
-        this.sendTime = sendTime;
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public boolean isSystem() {
+        return system;
+    }
+
+    public void setSystem(boolean system) {
+        this.system = system;
+    }
+
+    @Override
+    public String toString() {
+        return "ChatMessageModel [_id=" + _id + ", createdAt=" + createdAt + ", roomId=" + roomId + ", senderId="
+                + senderId + ", text=" + text + ", user=" + user + "]";
+    }
+
+ 
+
 }

@@ -1,6 +1,5 @@
 package com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Services;
 
-
 import org.springframework.stereotype.Service;
 
 import javax.crypto.Cipher;
@@ -36,7 +35,6 @@ public class AES {
     }
 
     public static String Decrypt(String pInput) {
-
         try {
 
             String Input = pInput;

@@ -37,17 +37,20 @@ public class UserModel {
     @Column(name = "local_ID")
     private String localId;
 
-
     public UserModel() {
         super();
+    }
+
+    public UserModel(int _id) {
+        this.userId = _id;
     }
 
     public int getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void set_id(int _id) {
+        this.userId = _id;
     }
 
     public String getName() {
@@ -109,7 +112,7 @@ public class UserModel {
     @Override
     public String toString() {
         return "UserModel{" +
-                "userId=" + userId +
+                "_id=" + userId +
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 ", email='" + email + '\'' +
@@ -120,5 +123,3 @@ public class UserModel {
                 '}';
     }
 }
-
-

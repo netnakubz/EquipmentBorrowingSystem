@@ -23,6 +23,8 @@ public class MessageModel {
     @Column(name="create_date")
     private Date create_date;
 
+
+
     public MessageModel(){
         super();
 

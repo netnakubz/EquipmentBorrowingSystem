@@ -16,9 +16,9 @@ dependencies {
 	implementation 'com.google.firebase:firebase-admin:8.1.0'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-security'
-	implementation 'org.springframework.security:spring-security-test'
-	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-oauth2-resource-server', version: '2.6.4'
+	 implementation 'org.springframework.boot:spring-boot-starter-security'
+	 implementation 'org.springframework.security:spring-security-test'
+	 implementation group: 'org.springframework.boot', name: 'spring-boot-starter-oauth2-resource-server', version: '2.6.4'
 	implementation 'com.h2database:h2'
 	implementation group: 'org.thymeleaf', name: 'thymeleaf', version: '3.0.15.RELEASE'
 	implementation 'org.mariadb.jdbc:mariadb-java-client:2.7.3'
@@ -31,6 +31,10 @@ dependencies {
 	implementation 'org.jetbrains:annotations:23.0.0'
 	implementation 'junit:junit:4.13.2'
 	implementation 'org.projectlombok:lombok:1.18.22'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 

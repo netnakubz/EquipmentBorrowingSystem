@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity()
 @Table(name = "room")
@@ -21,14 +22,19 @@ public class RoomModel {
     @Column(name = "user_two")
     private int userTwo;
 
+
+
     public RoomModel() {
         super();
 
     }
-    public RoomModel(int userOne,int userTwo){
+
+    public RoomModel(int userOne, int userTwo) {
         this.userOne = userOne;
         this.userTwo = userTwo;
     }
+
+
 
     public void setId(int id) {
         this.id = id;
@@ -56,7 +62,10 @@ public class RoomModel {
 
     @Override
     public String toString() {
-        return "Room [id=" + id + ", userOne=" + userOne + ", userTwo=" + userTwo + "]";
+        return "RoomModel{" +
+                "id=" + id +
+                ", userOne=" + userOne +
+                ", userTwo=" + userTwo +
+                '}';
     }
-
 }

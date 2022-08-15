@@ -6,6 +6,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Map;
 
 public interface PostRentRepository extends CrudRepository<PostRentModel, Integer> {
     /*
@@ -19,7 +20,9 @@ public interface PostRentRepository extends CrudRepository<PostRentModel, Intege
             nativeQuery = true)
     List<PostRentModel> getAllLikedPostByUserId(@Param("userId") int userId);
 
-
+    @Query(value = "select * from like_post lp, post_rent_model prm where prm.post_owner_id = lp.user_ID and prm.id = lp.post_ID;",
+    nativeQuery = true)
+    List<PostRentModel> test();
     /*
      * Filter post by item type name
      */
@@ -29,4 +32,8 @@ public interface PostRentRepository extends CrudRepository<PostRentModel, Intege
             nativeQuery = true)
     List<PostRentModel> getAllByItemTypeName(@Param("type") String type);
 
+    @Query(value = "SELECT prm.*,ii.location AS img FROM post_rent_model prm,item_img ii " +
+            "WHERE prm.item_id = ii.item_id",
+            nativeQuery = true)
+    List<Map<String,Object[]>> getPost();
 }
