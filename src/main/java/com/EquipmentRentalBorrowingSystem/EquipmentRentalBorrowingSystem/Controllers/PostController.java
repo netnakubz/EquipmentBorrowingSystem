@@ -52,8 +52,8 @@ public class PostController {
     }
 
     @GetMapping("/get/post")
-    public List<Map<String, Object[]>> getPost() {
-        return postService.getPost();
+    public List<Map<String, Object[]>> getPost(@RequestParam int limit) {
+        return postService.getPost(limit);
     }
 
     @GetMapping("/filter/post")

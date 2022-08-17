@@ -26,6 +26,10 @@ public class PostRentModel {
     @Column(name = "create_date")
     private Date create_date;
 
+    public void setDetails(String details) {
+        this.details = details;
+    }
+
     @Transient
     private int like;
 
@@ -83,13 +87,6 @@ public class PostRentModel {
 
     @Override
     public String toString() {
-        return "PostRentModel{" +
-                "postId=" + postId +
-                ", details='" + details + '\'' +
-                ", itemId=" + itemId +
-                ", userId=" + userId +
-                ", create_date=" + create_date +
-                ", like=" + like +
-                '}';
+        return "PostRentModel{" + "postId=" + postId + ", details='" + details + '\'' + ", itemId=" + itemId + ", userId=" + userId + ", create_date=" + create_date + ", like=" + like + '}';
     }
 }

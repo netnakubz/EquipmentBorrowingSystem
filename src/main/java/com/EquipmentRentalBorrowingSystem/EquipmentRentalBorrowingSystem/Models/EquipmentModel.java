@@ -1,7 +1,11 @@
 package com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Table(name = "equipment")
@@ -34,6 +38,17 @@ public class EquipmentModel {
 
     @Column(name = "user_ID")
     private int userId;
+
+    @OneToMany(mappedBy = "itemId")
+    private Set<ItemImgModel> itemImgModels;
+
+    public Set<ItemImgModel> getItemImgModels() {
+        return itemImgModels;
+    }
+
+    public void setItemImgModels(Set<ItemImgModel> itemImgModels) {
+        this.itemImgModels = itemImgModels;
+    }
 
     public EquipmentModel() {
         super();

@@ -62,7 +62,6 @@
          }
          ItemImgModel itemImgModel = new ItemImgModel();
          itemImgModel.setLocation("uploads/" + userModel.getBody().getName() + "-" + userModel.getBody().getUserId() + "/" + newName);
-         itemImgModel.setItemId(equipmentModel.getItemId());
          String result = itemImgService.saveImg(itemImgModel);
          System.out.println(result);
      }

@@ -64,11 +64,15 @@
          return new ResponseEntity<>("Uploaded", HttpStatus.OK);
      }
 
-     @GetMapping("/Equipment")
+     @GetMapping("/equipment")
      public Optional<EquipmentModel> getEquipment(@RequestParam int itemId) {
          return equipmentService.getEquipmentById(itemId);
      }
 
+     @GetMapping("/get/all/equipment")
+     public Iterable<EquipmentModel> getAllEquipment(){
+         return equipmentService.getAllEquipment();
+     }
 
 
  }

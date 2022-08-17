@@ -1,22 +1,32 @@
 package com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models;
 
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "itemImg")
 public class ItemImgModel {
     @Id
-    @Column(name = "item_img")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int imgId;
 
-    @Column(name="item_id")
-    private int itemId;
-
-    @Column(name = "location")
     private String location;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "item_ID", nullable = false)
+    private EquipmentModel itemId;
 
-    public ItemImgModel(){
+    public EquipmentModel getEquipmentModel() {
+        return itemId;
+    }
+
+    public void setEquipmentModel(EquipmentModel equipmentModel) {
+        this.itemId = equipmentModel;
+    }
+
+    public ItemImgModel() {
         super();
     }
 
@@ -28,13 +38,6 @@ public class ItemImgModel {
         this.imgId = imgId;
     }
 
-    public int getItemId() {
-        return itemId;
-    }
-
-    public void setItemId(int itemId) {
-        this.itemId = itemId;
-    }
 
     public String getLocation() {
         return location;
@@ -48,7 +51,6 @@ public class ItemImgModel {
     public String toString() {
         return "itemImgModel{" +
                 "imgId=" + imgId +
-                ", itemId=" + itemId +
                 ", location='" + location + '\'' +
                 '}';
     }

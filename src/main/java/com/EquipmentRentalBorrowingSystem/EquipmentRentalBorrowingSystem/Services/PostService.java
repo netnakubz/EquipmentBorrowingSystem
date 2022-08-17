@@ -63,8 +63,8 @@ public class PostService {
 //        });
 //        return new ResponseEntity<>(postRentModels, HttpStatus.OK);
 //    }
-    public List<Map<String,Object[]>> getPost(){
-        return postRentRepository.getPost();
+    public List<Map<String,Object[]>> getPost(int limit){
+        return postRentRepository.getPost(limit);
     }
     public List<PostRentModel> getPostWithFilter(String type) {
         return postRentRepository.getAllByItemTypeName(type);
