@@ -1,25 +1,29 @@
 package com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Services;
 
+import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.EquipmentModel;
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.LikeModel;
+import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.PostBorrowModel;
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.PostRentModel;
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Repositories.LikeRepository;
+import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Repositories.PostBorrowRepository;
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Repositories.PostRentRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @Service
 public class PostService {
     private final PostRentRepository postRentRepository;
+    private final PostBorrowRepository postBorrowRepository;
     private final LikeRepository likeRepository;
 
-    public PostService(PostRentRepository postRentRepository, LikeRepository likeRepository) {
+    public PostService(PostRentRepository postRentRepository, LikeRepository likeRepository,PostBorrowRepository postBorrowRepository) {
         this.postRentRepository = postRentRepository;
         this.likeRepository = likeRepository;
+        this.postBorrowRepository = postBorrowRepository;
     }
 
     public ResponseEntity<String> post(PostRentModel postRentModel) {
@@ -52,7 +56,7 @@ public class PostService {
      * get all post from database
      * and send to frontend or mobile application
      * set like of post
-     * 
+     *
      * @return
      */
 //    public ResponseEntity<Iterable<PostRentModel>> getPost() {
@@ -63,28 +67,30 @@ public class PostService {
 //        });
 //        return new ResponseEntity<>(postRentModels, HttpStatus.OK);
 //    }
-    public List<Map<String,Object[]>> getPost(int limit){
-        return postRentRepository.getPost(limit);
+    public Iterable<PostRentModel> getPost(int limit){
+//        return postRentRepository.getPost(limit);
+        return postRentRepository.findAll();
     }
+
     public List<PostRentModel> getPostWithFilter(String type) {
         return postRentRepository.getAllByItemTypeName(type);
     }
 
     /**
-     * 
+     *
      * @param likeModel like post when user click like or delete like when user
      *                  click like again
      */
     public void likePost(LikeModel likeModel) {
-        Optional<LikeModel> isLiked = likeRepository.findByPostIdAndUserId(likeModel.getPostId(),
-                likeModel.getUserId());
-        isLiked.ifPresentOrElse(
-                (result) -> {
-                    likeRepository.deleteById(result.getLikeId());
-                },
-                () -> {
-                    likeRepository.save(likeModel);
-                });
+//        Optional<LikeModel> isLiked = likeRepository.findByPostIdAndUserId(likeModel.getPostId(),
+//                likeModel.getUserId());
+//        isLiked.ifPresentOrElse(
+//                (result) -> {
+//                    likeRepository.deleteById(result.getLikeId());
+//                },
+//                () -> {
+//                    likeRepository.save(likeModel);
+//                });
     }
 
     public Iterable<LikeModel> getLikePost(int userId) {
@@ -94,4 +100,13 @@ public class PostService {
     public List<PostRentModel> test(){
         return postRentRepository.test();
     }
+
+    public Optional<PostRentModel> getPostByPostId(Integer PostId){
+        return postRentRepository.findById(PostId);
+    }
+
+    public void savePostBorrow(PostBorrowModel postBorrowModel){
+        postBorrowRepository.save(postBorrowModel);
+    }
+
 }

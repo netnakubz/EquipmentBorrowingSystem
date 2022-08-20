@@ -3,8 +3,13 @@ package com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Contro
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.LikeModel;
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.PostBorrowModel;
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.PostRentModel;
+import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Repositories.PostBorrowRepository;
+import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Repositories.PostRentRepository;
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Services.PostService;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,16 +17,19 @@ import org.springframework.web.bind.annotation.*;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1")
 public class PostController {
 
     private final PostService postService;
-
-    public PostController(PostService postService) {
+    private final PostRentRepository postRentRepository;
+    private final PostBorrowRepository postBorrowRepository;
+    public PostController(PostService postService,PostRentRepository postRentRepository,PostBorrowRepository postBorrowRepository) {
         this.postService = postService;
+        this.postRentRepository = postRentRepository;
+        this.postBorrowRepository = postBorrowRepository;
     }
 
     @PostMapping("/post/rent")
@@ -29,7 +37,7 @@ public class PostController {
         Date date = new Date();
         Timestamp timestamp = new Timestamp(date.getTime());
         postRentModel.setCreate_date(timestamp);
-        System.out.println(postRentModel.getDetails());
+        System.out.println(postRentModel);
         return postService.post(postRentModel);
     }
 
@@ -38,6 +46,7 @@ public class PostController {
         Date date = new Date();
         Timestamp timestamp = new Timestamp(date.getTime());
         postBorrowModel.setCreate_date(timestamp);
+        postService.savePostBorrow(postBorrowModel);
         return new ResponseEntity<>("Post borrow success", HttpStatus.OK);
     }
 
@@ -52,8 +61,21 @@ public class PostController {
     }
 
     @GetMapping("/get/post")
-    public List<Map<String, Object[]>> getPost(@RequestParam int limit) {
-        return postService.getPost(limit);
+    public Iterable<PostRentModel> getPost(@RequestParam(defaultValue = "0") Integer pageNo,
+                                           @RequestParam(defaultValue = "10") Integer pageSize) {
+        Pageable paging = PageRequest.of(pageNo,pageSize);
+        return postRentRepository.findAll(paging);
+    }
+    @GetMapping("/get/lendPost")
+    public Iterable<PostBorrowModel> getLendPost(@RequestParam(defaultValue = "0") Integer pageNo,
+                                           @RequestParam(defaultValue = "10") Integer pageSize) {
+        Pageable paging = PageRequest.of(pageNo,pageSize);
+        return postBorrowRepository.findAll(paging);
+    }
+
+    @GetMapping("/get/post/by")
+    public Optional<PostRentModel> getPost(@RequestParam Integer postId){
+        return postService.getPostByPostId(postId);
     }
 
     @GetMapping("/filter/post")

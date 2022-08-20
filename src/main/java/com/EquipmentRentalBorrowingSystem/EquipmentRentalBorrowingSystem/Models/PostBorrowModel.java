@@ -4,28 +4,33 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "post_rent_model")
+@Table(name = "post_borrow")
 public class PostBorrowModel {
     @Id
     @Column(name = "post_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int postId;
 
-    @Column(name = "detail")
-    private String detail;
+    @Column(name = "details")
+    private String details;
 
-    @Column(name = "item_ID")
-    private int itemId;
-
-    @Column(name = "user_ID")
+    @Column(name = "post_owner_ID")
     private int userId;
 
     @Column(name = "create_date")
     private Date create_date;
-    public PostBorrowModel(){
-        super();
 
+    @Column(name = "price")
+    private int price;
+
+    @Column(name = "period")
+    private int period;
+
+
+    public PostBorrowModel() {
+        super();
     }
+
     public int getPostId() {
         return postId;
     }
@@ -34,20 +39,12 @@ public class PostBorrowModel {
         this.postId = postId;
     }
 
-    public String getDetail() {
-        return detail;
+    public String getDetails() {
+        return details;
     }
 
-    public void setDetail(String detail) {
-        this.detail = detail;
-    }
-
-    public int getItemId() {
-        return itemId;
-    }
-
-    public void setItemId(int itemId) {
-        this.itemId = itemId;
+    public void setDetails(String detail) {
+        this.details = detail;
     }
 
     public int getUserId() {
@@ -66,14 +63,32 @@ public class PostBorrowModel {
         this.create_date = create_date;
     }
 
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public int getPeriod() {
+        return period;
+    }
+
+    public void setPeriod(int period) {
+        this.period = period;
+    }
+
+
     @Override
     public String toString() {
-        return "PostRentModel{" +
+        return "PostBorrowModel{" +
                 "postId=" + postId +
-                ", detail='" + detail + '\'' +
-                ", itemId=" + itemId +
+                ", details='" + details + '\'' +
                 ", userId=" + userId +
                 ", create_date=" + create_date +
+                ", price=" + price +
+                ", period=" + period +
                 '}';
     }
 }

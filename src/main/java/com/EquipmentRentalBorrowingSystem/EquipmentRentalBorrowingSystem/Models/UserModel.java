@@ -41,6 +41,12 @@ public class UserModel {
         super();
     }
 
+    public UserModel(int userId, String name, String surname) {
+        this.userId = userId;
+        this.name = name;
+        this.surname = surname;
+    }
+
     public UserModel(int _id) {
         this.userId = _id;
     }

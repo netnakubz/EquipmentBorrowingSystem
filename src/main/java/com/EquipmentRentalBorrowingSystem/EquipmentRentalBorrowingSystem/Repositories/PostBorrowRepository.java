@@ -2,6 +2,7 @@ package com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Reposi
 
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.PostBorrowModel;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
-public interface PostBorrowRepository extends CrudRepository<PostBorrowModel,Integer> {
+public interface PostBorrowRepository extends PagingAndSortingRepository<PostBorrowModel,Integer> {
 }

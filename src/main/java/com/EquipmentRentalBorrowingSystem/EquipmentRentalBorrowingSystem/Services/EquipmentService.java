@@ -1,14 +1,18 @@
 package com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Services;
 
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.EquipmentModel;
+import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.TypeModel;
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.UserModel;
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Repositories.EquipmentRepository;
+import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Repositories.TypeRepository;
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Repositories.UserRepository;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Type;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -16,11 +20,12 @@ public class EquipmentService {
     private final EquipmentRepository equipmentRepository;
     private final ReceiptService receiptService;
     private final UserRepository userRepository;
-
-    public EquipmentService(EquipmentRepository equipmentRepository, ReceiptService receiptService, UserRepository userRepository) {
+    private final TypeRepository typeRepository;
+    public EquipmentService(EquipmentRepository equipmentRepository, ReceiptService receiptService, UserRepository userRepository, TypeRepository typeRepository) {
         this.equipmentRepository = equipmentRepository;
         this.receiptService = receiptService;
         this.userRepository = userRepository;
+        this.typeRepository = typeRepository;
     }
 
     /**
@@ -112,10 +117,18 @@ public class EquipmentService {
 //         return equipmentRepository.findAllByUserId(principal.getName());
 //     }
     public Iterable<EquipmentModel> getAllEquipment() {
-        return equipmentRepository.getAllEquipment();
+        return equipmentRepository.findAll();
     }
 
     public Optional<EquipmentModel> getEquipmentById(int equipmentId) {
         return equipmentRepository.findById(equipmentId);
+    }
+
+    public Iterable<EquipmentModel> getEquipmentByUserId(Integer userId){
+        return equipmentRepository.getEquipmentByUserId(userId);
+    }
+
+    public Iterable<TypeModel> getItemType(){
+        return typeRepository.findAll();
     }
 }

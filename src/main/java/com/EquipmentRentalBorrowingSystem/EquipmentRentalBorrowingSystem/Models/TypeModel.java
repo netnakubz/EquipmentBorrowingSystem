@@ -15,9 +15,10 @@ public class TypeModel {
 
     public TypeModel(){
         super();
-
     }
-
+    public TypeModel(Integer typeId){
+        this.typeId = typeId;
+    }
     public int getTypeId() {
         return typeId;
     }

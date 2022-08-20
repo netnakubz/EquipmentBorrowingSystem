@@ -16,4 +16,8 @@ public class ItemImgService {
         itemImgRepository.save(itemImgModel);
         return "Saved";
     }
+
+    public void getAllImg(){
+        System.out.println(itemImgRepository.findAll());
+    }
 }

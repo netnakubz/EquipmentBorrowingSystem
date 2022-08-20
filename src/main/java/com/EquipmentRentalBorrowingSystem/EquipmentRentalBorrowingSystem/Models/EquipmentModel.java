@@ -1,9 +1,8 @@
 package com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Set;
 
@@ -30,36 +29,44 @@ public class EquipmentModel {
     @Column(name = "price")
     private int price;
 
-    @Column(name = "type_ID")
-    private int typeId;
-
     @Column(name = "name")
     private String name;
 
     @Column(name = "user_ID")
     private int userId;
 
-    @OneToMany(mappedBy = "itemId")
-    private Set<ItemImgModel> itemImgModels;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_ID", insertable = false, updatable = false)
+    private UserModel user;
 
-    public Set<ItemImgModel> getItemImgModels() {
-        return itemImgModels;
-    }
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "item_ID")
+    private Set<ItemImgModel> itemImg;
 
-    public void setItemImgModels(Set<ItemImgModel> itemImgModels) {
-        this.itemImgModels = itemImgModels;
-    }
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "item_ID", insertable = false, updatable = false)
+    private Set<SuggestionModel> suggestion;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "item_ID")
+    private Set<EquipmentType> equipmentTypes;
 
     public EquipmentModel() {
-        super();
     }
 
-    public int getItemId() {
+    public EquipmentModel(int quantity, int price, String name, int userId) {
+        this.quantity = quantity;
+        this.price = price;
+        this.name = name;
+        this.userId = userId;
+    }
+
+    public int getItem_ID() {
         return itemId;
     }
 
-    public void setItemId(int itemId) {
-        this.itemId = itemId;
+    public void setItem_ID(int item_ID) {
+        this.itemId = item_ID;
     }
 
     public boolean isDisplay() {
@@ -102,14 +109,6 @@ public class EquipmentModel {
         this.price = price;
     }
 
-    public int getTypeId() {
-        return typeId;
-    }
-
-    public void setTypeId(int typeId) {
-        this.typeId = typeId;
-    }
-
     public String getName() {
         return name;
     }
@@ -126,8 +125,50 @@ public class EquipmentModel {
         this.userId = userId;
     }
 
+    public Set<ItemImgModel> getItemImg() {
+        return itemImg;
+    }
+
+    public void setItemImg(Set<ItemImgModel> itemImgModels) {
+        this.itemImg = itemImgModels;
+    }
+
+    public int getItemId() {
+        return itemId;
+    }
+
+    public void setItemId(int itemId) {
+        this.itemId = itemId;
+    }
+
+    public Set<SuggestionModel> getSuggestion() {
+        return suggestion;
+    }
+
+    public void setSuggestion(Set<SuggestionModel> suggestionModels) {
+        this.suggestion = suggestionModels;
+    }
+
+
+    public UserModel getUser() {
+        return user;
+    }
+
+    public void setUser(UserModel user) {
+        this.user = user;
+    }
+
+
+    public Set<EquipmentType> getEquipmentTypes() {
+        return equipmentTypes;
+    }
+
+    public void setEquipmentTypes(Set<EquipmentType> equipmentTypes) {
+        this.equipmentTypes = equipmentTypes;
+    }
+
     @Override
     public String toString() {
-        return "EquipmentModel{" + "itemId=" + itemId + ", status=" + display + ", totalRent=" + totalRent + ", create_date=" + create_date + ", quantity=" + quantity + ", price=" + price + ", typeId=" + typeId + ", name='" + name + '\'' + ", userId=" + userId + '}';
+        return "EquipmentModel{" + "itemId=" + itemId + ", display=" + display + ", totalRent=" + totalRent + ", create_date=" + create_date + ", quantity=" + quantity + ", price=" + price + ", name='" + name + '\'' + ", userId=" + userId + ", user=" + user + ", itemImg=" + itemImg + ", suggestion=" + suggestion + ", equipmentTypes=" + equipmentTypes + '}';
     }
 }

@@ -1,78 +1,84 @@
- package com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Controllers;
+package com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Controllers;
 
- import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.EquipmentModel;
- import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Services.EquipmentService;
- import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Services.FileStorageService;
- import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Services.SecurityService;
- import com.google.firebase.auth.FirebaseAuthException;
- import org.springframework.http.HttpStatus;
- import org.springframework.http.ResponseEntity;
- import org.springframework.web.bind.annotation.*;
- import org.springframework.web.multipart.MultipartFile;
+import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.*;
+import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Services.EquipmentService;
+import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Services.FileSystemStorageService;
+import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Services.SecurityService;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
- import java.io.IOException;
- import java.util.Objects;
- import java.util.Optional;
- import java.util.stream.Stream;
+import java.sql.Timestamp;
+import java.util.*;
 
- @RestController
- @RequestMapping("/api/v1")
- public class EquipmentController {
+@RestController
+@RequestMapping("/api/v1")
+public class EquipmentController {
 
-     private final EquipmentService equipmentService;
-     private final FileStorageService fileStorageService;
-     private final SecurityService securityService;
+    private final FileSystemStorageService storageService;
+    private final EquipmentService equipmentService;
+    private final SecurityService securityService;
 
-     public EquipmentController(EquipmentService equipmentService, FileStorageService fileStorageService,SecurityService securityService) {
-         this.equipmentService = equipmentService;
-         this.fileStorageService = fileStorageService;
-         this.securityService = securityService;
-     }
+    public EquipmentController(EquipmentService equipmentService, FileSystemStorageService fileStorageService, SecurityService securityService) {
+        this.equipmentService = equipmentService;
+        this.storageService = fileStorageService;
+        this.securityService = securityService;
+    }
 
-     @PostMapping("/rentEquipment")
-     public ResponseEntity<String> rentEquipment(@RequestParam int itemId, @RequestParam int userId) {
-         return equipmentService.rentEquipment(itemId, userId);
-     }
+    @PostMapping("/rentEquipment")
+    public ResponseEntity<String> rentEquipment(@RequestParam int itemId, @RequestParam int userId) {
+        return equipmentService.rentEquipment(itemId, userId);
+    }
 
-     @PostMapping("/returnEquipment")
-     public ResponseEntity<String> returnEquipment(@RequestParam int itemId) {
-         return equipmentService.returnEquipment(itemId);
-     }
+    @PostMapping("/returnEquipment")
+    public ResponseEntity<String> returnEquipment(@RequestParam int itemId) {
+        return equipmentService.returnEquipment(itemId);
+    }
 
-     @DeleteMapping("/deleteEquipment")
-     public ResponseEntity<String> deleteEquipment(@RequestParam int itemId) {
-         return equipmentService.deleteEquipment(itemId);
-     }
+    @DeleteMapping("/deleteEquipment")
+    public ResponseEntity<String> deleteEquipment(@RequestParam int itemId) {
+        return equipmentService.deleteEquipment(itemId);
+    }
 
-     @PostMapping("/uploadEquipment")
-     public ResponseEntity<String> handleFileUpload(@RequestParam String name, @RequestParam int price, @RequestParam int quantity,@RequestParam int type, @RequestParam MultipartFile[] files) throws IOException, FirebaseAuthException {
-         EquipmentModel equipmentModel = new EquipmentModel();
-         equipmentModel.setName(name);
-         equipmentModel.setPrice(price);
-         equipmentModel.setQuantity(quantity);
-         equipmentModel.setUserId(Objects.requireNonNull(securityService.getCurrentUser().getBody()).getUserId());
-         equipmentModel.setTypeId(type);
-         EquipmentModel result = equipmentService.addEquipment(equipmentModel);
-         Stream.of(files).forEach(file -> {
-             try {
-                 System.out.println(file.getOriginalFilename());
-                 fileStorageService.save(file, result);
-             } catch (FirebaseAuthException | IOException e) {
-                 e.printStackTrace();
-             }
-         });
-         return new ResponseEntity<>("Uploaded", HttpStatus.OK);
-     }
+    @PostMapping(value = "/uploadEquipment")
+    public String handleFileUpload(@RequestParam("file") MultipartFile[] files, @RequestParam Integer quantity, @RequestParam Integer price, @RequestParam String name, @RequestParam Integer userId, @RequestParam Integer[] types) {
+        EquipmentModel equipmentModel = new EquipmentModel(quantity, price, name, userId);
+        Set<ItemImgModel> itemImgModels = new HashSet<ItemImgModel>();
+        Set<EquipmentType> equipmentTypes = new HashSet<EquipmentType>();
+        Date date = new Date();
+        Timestamp timestamp = new Timestamp(date.getTime());
+        Arrays.stream(files).forEach(file -> {
+            String fileName = storageService.store(file);
+            itemImgModels.add(new ItemImgModel(fileName));
+        });
+        Arrays.stream(types).forEach(type -> {
+            equipmentTypes.add(new EquipmentType(type));
+        });
+        equipmentModel.setItemImg(itemImgModels);
+        equipmentModel.setCreate_date(timestamp);
+        equipmentModel.setEquipmentTypes(equipmentTypes);
+        equipmentService.addEquipment(equipmentModel);
+        return "redirect:/";
+    }
 
-     @GetMapping("/equipment")
-     public Optional<EquipmentModel> getEquipment(@RequestParam int itemId) {
-         return equipmentService.getEquipmentById(itemId);
-     }
+    @GetMapping("/equipment")
+    public Optional<EquipmentModel> getEquipment(@RequestParam int itemId) {
+        Optional<EquipmentModel> temp = equipmentService.getEquipmentById(itemId);
+        return temp;
+    }
 
-     @GetMapping("/get/all/equipment")
-     public Iterable<EquipmentModel> getAllEquipment(){
-         return equipmentService.getAllEquipment();
-     }
+    @GetMapping("/get/all/equipment")
+    public Iterable<EquipmentModel> getAllEquipment() {
+        return equipmentService.getAllEquipment();
+    }
 
+    @GetMapping("/get/equipment/by")
+    public Iterable<EquipmentModel> getEquipmentBy(@RequestParam int userId) {
+        return equipmentService.getEquipmentByUserId(userId);
+    }
 
- }
+    @GetMapping("/get/itemType")
+    public Iterable<TypeModel> getItemType() {
+        return equipmentService.getItemType();
+    }
+}

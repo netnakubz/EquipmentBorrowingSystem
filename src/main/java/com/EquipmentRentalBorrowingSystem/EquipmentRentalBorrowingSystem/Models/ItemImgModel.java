@@ -4,40 +4,38 @@ package com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 @Entity
 @Table(name = "itemImg")
 public class ItemImgModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int imgId;
+    @Column(name = "img_ID")
+    private int img_ID;
 
+    @Column(name = "location")
     private String location;
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "item_ID", nullable = false)
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "item_ID")
+    @JsonIgnore
     private EquipmentModel itemId;
 
-    public EquipmentModel getEquipmentModel() {
-        return itemId;
-    }
-
-    public void setEquipmentModel(EquipmentModel equipmentModel) {
-        this.itemId = equipmentModel;
+    public ItemImgModel(String location) {
+        this.location = location;
     }
 
     public ItemImgModel() {
-        super();
+
     }
 
-    public int getImgId() {
-        return imgId;
+    public int getImg_ID() {
+        return img_ID;
     }
 
-    public void setImgId(int imgId) {
-        this.imgId = imgId;
+    public void setImg_ID(int img_ID) {
+        this.img_ID = img_ID;
     }
-
 
     public String getLocation() {
         return location;
@@ -47,11 +45,20 @@ public class ItemImgModel {
         this.location = location;
     }
 
+    public EquipmentModel getItemId() {
+        return itemId;
+    }
+
+    public void setItemId(EquipmentModel itemId) {
+        this.itemId = itemId;
+    }
+
     @Override
     public String toString() {
-        return "itemImgModel{" +
-                "imgId=" + imgId +
+        return "ItemImgModel{" +
+                "img_ID=" + img_ID +
                 ", location='" + location + '\'' +
+                ", itemId=" + itemId +
                 '}';
     }
 }

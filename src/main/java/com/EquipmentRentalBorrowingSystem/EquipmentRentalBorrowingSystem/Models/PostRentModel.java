@@ -3,28 +3,30 @@ package com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "post_rent_model")
 public class PostRentModel {
     @Id
-    @Column(name = "id")
+    @Column(name = "post_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int postId;
 
-    @Column(name = "details")
-    private String details;
-
     @Column(name = "item_ID")
     private int itemId;
+
+    @Column(name = "details")
+    private String details;
 
     @Column(name = "post_owner_id")
     private int userId;
 
     @Column(name = "create_date")
     private Date create_date;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "item_ID",insertable = false,updatable = false)
+    private EquipmentModel equipment;
 
     public void setDetails(String details) {
         this.details = details;
@@ -61,13 +63,6 @@ public class PostRentModel {
         this.details = details;
     }
 
-    public int getItemId() {
-        return itemId;
-    }
-
-    public void setItemId(int itemId) {
-        this.itemId = itemId;
-    }
 
     public int getUserId() {
         return userId;
@@ -85,8 +80,32 @@ public class PostRentModel {
         this.create_date = create_date;
     }
 
+    public EquipmentModel getEquipment() {
+        return equipment;
+    }
+
+    public void setEquipment(EquipmentModel equipmentModels) {
+        this.equipment = equipmentModels;
+    }
+
+    public int getItemId() {
+        return itemId;
+    }
+
+    public void setItemId(int itemId) {
+        this.itemId = itemId;
+    }
+
     @Override
     public String toString() {
-        return "PostRentModel{" + "postId=" + postId + ", details='" + details + '\'' + ", itemId=" + itemId + ", userId=" + userId + ", create_date=" + create_date + ", like=" + like + '}';
+        return "PostRentModel{" +
+                "postId=" + postId +
+                ", itemId=" + itemId +
+                ", details='" + details + '\'' +
+                ", userId=" + userId +
+                ", create_date=" + create_date +
+                ", equipment=" + equipment +
+                ", like=" + like +
+                '}';
     }
 }

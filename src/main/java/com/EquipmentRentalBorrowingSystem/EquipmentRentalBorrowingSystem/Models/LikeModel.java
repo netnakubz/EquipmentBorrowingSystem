@@ -16,6 +16,10 @@ public class LikeModel {
     @Column(name = "user_ID")
     private int userId;
 
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "post_ID",insertable = false,updatable = false)
+    private PostRentModel postRentModel;
+
     public LikeModel() {
         super();
     }
@@ -49,12 +53,21 @@ public class LikeModel {
         this.userId = userId;
     }
 
+    public PostRentModel getPostRentModel() {
+        return postRentModel;
+    }
+
+    public void setPostRentModel(PostRentModel postRentModel) {
+        this.postRentModel = postRentModel;
+    }
+
     @Override
     public String toString() {
         return "LikeModel{" +
                 "likeId=" + likeId +
                 ", postId=" + postId +
                 ", userId=" + userId +
+                ", postRentModel=" + postRentModel +
                 '}';
     }
 }

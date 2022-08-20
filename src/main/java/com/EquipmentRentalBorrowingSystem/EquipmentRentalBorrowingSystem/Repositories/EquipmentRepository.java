@@ -13,7 +13,8 @@ public interface EquipmentRepository extends CrudRepository<EquipmentModel,Integ
     @Query(value = "SELECT * FROM equipment WHERE user_ID = (SELECT user_ID FROM user WHERE local_ID = :localId)",nativeQuery = true)
     ResponseEntity<Iterable<EquipmentModel>> findAllByUserId(@Param("localId")String principal);
 
+    List<EquipmentModel> findByItemId(Integer item_ID);
 
-    @Query(value = "SELECT * FROM equipment eq INNER JOIN item_img ii ON eq.item_ID = ii.item_ID",nativeQuery = true)
-    Iterable<EquipmentModel> getAllEquipment();
+    @Query(value = "SELECT * FROM equipment WHERE user_ID = :userId",nativeQuery = true)
+    Iterable<EquipmentModel> getEquipmentByUserId(@Param("userId") Integer userId);
 }

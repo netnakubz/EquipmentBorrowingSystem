@@ -2,8 +2,6 @@ package com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -15,7 +13,7 @@ import java.util.Date;
 public class ChatMessageModel {
     @Id
     @Column(name = "message_ID")
-    // @GeneratedValue(strategy = GenerationType.IDENTITY)
+//     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String _id;
 
     @Column(name = "room_ID")
@@ -113,6 +111,6 @@ public class ChatMessageModel {
                 + senderId + ", text=" + text + ", user=" + user + "]";
     }
 
- 
+
 
 }

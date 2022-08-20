@@ -19,7 +19,7 @@ public class ReceiptService {
      * @param userModel
      */
     public void createReceipt(EquipmentModel equipmentModel, UserModel userModel){
-        ReceiptModel receiptModel = new ReceiptModel(userModel.getUserId(),equipmentModel.getItemId(),equipmentModel.getPrice());
+        ReceiptModel receiptModel = new ReceiptModel(userModel.getUserId(),equipmentModel.getItem_ID(),equipmentModel.getPrice());
         receiptRepository.save(receiptModel);
     }
 }

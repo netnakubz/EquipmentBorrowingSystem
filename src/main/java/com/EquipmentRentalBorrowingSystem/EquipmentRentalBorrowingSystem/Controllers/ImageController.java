@@ -1,26 +1,58 @@
 package com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Controllers;
 
+import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.ItemImgModel;
+import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Services.FileSystemStorageService;
+import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Services.ItemImgService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StreamUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 
 @RestController
 public class ImageController {
-    @GetMapping("/getImg")
-    public ResponseEntity<byte[]> getImage(@RequestParam String imgUrl) throws IOException {
 
-        var imgFile = new ClassPathResource(imgUrl);
+    private ItemImgService itemImgService;
+    private FileSystemStorageService fileSystemStorageService;
+
+    public ImageController(ItemImgService itemImgService, FileSystemStorageService fileSystemStorageService) {
+        this.itemImgService = itemImgService;
+        this.fileSystemStorageService = fileSystemStorageService;
+    }
+
+    @GetMapping("/files/{filename:.+}")
+    @ResponseBody
+    public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
+
+        Resource file = fileSystemStorageService.loadAsResource(filename);
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION,
+                "attachment; filename=\"" + file.getFilename() + "\"")
+                .contentType(MediaType.IMAGE_JPEG)
+                .body(file);
+    }
+
+    @GetMapping("/{imgGroup}/{owner}/{filename:.+}")
+    public ResponseEntity<byte[]> getImage(@PathVariable String filename,
+                                           @PathVariable String imgGroup,
+                                           @PathVariable String owner) throws IOException {
+
+        var imgFile = new ClassPathResource(imgGroup + "/" + owner + "/" + filename);
         byte[] bytes = StreamUtils.copyToByteArray(imgFile.getInputStream());
 
         return ResponseEntity
                 .ok()
                 .contentType(MediaType.IMAGE_JPEG)
                 .body(bytes);
+    }
+
+    @GetMapping("/test")
+    public void test() {
+        itemImgService.getAllImg();
     }
 }

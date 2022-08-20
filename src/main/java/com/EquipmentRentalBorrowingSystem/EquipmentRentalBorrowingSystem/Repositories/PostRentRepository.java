@@ -3,12 +3,13 @@ package com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Reposi
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.PostRentModel;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Map;
 
-public interface PostRentRepository extends CrudRepository<PostRentModel, Integer> {
+public interface PostRentRepository extends PagingAndSortingRepository<PostRentModel, Integer> {
     /*
      * Get all post
      */
@@ -33,8 +34,7 @@ public interface PostRentRepository extends CrudRepository<PostRentModel, Intege
             nativeQuery = true)
     List<PostRentModel> getAllByItemTypeName(@Param("type") String type);
 
-    @Query(value = "SELECT prm.*,ii.location AS img FROM post_rent_model prm,item_img ii " +
-            "WHERE prm.item_id = ii.item_id limit :limit",
+    @Query(value = "SELECT * FROM post_rent_model",
             nativeQuery = true)
-    List<Map<String, Object[]>> getPost(@Param("limit") int limit);
+    List<PostRentModel> getAll(@Param("limit") int limit);
 }
