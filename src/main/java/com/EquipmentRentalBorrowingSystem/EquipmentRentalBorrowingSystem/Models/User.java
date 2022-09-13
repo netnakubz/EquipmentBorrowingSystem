@@ -1,6 +1,5 @@
 package com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models;
 
-import javax.persistence.Entity;
 
 public class User {
 

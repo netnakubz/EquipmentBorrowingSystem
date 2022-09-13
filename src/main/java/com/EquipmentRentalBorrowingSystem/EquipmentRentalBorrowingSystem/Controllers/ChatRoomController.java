@@ -11,6 +11,7 @@ import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Services.ChatMessageService;
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Services.RoomService;
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.RoomModel;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -20,33 +21,40 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1")
 public class ChatRoomController {
 
-    private final RoomService roomService;
-    private final ChatMessageService chatMessageService;
 
-    public ChatRoomController(RoomService roomService, ChatMessageService chatMessageService) {
-        this.roomService = roomService;
-        this.chatMessageService = chatMessageService;
-    }
+    @Autowired
+    private RoomService roomService;
+    
+    @Autowired
+    private ChatMessageService chatMessageService;
+
+    // public ChatRoomController(RoomService roomService, ChatMessageService
+    // chatMessageService) {
+    // this.roomService = roomService;
+    // this.chatMessageService = chatMessageService;
+    // }
 
     @GetMapping("/getMessage")
     @CrossOrigin(origins = "*")
-    public Iterable<ChatMessageModel> getMessage(@RequestParam int roomId,@RequestParam int userId) {
+    public Iterable<ChatMessageModel> getMessage(@RequestParam int roomId, @RequestParam int userId) {
         System.out.println(roomId + " " + userId);
-        return roomService.getMessage(roomId,userId);
+        return roomService.getMessage(roomId, userId);
     }
 
-//     @PostMapping("/joinChatRoom")
-//     public Iterable<ChatMessageModel> joinChatRoom(@RequestBody RoomModel roomModel) {
-//         return roomService.joinRoom(roomModel);
-//     }
+    // @PostMapping("/joinChatRoom")
+    // public Iterable<ChatMessageModel> joinChatRoom(@RequestBody RoomModel
+    // roomModel) {
+    // return roomService.joinRoom(roomModel);
+    // }
     @GetMapping("/searchRoom")
-    public Map<String,Object> searchRoom(@RequestParam int userOne, @RequestParam int userTwo){
-        return roomService.findRoomByTwoUserId(userOne,userTwo);
+    public Map<String, Object> searchRoom(@RequestParam int userOne, @RequestParam int userTwo) {
+        return roomService.findRoomByTwoUserId(userOne, userTwo);
     }
+
     // @SendTo("/listChat-{userId}")
     @GetMapping("/getListChat")
     @CrossOrigin("*")
-    public List<Map<String,Object[]>> roomList(@RequestParam int userId) {
+    public List<Map<String, Object[]>> roomList(@RequestParam int userId) {
         System.out.println(userId);
         return roomService.roomList(userId);
     }

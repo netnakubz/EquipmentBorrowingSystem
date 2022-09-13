@@ -11,8 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Type;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -117,7 +115,7 @@ public class EquipmentService {
 //         return equipmentRepository.findAllByUserId(principal.getName());
 //     }
     public Iterable<EquipmentModel> getAllEquipment() {
-        return equipmentRepository.findAll();
+        return equipmentRepository.findAllByUserId(10001);
     }
 
     public Optional<EquipmentModel> getEquipmentById(int equipmentId) {

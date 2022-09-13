@@ -16,11 +16,9 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class RoomService {
-
     private final RoomRepository roomRepository;
     private final ChatMessageRepository chatMessageRepository;
 
-    @Autowired
     public RoomService(RoomRepository roomRepository, ChatMessageRepository chatMessageRepository) {
         this.roomRepository = roomRepository;
         this.chatMessageRepository = chatMessageRepository;
@@ -77,7 +75,8 @@ public class RoomService {
      */
     public void sendMessage(ChatMessageModel chatMessageModel) {
         RoomModel roomModel = roomRepository.findRoomModelById(chatMessageModel.getRoomId());
-        if (roomModel.getUserOne() == chatMessageModel.getSenderId() || roomModel.getUserTwo() == chatMessageModel.getSenderId()) {
+        if (roomModel.getUserOne() == chatMessageModel.getSenderId()
+                || roomModel.getUserTwo() == chatMessageModel.getSenderId()) {
             String input = chatMessageModel.getText();
             chatMessageModel.setText(AES.Encrypt(input));
             chatMessageRepository.save(chatMessageModel);

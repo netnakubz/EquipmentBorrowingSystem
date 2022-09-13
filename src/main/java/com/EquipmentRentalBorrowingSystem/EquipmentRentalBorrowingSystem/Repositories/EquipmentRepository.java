@@ -9,12 +9,15 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
-public interface EquipmentRepository extends CrudRepository<EquipmentModel,Integer> {
-    @Query(value = "SELECT * FROM equipment WHERE user_ID = (SELECT user_ID FROM user WHERE local_ID = :localId)",nativeQuery = true)
-    ResponseEntity<Iterable<EquipmentModel>> findAllByUserId(@Param("localId")String principal);
+public interface EquipmentRepository extends CrudRepository<EquipmentModel, Integer> {
+    //    @Query(value = "SELECT * FROM equipment WHERE user_ID = (SELECT user_ID FROM user WHERE local_ID = :localId)",nativeQuery = true)
+//    ResponseEntity<Iterable<EquipmentModel>> findAllByUserId(@Param("localId")String principal);
+    @Query(value = "SELECT * FROM equipment WHERE user_ID = :userId",
+            nativeQuery = true)
+    Iterable<EquipmentModel> findAllByUserId(@Param("userId") Integer userId);
 
     List<EquipmentModel> findByItemId(Integer item_ID);
 
-    @Query(value = "SELECT * FROM equipment WHERE user_ID = :userId",nativeQuery = true)
+    @Query(value = "SELECT * FROM equipment WHERE user_ID = :userId", nativeQuery = true)
     Iterable<EquipmentModel> getEquipmentByUserId(@Param("userId") Integer userId);
 }
