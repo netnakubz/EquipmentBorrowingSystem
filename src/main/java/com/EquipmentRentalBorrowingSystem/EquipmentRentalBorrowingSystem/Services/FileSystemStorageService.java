@@ -57,7 +57,7 @@ public class FileSystemStorageService implements StorageService {
             }
             try (InputStream inputStream = file.getInputStream()) {
                 Files.copy(inputStream, destinationFile, StandardCopyOption.REPLACE_EXISTING);
-                return this.Direct + "/" + newFileName;
+                return newFileName;
             }
         } catch (IOException e) {
             throw new StorageException("Failed to store file.", e);

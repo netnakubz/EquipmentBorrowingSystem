@@ -40,8 +40,13 @@ public class EquipmentController {
         return equipmentService.deleteEquipment(itemId);
     }
 
-    @PostMapping(value = "/uploadEquipment")
-    public String handleFileUpload(@RequestParam("file") MultipartFile[] files, @RequestParam Integer quantity, @RequestParam Integer price, @RequestParam String name, @RequestParam Integer userId, @RequestParam Integer[] types) {
+    @PostMapping("/uploadEquipment")
+    public String handleFileUpload(@RequestParam("files") MultipartFile[] files,
+                                   @RequestParam Integer quantity,
+                                   @RequestParam Integer price,
+                                   @RequestParam String name,
+                                   @RequestParam Integer userId,
+                                   @RequestParam Integer[] types) {
         EquipmentModel equipmentModel = new EquipmentModel(quantity, price, name, userId);
         Set<ItemImgModel> itemImgModels = new HashSet<ItemImgModel>();
         Set<EquipmentType> equipmentTypes = new HashSet<EquipmentType>();
