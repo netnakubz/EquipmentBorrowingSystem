@@ -50,6 +50,10 @@ public class EquipmentModel {
     @JoinColumn(name = "item_ID")
     private Set<EquipmentType> equipmentTypes;
 
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name="item_ID")
+    private Set<EquipmentSerial> equipmentSerials;
+
     public EquipmentModel() {
     }
 
@@ -148,6 +152,13 @@ public class EquipmentModel {
         this.suggestion = suggestionModels;
     }
 
+    public Set<EquipmentSerial> getEquipmentSerials() {
+        return equipmentSerials;
+    }
+
+    public void setEquipmentSerials(Set<EquipmentSerial> equipmentSerials) {
+        this.equipmentSerials = equipmentSerials;
+    }
 
     public UserModel getUser() {
         return user;
@@ -168,6 +179,20 @@ public class EquipmentModel {
 
     @Override
     public String toString() {
-        return "EquipmentModel{" + "itemId=" + itemId + ", display=" + display + ", totalRent=" + totalRent + ", create_date=" + create_date + ", quantity=" + quantity + ", price=" + price + ", name='" + name + '\'' + ", userId=" + userId + ", user=" + user + ", itemImg=" + itemImg + ", suggestion=" + suggestion + ", equipmentTypes=" + equipmentTypes + '}';
+        return "EquipmentModel{" +
+                "itemId=" + itemId +
+                ", display=" + display +
+                ", totalRent=" + totalRent +
+                ", create_date=" + create_date +
+                ", quantity=" + quantity +
+                ", price=" + price +
+                ", name='" + name + '\'' +
+                ", userId=" + userId +
+                ", user=" + user +
+                ", itemImg=" + itemImg +
+                ", suggestion=" + suggestion +
+                ", equipmentTypes=" + equipmentTypes +
+                ", equipmentSerials=" + equipmentSerials +
+                '}';
     }
 }

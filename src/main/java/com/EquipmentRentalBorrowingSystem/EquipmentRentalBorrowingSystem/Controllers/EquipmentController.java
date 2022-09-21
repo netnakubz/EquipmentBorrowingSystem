@@ -44,12 +44,15 @@ public class EquipmentController {
     public String handleFileUpload(@RequestParam("files") MultipartFile[] files,
                                    @RequestParam Integer quantity,
                                    @RequestParam Integer price,
+                                   @RequestParam String[] serials,
                                    @RequestParam String name,
                                    @RequestParam Integer userId,
                                    @RequestParam Integer[] types) {
         EquipmentModel equipmentModel = new EquipmentModel(quantity, price, name, userId);
+
         Set<ItemImgModel> itemImgModels = new HashSet<ItemImgModel>();
         Set<EquipmentType> equipmentTypes = new HashSet<EquipmentType>();
+        Set<EquipmentSerial> equipmentSerials = new HashSet<EquipmentSerial>();
         Date date = new Date();
         Timestamp timestamp = new Timestamp(date.getTime());
         Arrays.stream(files).forEach(file -> {
@@ -59,8 +62,13 @@ public class EquipmentController {
         Arrays.stream(types).forEach(type -> {
             equipmentTypes.add(new EquipmentType(type));
         });
+        Arrays.stream(serials).forEach(serial -> {
+            System.out.println(serial);
+            equipmentSerials.add(new EquipmentSerial(serial));
+        });
         equipmentModel.setItemImg(itemImgModels);
         equipmentModel.setCreate_date(timestamp);
+        equipmentModel.setEquipmentSerials(equipmentSerials);
         equipmentModel.setEquipmentTypes(equipmentTypes);
         equipmentService.addEquipment(equipmentModel);
         return "redirect:/";
