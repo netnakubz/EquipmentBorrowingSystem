@@ -49,7 +49,6 @@ public class EquipmentController {
                                    @RequestParam Integer userId,
                                    @RequestParam Integer[] types) {
         EquipmentModel equipmentModel = new EquipmentModel(quantity, price, name, userId);
-
         Set<ItemImgModel> itemImgModels = new HashSet<ItemImgModel>();
         Set<EquipmentType> equipmentTypes = new HashSet<EquipmentType>();
         Set<EquipmentSerial> equipmentSerials = new HashSet<EquipmentSerial>();

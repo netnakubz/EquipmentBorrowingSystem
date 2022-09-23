@@ -17,7 +17,7 @@ public class LikeModel {
     private int userId;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "post_ID",insertable = false,updatable = false)
+    @JoinColumn(name = "post_ID", insertable = false, updatable = false)
     private PostRentModel postRentModel;
 
     public LikeModel() {

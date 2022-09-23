@@ -83,15 +83,6 @@ public class PostController {
         return postService.getPostWithFilter(filter);
     }
 
-    @PostMapping("/like/post")
-    public void likePost(@RequestBody LikeModel likeModel) {
-        postService.likePost(likeModel);
-    }
-
-    @GetMapping("/like/post")
-    public List<PostRentModel> getLikedPost(@RequestParam int userId) {
-        return postService.likedPost(userId);
-    }
 
     @GetMapping("/test")
     public List<PostRentModel> test(){

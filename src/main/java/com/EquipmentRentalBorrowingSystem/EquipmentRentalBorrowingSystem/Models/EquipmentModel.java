@@ -51,8 +51,9 @@ public class EquipmentModel {
     private Set<EquipmentType> equipmentTypes;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name="item_ID")
+    @JoinColumn(name = "item_ID")
     private Set<EquipmentSerial> equipmentSerials;
+
 
     public EquipmentModel() {
     }

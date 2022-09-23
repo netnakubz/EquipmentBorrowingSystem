@@ -3,12 +3,13 @@ package com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Table(name = "post_rent_model")
 public class PostRentModel {
     @Id
-    @Column(name = "post_id")
+    @Column(name = "post_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int postId;
 
@@ -25,8 +26,9 @@ public class PostRentModel {
     private Date create_date;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "item_ID",insertable = false,updatable = false)
+    @JoinColumn(name = "item_ID", insertable = false, updatable = false)
     private EquipmentModel equipment;
+
 
     public void setDetails(String details) {
         this.details = details;

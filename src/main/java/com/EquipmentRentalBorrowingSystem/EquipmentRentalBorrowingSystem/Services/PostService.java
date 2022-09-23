@@ -75,22 +75,7 @@ public class PostService {
         return postRentRepository.getAllByItemTypeName(type);
     }
 
-    /**
-     *
-     * @param likeModel like post when user click like or delete like when user
-     *                  click like again
-     */
-    public void likePost(LikeModel likeModel) {
-//        Optional<LikeModel> isLiked = likeRepository.findByPostIdAndUserId(likeModel.getPostId(),
-//                likeModel.getUserId());
-//        isLiked.ifPresentOrElse(
-//                (result) -> {
-//                    likeRepository.deleteById(result.getLikeId());
-//                },
-//                () -> {
-//                    likeRepository.save(likeModel);
-//                });
-    }
+
 
     public Iterable<LikeModel> getLikePost(int userId) {
         return likeRepository.getLikePostByUserId(userId);
