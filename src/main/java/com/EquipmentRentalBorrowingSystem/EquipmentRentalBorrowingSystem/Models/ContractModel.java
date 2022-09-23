@@ -3,6 +3,7 @@ package com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Table(name = "contract")
@@ -12,14 +13,16 @@ public class ContractModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int contractId;
 
-    @Column(name = "user_ID_owner")
-    private int userIdOwner;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_ID_owner")
+    private UserModel userIdOwner;
 
-    @Column(name = "user_ID_borrower")
-    private int userIdBorrower;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_ID_borrower")
+    private UserModel userIdBorrower;
 
     @Column(name = "total_rent")
-    private int totalRent;
+    private Integer totalRent;
 
     @Column(name = "start_date")
     private Date startDate;
@@ -28,24 +31,29 @@ public class ContractModel {
     private Date endDate;
 
     @Column(name = "price")
-    private int price;
+    private Integer price;
 
     @Column(name = "fine_late")
-    private int fineLate;
+    private Integer fineLate;
 
     @Column(name = "fine_broken")
-    private int fineBroken;
+    private Integer fineBroken;
 
-    @Column(name = "edit_status")
-    private boolean editStatus;
+    @Column(name = "edit_status", columnDefinition = "boolean default true")
+    private Boolean editStatus;
 
-    @Column(name = "item_ID")
-    private int itemId;
-    public ContractModel(){
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "item_ID")
+    private EquipmentModel equipment;
+
+    @Column(name = "creator")
+    private Integer creator;
+
+    public ContractModel() {
         super();
     }
 
-    public ContractModel(int userIdOwner, int userIdBorrower, int totalRent,int price, int fineLate, int fineBroken, boolean editStatus, int itemId) {
+    public ContractModel(UserModel userIdOwner, UserModel userIdBorrower, Integer totalRent, Integer price, Integer fineLate, Integer fineBroken, boolean editStatus, EquipmentModel equipmentModel,Integer userModels) {
         this.userIdOwner = userIdOwner;
         this.userIdBorrower = userIdBorrower;
         this.totalRent = totalRent;
@@ -57,7 +65,8 @@ public class ContractModel {
         this.fineLate = fineLate;
         this.fineBroken = fineBroken;
         this.editStatus = editStatus;
-        this.itemId = itemId;
+        this.equipment = equipmentModel;
+        this.creator = userModels;
     }
 
     public int getTotalRent() {
@@ -68,12 +77,20 @@ public class ContractModel {
         this.totalRent = totalRent;
     }
 
-    public int getItemId() {
-        return itemId;
+    public Boolean getEditStatus() {
+        return editStatus;
     }
 
-    public void setItemId(int itemId) {
-        this.itemId = itemId;
+    public void setEditStatus(Boolean editStatus) {
+        this.editStatus = editStatus;
+    }
+
+    public EquipmentModel getEquipment() {
+        return equipment;
+    }
+
+    public void setEquipment(EquipmentModel equipment) {
+        this.equipment = equipment;
     }
 
     public int getContractId() {
@@ -84,19 +101,19 @@ public class ContractModel {
         this.contractId = contractId;
     }
 
-    public int getUserIdOwner() {
+    public UserModel getUserIdOwner() {
         return userIdOwner;
     }
 
-    public void setUserIdOwner(int userIdOwner) {
+    public void setUserIdOwner(UserModel userIdOwner) {
         this.userIdOwner = userIdOwner;
     }
 
-    public int getUserIdBorrower() {
+    public UserModel getUserIdBorrower() {
         return userIdBorrower;
     }
 
-    public void setUserIdBorrower(int userIdBorrower) {
+    public void setUserIdBorrower(UserModel userIdBorrower) {
         this.userIdBorrower = userIdBorrower;
     }
 
@@ -148,9 +165,18 @@ public class ContractModel {
         this.editStatus = editStatus;
     }
 
+
+    public Integer getCreator() {
+        return creator;
+    }
+
+    public void setCreator(Integer creator) {
+        this.creator = creator;
+    }
+
     @Override
     public String toString() {
-        return "ContractModel{" + "contractId=" + contractId + ", userIdOwner=" + userIdOwner + ", userIdBorrower=" + userIdBorrower + ", totalRent=" + totalRent + ", startDate=" + startDate + ", endDate=" + endDate + ", price=" + price + ", fineLate=" + fineLate + ", fineBroken=" + fineBroken + ", editStatus=" + editStatus + ", itemId=" + itemId + '}';
+        return "ContractModel{" + "contractId=" + contractId + ", userIdOwner=" + userIdOwner + ", userIdBorrower=" + userIdBorrower + ", totalRent=" + totalRent + ", startDate=" + startDate + ", endDate=" + endDate + ", price=" + price + ", fineLate=" + fineLate + ", fineBroken=" + fineBroken + ", editStatus=" + editStatus + ", equipment=" + equipment + '}';
     }
 
 }

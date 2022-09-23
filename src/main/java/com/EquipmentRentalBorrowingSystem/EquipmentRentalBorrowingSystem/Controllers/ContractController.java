@@ -18,7 +18,7 @@
      }
 
      @PostMapping("/createAgreement")
-     public ResponseEntity<ContractModel> makeAgreement(@RequestBody ContractModel contractModel) {
+     public ContractModel makeAgreement(@RequestBody ContractModel contractModel) {
          return contractService.makeAgreement(contractModel);
      }
 
@@ -27,6 +27,10 @@
          return contractService.getContract(contractId);
      }
 
+     @PutMapping("/acceptContract")
+     public void acceptContract(){
+         
+     }
      @PostMapping("/generateContract")
      public ResponseEntity<ContractModel> generateContract(@RequestParam int contractId) {
          Optional<ContractModel> contractModel = contractService.getContract(contractId);

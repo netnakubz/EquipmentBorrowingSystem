@@ -23,7 +23,7 @@ public class ContractService {
     /**
      * @param contractModel save the contract model
      */
-    public ResponseEntity<ContractModel> makeAgreement(ContractModel contractModel) {
+    public ContractModel makeAgreement(ContractModel contractModel) {
 //         Optional<ContractModel> resultContractModel = contractRepository.findById(contractModel.getContractId());
 //         if (resultContractModel.isEmpty())
 //             return new ResponseEntity<>("contract model not found", HttpStatus.BAD_REQUEST);
@@ -36,8 +36,10 @@ public class ContractService {
 //             return new ResponseEntity<>("Saved", HttpStatus.OK);
 //         }
 //         return new ResponseEntity<>("There is something went wrong",HttpStatus.BAD_REQUEST);
+        contractModel.setEditStatus(false);
+        contractModel.setCreator(contractModel.getUserIdOwner().getUserId());
         ContractModel contractModel1 = contractRepository.save(contractModel);
-        return new ResponseEntity<>(contractModel1, HttpStatus.OK);
+        return contractModel1;
     }
 
     /**
@@ -59,7 +61,7 @@ public class ContractService {
         Optional<ContractModel> contractModel = getContract(contractId);
         if (contractModel.isPresent()) {
             Optional<EquipmentModel> equipmentModel = equipmentService
-                    .getEquipmentById(contractModel.get().getItemId());
+                    .getEquipmentById(contractModel.get().getEquipment().getItemId());
             if (equipmentModel.isPresent()) {
                 int quantity = equipmentModel.get().getQuantity() - contractModel.get().getTotalRent(); //check quantity of equipment
                 if (quantity >= 0) {
