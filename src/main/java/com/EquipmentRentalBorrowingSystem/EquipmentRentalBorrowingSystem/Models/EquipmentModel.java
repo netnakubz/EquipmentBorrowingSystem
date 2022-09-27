@@ -65,12 +65,12 @@ public class EquipmentModel {
         this.userId = userId;
     }
 
-    public int getItem_ID() {
+    public int getItemId() {
         return itemId;
     }
 
-    public void setItem_ID(int item_ID) {
-        this.itemId = item_ID;
+    public void setItemId(int itemId) {
+        this.itemId = itemId;
     }
 
     public boolean isDisplay() {
@@ -129,38 +129,6 @@ public class EquipmentModel {
         this.userId = userId;
     }
 
-    public Set<ItemImgModel> getItemImg() {
-        return itemImg;
-    }
-
-    public void setItemImg(Set<ItemImgModel> itemImgModels) {
-        this.itemImg = itemImgModels;
-    }
-
-    public int getItemId() {
-        return itemId;
-    }
-
-    public void setItemId(int itemId) {
-        this.itemId = itemId;
-    }
-
-    public Set<SuggestionModel> getSuggestion() {
-        return suggestion;
-    }
-
-    public void setSuggestion(Set<SuggestionModel> suggestionModels) {
-        this.suggestion = suggestionModels;
-    }
-
-    public Set<EquipmentSerial> getEquipmentSerials() {
-        return equipmentSerials;
-    }
-
-    public void setEquipmentSerials(Set<EquipmentSerial> equipmentSerials) {
-        this.equipmentSerials = equipmentSerials;
-    }
-
     public UserModel getUser() {
         return user;
     }
@@ -169,6 +137,21 @@ public class EquipmentModel {
         this.user = user;
     }
 
+    public Set<ItemImgModel> getItemImg() {
+        return itemImg;
+    }
+
+    public void setItemImg(Set<ItemImgModel> itemImg) {
+        this.itemImg = itemImg;
+    }
+
+    public Set<SuggestionModel> getSuggestion() {
+        return suggestion;
+    }
+
+    public void setSuggestion(Set<SuggestionModel> suggestion) {
+        this.suggestion = suggestion;
+    }
 
     public Set<EquipmentType> getEquipmentTypes() {
         return equipmentTypes;
@@ -176,6 +159,14 @@ public class EquipmentModel {
 
     public void setEquipmentTypes(Set<EquipmentType> equipmentTypes) {
         this.equipmentTypes = equipmentTypes;
+    }
+
+    public Set<EquipmentSerial> getEquipmentSerials() {
+        return equipmentSerials;
+    }
+
+    public void setEquipmentSerials(Set<EquipmentSerial> equipmentSerials) {
+        this.equipmentSerials = equipmentSerials;
     }
 
     @Override

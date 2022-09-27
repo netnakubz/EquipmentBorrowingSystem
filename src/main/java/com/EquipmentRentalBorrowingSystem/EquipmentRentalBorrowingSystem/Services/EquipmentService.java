@@ -115,7 +115,7 @@ public class EquipmentService {
 //         return equipmentRepository.findAllByUserId(principal.getName());
 //     }
     public Iterable<EquipmentModel> getAllEquipment() {
-        return equipmentRepository.findAllByUserId(10001);
+        return equipmentRepository.findAll();
     }
 
     public Optional<EquipmentModel> getEquipmentById(int equipmentId) {

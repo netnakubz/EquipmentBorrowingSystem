@@ -41,22 +41,23 @@ public class UserModel {
         super();
     }
 
-    public UserModel(int userId, String name, String surname) {
+    public UserModel(int userId, String name, String surname, String email, String tel, Date last_login, Date create_date, String localId) {
         this.userId = userId;
         this.name = name;
         this.surname = surname;
-    }
-
-    public UserModel(int _id) {
-        this.userId = _id;
+        this.email = email;
+        this.tel = tel;
+        this.last_login = last_login;
+        this.create_date = create_date;
+        this.localId = localId;
     }
 
     public int getUserId() {
         return userId;
     }
 
-    public void set_id(int _id) {
-        this.userId = _id;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public String getName() {
@@ -118,7 +119,7 @@ public class UserModel {
     @Override
     public String toString() {
         return "UserModel{" +
-                "_id=" + userId +
+                "userId=" + userId +
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 ", email='" + email + '\'' +

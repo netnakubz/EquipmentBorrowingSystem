@@ -2,17 +2,17 @@ package com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Servic
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.ChatMessageModel;
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.RoomModel;
-import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.User;
-import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.UserModel;
+import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.Temp;
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Repositories.ChatMessageRepository;
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Repositories.RoomRepository;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import javax.swing.text.html.Option;
 
 @Service
 public class RoomService {
@@ -65,7 +65,7 @@ public class RoomService {
         // }
         for (ChatMessageModel chat : chatMessageModel) {
             int _id = chat.getSenderId() == userId ? 1 : 2;
-            chat.setUser(new User(chat.getSenderId()));
+            chat.setUser(new Temp(chat.getSenderId()));
         }
         return chatMessageModel;
     }
@@ -75,8 +75,8 @@ public class RoomService {
      */
     public void sendMessage(ChatMessageModel chatMessageModel) {
         RoomModel roomModel = roomRepository.findRoomModelById(chatMessageModel.getRoomId());
-        if (roomModel.getUserOne() == chatMessageModel.getSenderId()
-                || roomModel.getUserTwo() == chatMessageModel.getSenderId()) {
+        if (roomModel.getUserOne().getUserId() == chatMessageModel.getSenderId()
+                || roomModel.getUserTwo().getUserId() == chatMessageModel.getSenderId()) {
             String input = chatMessageModel.getText();
             chatMessageModel.setText(AES.Encrypt(input));
             chatMessageRepository.save(chatMessageModel);
@@ -88,10 +88,16 @@ public class RoomService {
     }
 
     private RoomModel createNewRoom(int userOne, int userTwo) {
-        RoomModel room = new RoomModel(userOne, userTwo);
-        return roomRepository.save(room);
+//        RoomModel room = new RoomModel(userOne, userTwo);
+//        return roomRepository.save(room);
+        return new RoomModel();
     }
-
+    public Iterable<RoomModel> getRoom(){
+        return roomRepository.findAll();
+    }
+    public Optional<RoomModel> getRoom(int roomId){
+        return roomRepository.findById(roomId);
+    }
     public Map<String, Object> findRoomByTwoUserId(int userOne, int userTwo) {
         Map<String, Object> obj = roomRepository.findRoomByTwoUserId(userOne, userTwo);
         if (obj.isEmpty()) {

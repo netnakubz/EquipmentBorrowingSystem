@@ -1,16 +1,14 @@
 package com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Controllers;
 
-import java.sql.Timestamp;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.ChatMessageModel;
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.RoomModel;
-import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.User;
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Services.ChatMessageService;
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Services.RoomService;
-import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.RoomModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -40,6 +38,14 @@ public class ChatRoomController {
         System.out.println(roomId + " " + userId);
         return roomService.getMessage(roomId, userId);
     }
+    @GetMapping("/getRoom")
+    public Iterable<RoomModel> getRoom(){
+        return roomService.getRoom();
+    }
+    @GetMapping("/getRoom/by")
+    public Optional<RoomModel> getRoom(@RequestParam int roomId){
+        return roomService.getRoom(roomId);
+    }
 
     // @PostMapping("/joinChatRoom")
     // public Iterable<ChatMessageModel> joinChatRoom(@RequestBody RoomModel
@@ -64,7 +70,6 @@ public class ChatRoomController {
     @SendTo("/chat/private-{roomId}")
     public ChatMessageModel sendMessage(ChatMessageModel chat, @DestinationVariable("roomId") int roomId) {
         chat.setRoomId(roomId);
-        System.out.println(chat);
         chat.setSenderId(chat.getUser().get_id());
         chatMessageService.saveMessage(chat);
         return chat;

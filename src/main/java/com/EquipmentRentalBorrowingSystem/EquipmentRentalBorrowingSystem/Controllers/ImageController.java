@@ -3,7 +3,6 @@ package com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Contro
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.ItemImgModel;
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Services.FileSystemStorageService;
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Services.ItemImgService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -51,8 +50,11 @@ public class ImageController {
                 .body(bytes);
     }
 
-    @GetMapping("/test")
-    public void test() {
-        itemImgService.getAllImg();
+
+
+    @PostMapping("/test")
+    public String test(){
+        ItemImgModel e = new ItemImgModel("qwe.jpg");
+        return itemImgService.saveImg(e);
     }
 }

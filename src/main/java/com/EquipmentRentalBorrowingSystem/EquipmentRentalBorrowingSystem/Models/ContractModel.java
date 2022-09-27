@@ -3,7 +3,6 @@ package com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Date;
-import java.util.Set;
 
 @Entity
 @Table(name = "contract")
@@ -11,15 +10,8 @@ public class ContractModel {
     @Id
     @Column(name = "contract_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int contractId;
+    private Integer contractId;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_ID_owner")
-    private UserModel userIdOwner;
-
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_ID_borrower")
-    private UserModel userIdBorrower;
 
     @Column(name = "total_rent")
     private Integer totalRent;
@@ -32,89 +24,69 @@ public class ContractModel {
 
     @Column(name = "price")
     private Integer price;
-
+    @Column(name = "creator")
+    private Integer creator;
     @Column(name = "fine_late")
     private Integer fineLate;
 
     @Column(name = "fine_broken")
     private Integer fineBroken;
 
-    @Column(name = "edit_status", columnDefinition = "boolean default true")
+    @Column(name = "edit_status")
     private Boolean editStatus;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "item_ID")
-    private EquipmentModel equipment;
+    @JoinColumn(name = "room_ID")
+    private RoomModel room;
 
-    @Column(name = "creator")
-    private Integer creator;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "item_ID")
+    private EquipmentModel equipmentModel;
+
+    @Transient
+    private Boolean editAble;
 
     public ContractModel() {
         super();
     }
 
-    public ContractModel(UserModel userIdOwner, UserModel userIdBorrower, Integer totalRent, Integer price, Integer fineLate, Integer fineBroken, boolean editStatus, EquipmentModel equipmentModel,Integer userModels) {
-        this.userIdOwner = userIdOwner;
-        this.userIdBorrower = userIdBorrower;
+    public ContractModel(Integer contractId, RoomModel roomId, Integer totalRent, Date startDate, Date endDate, Integer price, Integer creator, Integer fineLate, Integer fineBroken, Boolean editStatus, EquipmentModel equipmentModel, Boolean editAble) {
+        this.contractId = contractId;
+        this.room = roomId;
         this.totalRent = totalRent;
-        Date date = new Date();
-        Timestamp timestamp = new Timestamp(date.getTime());
-        this.startDate = timestamp;
-        this.endDate = timestamp;
+        this.startDate = startDate;
+        this.endDate = endDate;
         this.price = price;
+        this.creator = creator;
         this.fineLate = fineLate;
         this.fineBroken = fineBroken;
         this.editStatus = editStatus;
-        this.equipment = equipmentModel;
-        this.creator = userModels;
+        this.equipmentModel = equipmentModel;
+        this.editAble = editAble;
     }
 
-    public int getTotalRent() {
-        return totalRent;
-    }
-
-    public void setTotalRent(int totalRent) {
-        this.totalRent = totalRent;
-    }
-
-    public Boolean getEditStatus() {
-        return editStatus;
-    }
-
-    public void setEditStatus(Boolean editStatus) {
-        this.editStatus = editStatus;
-    }
-
-    public EquipmentModel getEquipment() {
-        return equipment;
-    }
-
-    public void setEquipment(EquipmentModel equipment) {
-        this.equipment = equipment;
-    }
-
-    public int getContractId() {
+    public Integer getContractId() {
         return contractId;
     }
 
-    public void setContractId(int contractId) {
+    public void setContractId(Integer contractId) {
         this.contractId = contractId;
     }
 
-    public UserModel getUserIdOwner() {
-        return userIdOwner;
+    public RoomModel getRoom() {
+        return room;
     }
 
-    public void setUserIdOwner(UserModel userIdOwner) {
-        this.userIdOwner = userIdOwner;
+    public void setRoom(RoomModel room) {
+        this.room = room;
     }
 
-    public UserModel getUserIdBorrower() {
-        return userIdBorrower;
+    public Integer getTotalRent() {
+        return totalRent;
     }
 
-    public void setUserIdBorrower(UserModel userIdBorrower) {
-        this.userIdBorrower = userIdBorrower;
+    public void setTotalRent(Integer totalRent) {
+        this.totalRent = totalRent;
     }
 
     public Date getStartDate() {
@@ -133,38 +105,13 @@ public class ContractModel {
         this.endDate = endDate;
     }
 
-    public int getPrice() {
+    public Integer getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(Integer price) {
         this.price = price;
     }
-
-    public int getFineLate() {
-        return fineLate;
-    }
-
-    public void setFineLate(int fineLate) {
-        this.fineLate = fineLate;
-    }
-
-    public int getFineBroken() {
-        return fineBroken;
-    }
-
-    public void setFineBroken(int fineBroken) {
-        this.fineBroken = fineBroken;
-    }
-
-    public boolean isEditStatus() {
-        return editStatus;
-    }
-
-    public void setEditStatus(boolean editStatus) {
-        this.editStatus = editStatus;
-    }
-
 
     public Integer getCreator() {
         return creator;
@@ -174,9 +121,61 @@ public class ContractModel {
         this.creator = creator;
     }
 
-    @Override
-    public String toString() {
-        return "ContractModel{" + "contractId=" + contractId + ", userIdOwner=" + userIdOwner + ", userIdBorrower=" + userIdBorrower + ", totalRent=" + totalRent + ", startDate=" + startDate + ", endDate=" + endDate + ", price=" + price + ", fineLate=" + fineLate + ", fineBroken=" + fineBroken + ", editStatus=" + editStatus + ", equipment=" + equipment + '}';
+    public Integer getFineLate() {
+        return fineLate;
     }
 
+    public void setFineLate(Integer fineLate) {
+        this.fineLate = fineLate;
+    }
+
+    public Integer getFineBroken() {
+        return fineBroken;
+    }
+
+    public void setFineBroken(Integer fineBroken) {
+        this.fineBroken = fineBroken;
+    }
+
+    public Boolean getEditStatus() {
+        return editStatus;
+    }
+
+    public void setEditStatus(Boolean editStatus) {
+        this.editStatus = editStatus;
+    }
+
+    public EquipmentModel getEquipmentModel() {
+        return equipmentModel;
+    }
+
+    public void setEquipmentModel(EquipmentModel equipmentModel) {
+        this.equipmentModel = equipmentModel;
+    }
+
+    public Boolean getEditAble() {
+        return editAble;
+    }
+
+    public void setEditAble(Boolean editAble) {
+        this.editAble = editAble;
+    }
+
+    @Override
+    public String toString() {
+        return "ContractModel{" +
+                "contractId=" + contractId +
+                ", roomId=" + room +
+                ", totalRent=" + totalRent +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", price=" + price +
+                ", creator=" + creator +
+                ", fineLate=" + fineLate +
+                ", fineBroken=" + fineBroken +
+                ", editStatus=" + editStatus +
+                ", equipmentModel=" + equipmentModel +
+                ", editAble=" + editAble +
+                '}';
+    }
 }

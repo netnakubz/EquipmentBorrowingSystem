@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
@@ -62,7 +63,7 @@ public class PostController {
 
     @GetMapping("/get/post")
     public Iterable<PostRentModel> getPost(@RequestParam(defaultValue = "0") Integer pageNo,
-                                           @RequestParam(defaultValue = "10") Integer pageSize) {
+                                           @RequestParam(defaultValue = "10") Integer pageSize, Principal principal) {
         Pageable paging = PageRequest.of(pageNo,pageSize);
         return postRentRepository.findAll(paging);
     }
@@ -84,8 +85,5 @@ public class PostController {
     }
 
 
-    @GetMapping("/test")
-    public List<PostRentModel> test(){
-        return postService.test();
-    }
+
 }

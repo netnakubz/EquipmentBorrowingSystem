@@ -8,6 +8,7 @@ import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Service
 
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -23,13 +24,13 @@ public class LikePostController {
         this.likeService = likeService;
     }
 
-    @GetMapping("/getLikePost")
-    public Iterable<LikeModel> getLikePost() {
+    @GetMapping("/get/LikePost")
+    public Iterable<LikeModel> getLikePost(Principal principal) {
         // return postService.getLikePost(userId);
         return likeRepository.findAll();
     }
 
-    @GetMapping("/isLiked")
+    @GetMapping(value = "/isLiked")
     public boolean isLiked(@RequestParam int postId) {
         return likeService.isLiked(postId);
     }

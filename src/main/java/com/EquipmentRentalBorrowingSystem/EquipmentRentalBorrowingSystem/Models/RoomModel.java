@@ -1,11 +1,6 @@
 package com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity()
 @Table(name = "room")
@@ -15,25 +10,23 @@ public class RoomModel {
     @Column(name = "room_id")
     private int id;
 
-    @Column(name = "user_one")
-    private int userOne;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_one")
+    private UserModel userOne;
 
-    @Column(name = "user_two")
-    private int userTwo;
-
-
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_two")
+    private UserModel userTwo;
 
     public RoomModel() {
         super();
 
     }
 
-    public RoomModel(int userOne, int userTwo) {
+    public RoomModel(UserModel userOne, UserModel userTwo) {
         this.userOne = userOne;
         this.userTwo = userTwo;
     }
-
-
 
     public void setId(int id) {
         this.id = id;
@@ -43,19 +36,19 @@ public class RoomModel {
         return id;
     }
 
-    public int getUserOne() {
+    public UserModel getUserOne() {
         return userOne;
     }
 
-    public void setUserOne(int userOne) {
+    public void setUserOne(UserModel userOne) {
         this.userOne = userOne;
     }
 
-    public int getUserTwo() {
+    public UserModel getUserTwo() {
         return userTwo;
     }
 
-    public void setUserTwo(int userTwo) {
+    public void setUserTwo(UserModel userTwo) {
         this.userTwo = userTwo;
     }
 
