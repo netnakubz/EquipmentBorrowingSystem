@@ -9,6 +9,7 @@ import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Repositories.UserRepository;
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Services.UserService;
 
+import org.h2.engine.User;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,8 +31,11 @@ public class UserController {
     }
 
     @GetMapping("/profile")
-    public Optional<UserModel> profile(@RequestParam int id) {
-        return userService.getProfile(id);
+    public UserModel profile(Principal principal) {
+        Optional<UserModel> userModel = userService.userInformation(principal);
+        if(userModel.isEmpty())
+            return null;
+        return userModel.get();
     }
 
     @GetMapping("/isAuthed")
@@ -39,7 +43,7 @@ public class UserController {
         return userService.authenticated(principal);
     }
 
-    
+
     @PostMapping("/updateUserInformation")
     public ResponseEntity<UserModel> updateUserInformation(@RequestBody UserModel userModel, Principal principal) {
         Date date = new Date();

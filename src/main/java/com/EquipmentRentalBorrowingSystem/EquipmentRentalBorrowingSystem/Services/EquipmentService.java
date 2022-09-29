@@ -69,7 +69,7 @@ public class EquipmentService {
         if (equipmentModel.isPresent() && userModel.isPresent()) {
             if (equipmentModel.get().getQuantity() > 0) {
                 updateEquipment(equipmentModel.get(), "Borrow");
-                receiptService.createReceipt(equipmentModel.get(), userModel.get());
+//                receiptService.createReceipt(equipmentModel.get(), userModel.get());
                 return new ResponseEntity<>("rent successfully", HttpStatus.OK);
             }
             return new ResponseEntity<>("equipment not enough", HttpStatus.BAD_REQUEST);

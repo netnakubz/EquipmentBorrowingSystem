@@ -19,7 +19,6 @@ public class RoomModel {
 
     public RoomModel() {
         super();
-
     }
 
     public RoomModel(UserModel userOne, UserModel userTwo) {

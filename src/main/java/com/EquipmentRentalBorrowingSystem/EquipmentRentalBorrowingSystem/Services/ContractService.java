@@ -2,6 +2,7 @@ package com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Servic
 
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.ContractModel;
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.EquipmentModel;
+import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.ReceiptModel;
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.RoomModel;
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Repositories.ContractRepository;
 
@@ -16,23 +17,24 @@ public class ContractService {
     private final ContractRepository contractRepository;
     private final EquipmentService equipmentService;
     private final RoomService roomService;
-
-    public ContractService(ContractRepository contractRepository, EquipmentService equipmentService, RoomService roomService) {
+    private final ReceiptService receiptService;
+    public ContractService(ContractRepository contractRepository, EquipmentService equipmentService, RoomService roomService,ReceiptService receiptService) {
         this.contractRepository = contractRepository;
         this.equipmentService = equipmentService;
         this.roomService = roomService;
+        this.receiptService = receiptService;
     }
 
     /**
      * @param contractModel save the contract model
      */
     public ContractModel makeAgreement(ContractModel contractModel) {
-        System.out.println(contractModel);
         Optional<EquipmentModel> equipment = equipmentService.getEquipmentById(contractModel.getEquipmentModel().getItemId());
-        Optional<RoomModel> room = roomService.getRoom(contractModel.getRoom().getRoomId());
+        Optional<RoomModel> room = roomService.getRoom(contractModel.getRoomModel().getRoomId());
+
         if (equipment.isPresent() && room.isPresent()) {
             contractModel.setEquipmentModel(equipment.get());
-            contractModel.setRoom(room.get());
+            contractModel.setRoomModel(room.get());
         }
         return contractRepository.save(contractModel);
     }
@@ -46,7 +48,7 @@ public class ContractService {
             //check that creator is not the one who request this.
             if (!contract.get().getCreator().equals(10002) && !contract.get().getEditStatus()) {
                 contract.get().setEditAble(true);
-            }else{
+            } else {
                 contract.get().setEditAble(false);
             }
         }
@@ -55,12 +57,14 @@ public class ContractService {
 
     public boolean acceptContract(int contractId) {
         Optional<ContractModel> contract = contractRepository.findById(contractId);
-        if (contract.isPresent()) {
-            contract.get().setEditStatus(true);
-            contractRepository.save(contract.get());
-            return true;
-        }
-        return false;
+        if (contract.isEmpty())
+            return false;
+        ReceiptModel receiptModel = new ReceiptModel(contract.get());
+        receiptModel.setUserModel(contract.get().getEquipmentModel().getUser());
+        receiptService.createReceipt(receiptModel);
+        contract.get().setEditStatus(true);
+        contractRepository.save(contract.get());
+        return true;
     }
 
     /**

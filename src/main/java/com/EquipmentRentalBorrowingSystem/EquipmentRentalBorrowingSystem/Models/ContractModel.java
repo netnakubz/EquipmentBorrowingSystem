@@ -19,11 +19,11 @@ public class ContractModel {
     private Boolean editStatus;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "roomModel")
+    @JoinColumn(name = "roomId")
     private RoomModel roomModel;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "equipmentModel")
+    @JoinColumn(name = "equipmentId")
     private EquipmentModel equipmentModel;
 
     @Transient
@@ -31,6 +31,7 @@ public class ContractModel {
 
     public ContractModel() {
         super();
+        this.editStatus = false;
     }
 
     public ContractModel(Integer contractId, RoomModel roomId, Integer totalRent, Date startDate, Date endDate, Integer price, Integer creator, Integer fineLate, Integer fineBroken, Boolean editStatus, EquipmentModel equipmentModel, Boolean editAble) {
@@ -54,14 +55,6 @@ public class ContractModel {
 
     public void setContractId(Integer contractId) {
         this.contractId = contractId;
-    }
-
-    public RoomModel getRoom() {
-        return roomModel;
-    }
-
-    public void setRoom(RoomModel room) {
-        this.roomModel = room;
     }
 
     public Integer getTotalRent() {
@@ -126,6 +119,14 @@ public class ContractModel {
 
     public void setEditStatus(Boolean editStatus) {
         this.editStatus = editStatus;
+    }
+
+    public RoomModel getRoomModel() {
+        return roomModel;
+    }
+
+    public void setRoomModel(RoomModel roomModel) {
+        this.roomModel = roomModel;
     }
 
     public EquipmentModel getEquipmentModel() {

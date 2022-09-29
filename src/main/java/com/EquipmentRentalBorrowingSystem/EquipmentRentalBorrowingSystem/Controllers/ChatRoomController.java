@@ -37,9 +37,12 @@ private UserService userService;
 
     @GetMapping("/getMessage")
     @CrossOrigin(origins = "*")
-    public Iterable<ChatMessageModel> getMessage(@RequestParam int roomId, @RequestParam int userId) {
-        System.out.println(roomId + " " + userId);
-        return roomService.getMessage(roomId, userId);
+    public Iterable<ChatMessageModel> getMessage(@RequestParam int roomId, Principal principal) {
+        System.out.println("Error here");
+        Optional<UserModel> userModel = userService.userInformation(principal);
+        if(userModel.isEmpty())
+            return null;
+        return roomService.getMessage(roomId, userModel.get().getUserId());
     }
 
     @GetMapping("/getRoom")
@@ -58,8 +61,12 @@ private UserService userService;
     // return roomService.joinRoom(roomModel);
     // }
     @GetMapping("/searchRoom")
-    public  Map<String,Object> searchRoom(@RequestParam int userOne, @RequestParam int userTwo) {
-        return roomService.findRoomByTwoUserId(userOne, userTwo);
+    public  RoomModel searchRoom(Principal principal, @RequestParam int userTwo) {
+        Optional<UserModel> userOne = userService.userInformation(principal);
+        Optional<UserModel> two = userService.findUser(userTwo);
+        if(userOne.isEmpty() || two.isEmpty())
+            return null;
+        return roomService.findRoomByTwoUserId(userOne.get(), two.get());
     }
 
     // @SendTo("/listChat-{userId}")
@@ -69,6 +76,7 @@ private UserService userService;
         Optional<UserModel> userModel = userService.userInformation(principal);
         if(userModel.isEmpty())
             return null;
+        System.out.println(roomService.roomList(userModel.get()));
         return roomService.roomList(userModel.get());
     }
 

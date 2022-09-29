@@ -13,11 +13,11 @@ public class EquipmentType {
 
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "typeId", insertable = false, updatable = false)
+    @JoinColumn(name = "typeId")
     private TypeModel typeModel;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "equipmentModel", updatable = false)
+    @JoinColumn(name = "itemId", updatable = false)
     @JsonIgnore
     private EquipmentModel equipmentModel;
 

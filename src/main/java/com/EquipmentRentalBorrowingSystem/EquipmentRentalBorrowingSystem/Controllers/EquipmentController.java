@@ -94,14 +94,8 @@ public class EquipmentController {
     }
 
     @GetMapping("/get/equipment/by")
-    public Iterable<EquipmentModel> getEquipmentBy(Principal principal) {
-        Optional<UserModel> userModel = userService.userInformation(principal);
-        if(userModel.isEmpty())
-            return null;
-        System.out.println(userModel.get().getUserId());
-        Iterable<EquipmentModel> equipmentModels = equipmentService.getEquipmentByUserId(userModel.get().getUserId());
-
-                return equipmentModels;
+    public Iterable<EquipmentModel> getEquipmentBy(@RequestParam Integer userId) {
+        return equipmentService.getEquipmentByUserId(userId);
     }
 
 

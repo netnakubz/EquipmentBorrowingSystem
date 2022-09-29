@@ -11,28 +11,26 @@ public class ReceiptModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int receiptId;
 
-    private int userId;
-
-    private int itemId;
-
     private Date createDate;
 
-    private int price;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "contractId")
+    private ContractModel contractModel;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "userId")
+    private UserModel userModel;
+
+
+    public ReceiptModel(ContractModel contractModel) {
+        this.contractModel = contractModel;
+        Date date = new Date();
+        this.createDate = new Timestamp(date.getTime());
+    }
 
     public ReceiptModel() {
-        super();
 
     }
-
-    public ReceiptModel(int userId,int itemId,int price){
-        Date date = new Date();
-        Timestamp timestamp = new Timestamp(date.getTime());
-        this.createDate = timestamp;
-        this.price = price;
-        this.userId = userId;
-        this.itemId = itemId;
-    }
-
 
 
     public int getReceiptId() {
@@ -43,46 +41,37 @@ public class ReceiptModel {
         this.receiptId = receiptId;
     }
 
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
-    public int getItemId() {
-        return itemId;
-    }
-
-    public void setItemId(int itemId) {
-        this.itemId = itemId;
-    }
-
     public Date getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(Date create_date) {
-        this.createDate = create_date;
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
     }
 
-    public int getPrice() {
-        return price;
+    public ContractModel getContractModel() {
+        return contractModel;
     }
 
-    public void setPrice(int price) {
-        this.price = price;
+    public void setContractModel(ContractModel contractModel) {
+        this.contractModel = contractModel;
+    }
+
+    public UserModel getUserModel() {
+        return userModel;
+    }
+
+    public void setUserModel(UserModel userModel) {
+        this.userModel = userModel;
     }
 
     @Override
     public String toString() {
         return "ReceiptModel{" +
                 "receiptId=" + receiptId +
-                ", userId=" + userId +
-                ", itemId=" + itemId +
-                ", create_date=" + createDate +
-                ", price=" + price +
+                ", createDate=" + createDate +
+                ", contractModel=" + contractModel +
+                ", userModel=" + userModel +
                 '}';
     }
 }

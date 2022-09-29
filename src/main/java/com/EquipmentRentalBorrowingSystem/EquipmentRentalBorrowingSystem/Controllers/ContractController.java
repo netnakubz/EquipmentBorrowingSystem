@@ -30,6 +30,7 @@ public class ContractController {
 
     @PostMapping("/createAgreement")
     public ContractModel makeAgreement(@RequestBody ContractModel contractModel,Principal principal) {
+        System.out.println(contractModel.getRoomModel());
         Optional<UserModel> userModel = userService.userInformation(principal);
         if(userModel.isEmpty())
             return null;

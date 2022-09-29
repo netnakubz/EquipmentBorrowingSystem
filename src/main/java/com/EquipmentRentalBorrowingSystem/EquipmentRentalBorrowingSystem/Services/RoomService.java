@@ -88,10 +88,9 @@ public class RoomService {
         return roomRepository.getAllByUserOneOrUserTwo(userModel, userModel);
     }
 
-    private RoomModel createNewRoom(int userOne, int userTwo) {
-//        RoomModel room = new RoomModel(userOne, userTwo);
-//        return roomRepository.save(room);
-        return new RoomModel();
+    private RoomModel createNewRoom(UserModel userOne, UserModel userTwo) {
+        RoomModel room = new RoomModel(userOne, userTwo);
+        return roomRepository.save(room);
     }
 
     public Iterable<RoomModel> getRoom() {
@@ -102,11 +101,11 @@ public class RoomService {
         return roomRepository.findById(roomId);
     }
 
-    public Map<String, Object> findRoomByTwoUserId(int userOne, int userTwo) {
-//        Map<String, Object> obj = roomRepository.findRoomByTwoUserId(userOne, userTwo);
-//        if (obj.isEmpty()) {
-//            return (Map<String, Object>) createNewRoom(userOne, userTwo);
-//        }
-        return roomRepository.findRoomByTwoUserId(userOne, userTwo);
+    public RoomModel findRoomByTwoUserId(UserModel userOne, UserModel userTwo) {
+        Optional<RoomModel> obj = roomRepository.findRoomModelByUserOneAndUserTwo(userOne, userTwo);
+        if (obj.isEmpty()) {
+            return createNewRoom(userOne,userTwo);
+        }
+        return obj.get();
     }
 }

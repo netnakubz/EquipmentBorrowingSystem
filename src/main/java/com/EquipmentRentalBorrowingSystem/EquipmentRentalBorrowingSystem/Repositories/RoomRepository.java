@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public interface RoomRepository extends CrudRepository<RoomModel, Integer> {
     List<RoomModel> findAllByUserOneAndUserTwoOrUserOneAndUserTwo(int one, int two, int three, int four);
@@ -25,9 +26,9 @@ public interface RoomRepository extends CrudRepository<RoomModel, Integer> {
     List<Map<String,Object[]>> getRoomList(@Param("userId") int userId);
 
     Iterable<RoomModel> getAllByUserOneOrUserTwo(UserModel userOne, UserModel userTwo);
-    @Query(value = "SELECT room.room_ID FROM room " +
-            "WHERE (user_one = :userOne and user_two = :userTwo) OR " +
-            "(user_one = :userTwo and user_two = :userOne)",
-            nativeQuery = true)
-    Map<String,Object> findRoomByTwoUserId(@Param("userOne") int userOne, @Param("userTwo") int userTwo);
+//    @Query(value = "SELECT room.room_ID FROM room " +
+//            "WHERE (user_one = :userOne and user_two = :userTwo) OR " +
+//            "(user_one = :userTwo and user_two = :userOne)",
+//            nativeQuery = true)
+    Optional<RoomModel> findRoomModelByUserOneAndUserTwo(UserModel userOne,UserModel userTwo);
 }
