@@ -5,12 +5,10 @@ import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.RoomModel;
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Repositories.ContractRepository;
 
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.Optional;
 
 @Service
@@ -31,7 +29,7 @@ public class ContractService {
     public ContractModel makeAgreement(ContractModel contractModel) {
         System.out.println(contractModel);
         Optional<EquipmentModel> equipment = equipmentService.getEquipmentById(contractModel.getEquipmentModel().getItemId());
-        Optional<RoomModel> room = roomService.getRoom(contractModel.getRoom().getId());
+        Optional<RoomModel> room = roomService.getRoom(contractModel.getRoom().getRoomId());
         if (equipment.isPresent() && room.isPresent()) {
             contractModel.setEquipmentModel(equipment.get());
             contractModel.setRoom(room.get());

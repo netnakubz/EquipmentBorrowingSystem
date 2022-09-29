@@ -1,13 +1,13 @@
 package com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Controllers;
 
-import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.LikeModel;
+import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.EquipmentModel;
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.PostBorrowModel;
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.PostRentModel;
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Repositories.PostBorrowRepository;
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Repositories.PostRentRepository;
+import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Services.EquipmentService;
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Services.PostService;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -27,18 +27,30 @@ public class PostController {
     private final PostService postService;
     private final PostRentRepository postRentRepository;
     private final PostBorrowRepository postBorrowRepository;
-    public PostController(PostService postService,PostRentRepository postRentRepository,PostBorrowRepository postBorrowRepository) {
+
+    private final EquipmentService equipmentService;
+
+
+    public PostController(PostService postService, PostRentRepository postRentRepository, PostBorrowRepository postBorrowRepository, EquipmentService equipmentService) {
         this.postService = postService;
         this.postRentRepository = postRentRepository;
         this.postBorrowRepository = postBorrowRepository;
+        this.equipmentService = equipmentService;
     }
 
     @PostMapping("/post/rent")
-    public ResponseEntity<String> postRent(@RequestBody PostRentModel postRentModel) {
+    public PostRentModel postRent(@RequestBody PostRentModel postRentModel) {
         Date date = new Date();
         Timestamp timestamp = new Timestamp(date.getTime());
-        postRentModel.setCreate_date(timestamp);
-        System.out.println(postRentModel);
+        postRentModel.setCreateDate(timestamp);
+        Optional<EquipmentModel> equipmentModel = equipmentService.getEquipmentById(postRentModel.getEquipment().getItemId());
+        if (equipmentModel.isPresent()){
+            System.out.println("Helloooooooooooooo");
+            System.out.println(equipmentModel.get().getName());
+            postRentModel.setEquipment(equipmentModel.get());
+        }else{
+            System.out.println("Equipment doesn't exist");
+        }
         return postService.post(postRentModel);
     }
 
@@ -63,19 +75,21 @@ public class PostController {
 
     @GetMapping("/get/post")
     public Iterable<PostRentModel> getPost(@RequestParam(defaultValue = "0") Integer pageNo,
-                                           @RequestParam(defaultValue = "10") Integer pageSize, Principal principal) {
-        Pageable paging = PageRequest.of(pageNo,pageSize);
+                                           @RequestParam(defaultValue = "10") Integer pageSize,
+                                           Principal principal) {
+        Pageable paging = PageRequest.of(pageNo, pageSize);
         return postRentRepository.findAll(paging);
     }
+
     @GetMapping("/get/lendPost")
     public Iterable<PostBorrowModel> getLendPost(@RequestParam(defaultValue = "0") Integer pageNo,
-                                           @RequestParam(defaultValue = "10") Integer pageSize) {
-        Pageable paging = PageRequest.of(pageNo,pageSize);
+                                                 @RequestParam(defaultValue = "10") Integer pageSize) {
+        Pageable paging = PageRequest.of(pageNo, pageSize);
         return postBorrowRepository.findAll(paging);
     }
 
     @GetMapping("/get/post/by")
-    public Optional<PostRentModel> getPost(@RequestParam Integer postId){
+    public Optional<PostRentModel> getPost(@RequestParam Integer postId) {
         return postService.getPostByPostId(postId);
     }
 
@@ -83,7 +97,6 @@ public class PostController {
     public List<PostRentModel> getPostWithFilter(@RequestParam String filter) {
         return postService.getPostWithFilter(filter);
     }
-
 
 
 }

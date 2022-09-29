@@ -1,9 +1,7 @@
 package com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Controllers;
 
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.*;
-import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Services.EquipmentService;
-import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Services.FileSystemStorageService;
-import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Services.SecurityService;
+import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Services.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,11 +17,15 @@ public class EquipmentController {
     private final FileSystemStorageService storageService;
     private final EquipmentService equipmentService;
     private final SecurityService securityService;
+    private final TypeService typeService;
+    private final UserService userService;
 
-    public EquipmentController(EquipmentService equipmentService, FileSystemStorageService fileStorageService, SecurityService securityService) {
+    public EquipmentController(EquipmentService equipmentService, FileSystemStorageService fileStorageService, SecurityService securityService, UserService userService,TypeService typeService) {
         this.equipmentService = equipmentService;
         this.storageService = fileStorageService;
         this.securityService = securityService;
+        this.userService = userService;
+        this.typeService = typeService;
     }
 
     @PostMapping("/rentEquipment")
@@ -47,9 +49,13 @@ public class EquipmentController {
                                    @RequestParam Integer price,
                                    @RequestParam String[] serials,
                                    @RequestParam String name,
-                                   @RequestParam Integer userId,
-                                   @RequestParam Integer[] types) {
-        EquipmentModel equipmentModel = new EquipmentModel(quantity, price, name, userId);
+                                   @RequestParam Integer[] types,
+                                   Principal principal) {
+        Optional<UserModel> userModel = userService.userInformation(principal);
+        if (userModel.isEmpty())
+            return null;
+        EquipmentModel equipmentModel = new EquipmentModel(quantity, price, name, userModel.get());
+        equipmentModel.setUser(userModel.get());
         Set<ItemImgModel> itemImgModels = new HashSet<ItemImgModel>();
         Set<EquipmentType> equipmentTypes = new HashSet<EquipmentType>();
         Set<EquipmentSerial> equipmentSerials = new HashSet<EquipmentSerial>();
@@ -60,10 +66,12 @@ public class EquipmentController {
             itemImgModels.add(new ItemImgModel(fileName));
         });
         Arrays.stream(types).forEach(type -> {
-            equipmentTypes.add(new EquipmentType(type));
+            Optional<TypeModel> t = typeService.get(type);
+            if(t.isEmpty())
+                return;
+            equipmentTypes.add(new EquipmentType(t.get()));
         });
         Arrays.stream(serials).forEach(serial -> {
-            System.out.println(serial);
             equipmentSerials.add(new EquipmentSerial(serial));
         });
         equipmentModel.setItemImg(itemImgModels);
@@ -75,9 +83,9 @@ public class EquipmentController {
     }
 
     @GetMapping("/equipment")
-    public Optional<EquipmentModel> getEquipment(@RequestParam int itemId) {
-        Optional<EquipmentModel> temp = equipmentService.getEquipmentById(itemId);
-        return temp;
+    public EquipmentModel getEquipment(@RequestParam int itemId) {
+        Optional<EquipmentModel> equipment = equipmentService.getEquipmentById(itemId);
+        return equipment.orElse(null);
     }
 
     @GetMapping("/get/all/equipment")
@@ -86,9 +94,16 @@ public class EquipmentController {
     }
 
     @GetMapping("/get/equipment/by")
-    public Iterable<EquipmentModel> getEquipmentBy(@RequestParam int userId) {
-        return equipmentService.getEquipmentByUserId(userId);
+    public Iterable<EquipmentModel> getEquipmentBy(Principal principal) {
+        Optional<UserModel> userModel = userService.userInformation(principal);
+        if(userModel.isEmpty())
+            return null;
+        System.out.println(userModel.get().getUserId());
+        Iterable<EquipmentModel> equipmentModels = equipmentService.getEquipmentByUserId(userModel.get().getUserId());
+
+                return equipmentModels;
     }
+
 
     @GetMapping("/get/itemType")
     public Iterable<TypeModel> getItemType() {

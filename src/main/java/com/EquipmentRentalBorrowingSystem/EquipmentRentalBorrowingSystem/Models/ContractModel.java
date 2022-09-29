@@ -1,46 +1,29 @@
 package com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
 import java.util.Date;
 
 @Entity
 @Table(name = "contract")
 public class ContractModel {
     @Id
-    @Column(name = "contract_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer contractId;
-
-
-    @Column(name = "total_rent")
     private Integer totalRent;
-
-    @Column(name = "start_date")
     private Date startDate;
-
-    @Column(name = "end_date")
     private Date endDate;
-
-    @Column(name = "price")
     private Integer price;
-    @Column(name = "creator")
     private Integer creator;
-    @Column(name = "fine_late")
     private Integer fineLate;
-
-    @Column(name = "fine_broken")
     private Integer fineBroken;
-
-    @Column(name = "edit_status")
     private Boolean editStatus;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "room_ID")
-    private RoomModel room;
+    @JoinColumn(name = "roomModel")
+    private RoomModel roomModel;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "item_ID")
+    @JoinColumn(name = "equipmentModel")
     private EquipmentModel equipmentModel;
 
     @Transient
@@ -52,7 +35,7 @@ public class ContractModel {
 
     public ContractModel(Integer contractId, RoomModel roomId, Integer totalRent, Date startDate, Date endDate, Integer price, Integer creator, Integer fineLate, Integer fineBroken, Boolean editStatus, EquipmentModel equipmentModel, Boolean editAble) {
         this.contractId = contractId;
-        this.room = roomId;
+        this.roomModel = roomId;
         this.totalRent = totalRent;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -74,11 +57,11 @@ public class ContractModel {
     }
 
     public RoomModel getRoom() {
-        return room;
+        return roomModel;
     }
 
     public void setRoom(RoomModel room) {
-        this.room = room;
+        this.roomModel = room;
     }
 
     public Integer getTotalRent() {
@@ -165,7 +148,7 @@ public class ContractModel {
     public String toString() {
         return "ContractModel{" +
                 "contractId=" + contractId +
-                ", roomId=" + room +
+                ", roomId=" + roomModel +
                 ", totalRent=" + totalRent +
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +

@@ -12,10 +12,10 @@ public class EquipmentSerial {
 
     private String serial;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "item_ID")
-    @JsonIgnore
-    private EquipmentModel item_ID;
+//    @ManyToOne(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "item_ID")
+//    @JsonIgnore
+//    private EquipmentModel item_ID;
 
     public EquipmentSerial() {
     }
@@ -40,20 +40,20 @@ public class EquipmentSerial {
         this.serial = serial;
     }
 
-    public EquipmentModel getItem_ID() {
-        return item_ID;
-    }
-
-    public void setItem_ID(EquipmentModel equipmentModel) {
-        this.item_ID = equipmentModel;
-    }
+//    public EquipmentModel getItem_ID() {
+//        return item_ID;
+//    }
+//
+//    public void setItem_ID(EquipmentModel equipmentModel) {
+//        this.item_ID = equipmentModel;
+//    }
 
     @Override
     public String toString() {
         return "EquipmentSerial{" +
                 "id=" + id +
                 ", serial='" + serial + '\'' +
-                ", equipmentModel=" + item_ID +
+//                ", equipmentModel=" + item_ID +
                 '}';
     }
 }

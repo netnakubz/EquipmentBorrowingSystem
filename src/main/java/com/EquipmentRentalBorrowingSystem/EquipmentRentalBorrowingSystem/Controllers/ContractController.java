@@ -1,7 +1,9 @@
 package com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Controllers;
 
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.ContractModel;
+import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.UserModel;
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Services.ContractService;
+import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Services.UserService;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseToken;
@@ -20,12 +22,18 @@ public class ContractController {
 
     private final ContractService contractService;
 
-    public ContractController(ContractService contractService) {
+    private final UserService userService;
+    public ContractController(ContractService contractService,UserService userService) {
         this.contractService = contractService;
+        this.userService = userService;
     }
 
     @PostMapping("/createAgreement")
-    public ContractModel makeAgreement(@RequestBody ContractModel contractModel) {
+    public ContractModel makeAgreement(@RequestBody ContractModel contractModel,Principal principal) {
+        Optional<UserModel> userModel = userService.userInformation(principal);
+        if(userModel.isEmpty())
+            return null;
+        contractModel.setCreator(userModel.get().getUserId());
         return contractService.makeAgreement(contractModel);
     }
 

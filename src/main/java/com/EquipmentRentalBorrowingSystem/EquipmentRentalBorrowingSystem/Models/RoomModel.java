@@ -7,15 +7,14 @@ import javax.persistence.*;
 public class RoomModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "room_id")
-    private int id;
+    private int roomId;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_one")
+    @JoinColumn(name = "userOne")
     private UserModel userOne;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_two")
+    @JoinColumn(name = "userTwo")
     private UserModel userTwo;
 
     public RoomModel() {
@@ -28,12 +27,12 @@ public class RoomModel {
         this.userTwo = userTwo;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setRoomId(int id) {
+        this.roomId = id;
     }
 
-    public int getId() {
-        return id;
+    public int getRoomId() {
+        return roomId;
     }
 
     public UserModel getUserOne() {
@@ -55,7 +54,7 @@ public class RoomModel {
     @Override
     public String toString() {
         return "RoomModel{" +
-                "id=" + id +
+                "id=" + roomId +
                 ", userOne=" + userOne +
                 ", userTwo=" + userTwo +
                 '}';

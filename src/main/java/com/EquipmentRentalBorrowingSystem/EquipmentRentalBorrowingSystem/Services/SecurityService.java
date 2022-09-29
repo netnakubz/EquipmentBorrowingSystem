@@ -2,7 +2,7 @@
 
  import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.UserModel;
  import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Repositories.UserRepository;
- import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuth;
  import com.google.firebase.auth.FirebaseAuthException;
  import com.google.firebase.auth.FirebaseToken;
  import org.springframework.http.HttpStatus;
@@ -12,6 +12,7 @@
 
  import javax.servlet.http.HttpServletRequest;
  import java.util.Objects;
+import java.util.Optional;
 
  @Service
  public class SecurityService {
@@ -33,10 +34,10 @@
      public ResponseEntity<UserModel> getCurrentUser() throws FirebaseAuthException {
          String accessToken = this.getBearerToken(httpServletRequest);
          FirebaseToken decodeToken = FirebaseAuth.getInstance().verifyIdToken(accessToken);
-         UserModel userModel = userRepository.findByLocalId(decodeToken.getUid());
-         if (userModel == null)
+         Optional<UserModel> userModel = userRepository.findByLocalId(decodeToken.getUid());
+         if (userModel.isEmpty())
              return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-         return new ResponseEntity<>(userModel, HttpStatus.OK);
+         return new ResponseEntity<>(userModel.get(), HttpStatus.OK);
      }
 
      public String getBearerToken(HttpServletRequest request) {

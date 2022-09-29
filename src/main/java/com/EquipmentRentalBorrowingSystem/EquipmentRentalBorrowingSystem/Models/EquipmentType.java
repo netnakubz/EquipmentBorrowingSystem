@@ -11,31 +11,21 @@ public class EquipmentType {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "type_ID")
-    private int typeId;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "type_ID", insertable = false, updatable = false)
+    @JoinColumn(name = "typeId", insertable = false, updatable = false)
     private TypeModel typeModel;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "item_ID", updatable = false)
+    @JoinColumn(name = "equipmentModel", updatable = false)
     @JsonIgnore
     private EquipmentModel equipmentModel;
 
     public EquipmentType() {
     }
 
-    public EquipmentType(int typeId) {
-        this.typeId = typeId;
-    }
-
-    public int getTypeId() {
-        return typeId;
-    }
-
-    public void setTypeId(int typeId) {
-        this.typeId = typeId;
+    public EquipmentType(TypeModel typeModel) {
+        this.typeModel = typeModel;
     }
 
     public int getId() {
@@ -64,6 +54,6 @@ public class EquipmentType {
 
     @Override
     public String toString() {
-        return "EquipmentType{" + "id=" + id + ", typeId=" + typeId + ", typeModel=" + typeModel + ", equipmentModel=" + equipmentModel + '}';
+        return "EquipmentType{" + "id=" + id + ", typeModel=" + typeModel + ", equipmentModel=" + equipmentModel + '}';
     }
 }

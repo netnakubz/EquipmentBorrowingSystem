@@ -10,14 +10,12 @@ import javax.persistence.*;
 public class ItemImgModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "img_ID")
-    private int img_ID;
+    private int imgId;
 
-    @Column(name = "location")
     private String location;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "item_ID")
+    @JoinColumn(name = "itemId")
     @JsonIgnore
     private EquipmentModel itemId;
 
@@ -29,12 +27,12 @@ public class ItemImgModel {
 
     }
 
-    public int getImg_ID() {
-        return img_ID;
+    public int getImgId() {
+        return imgId;
     }
 
-    public void setImg_ID(int img_ID) {
-        this.img_ID = img_ID;
+    public void setImgId(int img_ID) {
+        this.imgId = img_ID;
     }
 
     public String getLocation() {
@@ -56,7 +54,7 @@ public class ItemImgModel {
     @Override
     public String toString() {
         return "ItemImgModel{" +
-                "img_ID=" + img_ID +
+                "img_ID=" + imgId +
                 ", location='" + location + '\'' +
                 ", itemId=" + itemId +
                 '}';

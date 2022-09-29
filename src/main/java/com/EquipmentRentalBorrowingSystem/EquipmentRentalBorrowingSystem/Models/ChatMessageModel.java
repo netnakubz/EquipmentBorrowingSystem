@@ -12,26 +12,19 @@ import java.util.Date;
 @Table(name = "message")
 public class ChatMessageModel {
     @Id
-    @Column(name = "message_ID")
 //     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String _id;
 
-    @Column(name = "room_ID")
     private int roomId;
 
-    @Column(name = "user_ID")
     private int senderId;
 
-    @Column(name = "message")
     private String text;
 
-    @Column(name = "create_date")
     private Date createdAt;
 
-    @Column(name="systemtext")
     private boolean system;
 
-    @Column(name="function")
     private String function;
 
     @Transient

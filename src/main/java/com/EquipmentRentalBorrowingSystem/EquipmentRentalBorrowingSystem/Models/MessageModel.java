@@ -7,20 +7,15 @@ import java.util.Date;
 @Table(name="message")
 public class MessageModel {
     @Id
-    @Column(name="message_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int messageId;
 
-    @Column(name="user_ID")
     private int userId;
 
-    @Column(name="room_ID")
     private int roomId;
 
-    @Column(name="message")
     private String message;
 
-    @Column(name="create_date")
     private Date create_date;
 
 

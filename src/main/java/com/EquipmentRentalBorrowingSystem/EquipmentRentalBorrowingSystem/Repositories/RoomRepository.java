@@ -2,6 +2,7 @@ package com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Reposi
 
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.RoomModel;
 
+import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.UserModel;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -12,7 +13,7 @@ import java.util.Map;
 public interface RoomRepository extends CrudRepository<RoomModel, Integer> {
     List<RoomModel> findAllByUserOneAndUserTwoOrUserOneAndUserTwo(int one, int two, int three, int four);
 
-    RoomModel findRoomModelById(int id);
+    RoomModel findRoomModelByRoomId(int id);
 
     RoomModel findRoomModelByUserOneAndUserTwoOrUserOneAndUserTwo(int one, int two, int three, int four);
 
@@ -23,6 +24,7 @@ public interface RoomRepository extends CrudRepository<RoomModel, Integer> {
             "(u2.user_ID = r.user_two)", nativeQuery = true)
     List<Map<String,Object[]>> getRoomList(@Param("userId") int userId);
 
+    Iterable<RoomModel> getAllByUserOneOrUserTwo(UserModel userOne, UserModel userTwo);
     @Query(value = "SELECT room.room_ID FROM room " +
             "WHERE (user_one = :userOne and user_two = :userTwo) OR " +
             "(user_one = :userTwo and user_two = :userOne)",

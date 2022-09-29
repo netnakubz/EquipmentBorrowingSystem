@@ -28,7 +28,7 @@
          return userRepository.findById(id);
      }
 
-     public UserModel userInformation(Principal principal) {
+     public Optional<UserModel> userInformation(Principal principal) {
          return userRepository.findByLocalId(principal.getName());
      }
 
@@ -56,15 +56,12 @@
       * @param principal
       * @return json web token
       */
-     public ResponseEntity<UserModel> authenticated(Principal principal) {
-         UserModel userModel = userRepository.findByLocalId(principal.getName());
-         System.out.println(principal.getName());
-         if (userModel == null)
-             return new ResponseEntity<>(null, HttpStatus.OK);
-         Date date = new Date();
-         Timestamp timestamp = new Timestamp(date.getTime());
-         userRepository.updateLastLogin(principal.getName(), timestamp);
-         return new ResponseEntity<>(userModel, HttpStatus.OK);
+     public Boolean authenticated(Principal principal) {
+         Optional<UserModel> userModel = userRepository.findByLocalId(principal.getName());
+        //  Date date = new Date();
+        //  Timestamp timestamp = new Timestamp(date.getTime());
+        //  userRepository.updateLastLogin(principal.getName(), timestamp);
+        return userModel.isPresent();
      }
 
  }

@@ -8,14 +8,13 @@ import javax.persistence.*;
 @Table(name = "suggestion")
 public class SuggestionModel {
     @Id
-    @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String content;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "item_ID")
+    @JoinColumn(name = "equipmentModel")
     @JsonIgnore
     private EquipmentModel equipmentModel;
 

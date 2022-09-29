@@ -119,7 +119,7 @@ public class EquipmentService {
     }
 
     public Optional<EquipmentModel> getEquipmentById(int equipmentId) {
-        return equipmentRepository.findById(equipmentId);
+        return equipmentRepository.findByItemId(equipmentId);
     }
 
     public Iterable<EquipmentModel> getEquipmentByUserId(Integer userId){

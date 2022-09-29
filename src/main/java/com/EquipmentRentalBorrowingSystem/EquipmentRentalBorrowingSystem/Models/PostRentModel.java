@@ -3,30 +3,22 @@ package com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.Set;
 
 @Entity
 @Table(name = "post_rent_model")
 public class PostRentModel {
     @Id
-    @Column(name = "post_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int postId;
 
-    @Column(name = "item_ID")
-    private int itemId;
-
-    @Column(name = "details")
     private String details;
 
-    @Column(name = "post_owner_id")
     private int userId;
 
-    @Column(name = "create_date")
-    private Date create_date;
+    private Date createDate;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "item_ID", insertable = false, updatable = false)
+    @JoinColumn(name = "equipment")
     private EquipmentModel equipment;
 
 
@@ -74,12 +66,12 @@ public class PostRentModel {
         this.userId = userId;
     }
 
-    public Date getCreate_date() {
-        return create_date;
+    public Date getCreateDate() {
+        return createDate;
     }
 
-    public void setCreate_date(Date create_date) {
-        this.create_date = create_date;
+    public void setCreateDate(Date create_date) {
+        this.createDate = create_date;
     }
 
     public EquipmentModel getEquipment() {
@@ -90,22 +82,15 @@ public class PostRentModel {
         this.equipment = equipmentModels;
     }
 
-    public int getItemId() {
-        return itemId;
-    }
 
-    public void setItemId(int itemId) {
-        this.itemId = itemId;
-    }
 
     @Override
     public String toString() {
         return "PostRentModel{" +
                 "postId=" + postId +
-                ", itemId=" + itemId +
                 ", details='" + details + '\'' +
                 ", userId=" + userId +
-                ", create_date=" + create_date +
+                ", create_date=" + createDate +
                 ", equipment=" + equipment +
                 ", like=" + like +
                 '}';

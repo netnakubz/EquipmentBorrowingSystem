@@ -25,9 +25,9 @@ public class PostService {
         this.postBorrowRepository = postBorrowRepository;
     }
 
-    public ResponseEntity<String> post(PostRentModel postRentModel) {
-        postRentRepository.save(postRentModel);
-        return new ResponseEntity<>("Post success", HttpStatus.OK);
+    public PostRentModel post(PostRentModel postRentModel) {
+        return postRentRepository.save(postRentModel);
+//        return new ResponseEntity<>("Post success", HttpStatus.OK);
     }
 
     public ResponseEntity<String> deletePost(int postId) {
@@ -85,8 +85,8 @@ public class PostService {
         return postRentRepository.test();
     }
 
-    public Optional<PostRentModel> getPostByPostId(Integer PostId){
-        return postRentRepository.findById(PostId);
+    public Optional<PostRentModel> getPostByPostId(Integer postId){
+        return postRentRepository.findById(postId);
     }
 
     public void savePostBorrow(PostBorrowModel postBorrowModel){

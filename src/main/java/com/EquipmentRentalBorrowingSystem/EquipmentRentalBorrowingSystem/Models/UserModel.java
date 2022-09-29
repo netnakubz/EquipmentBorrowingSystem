@@ -1,6 +1,5 @@
 package com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,28 +12,20 @@ import java.util.Date;
 public class UserModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_ID")
     private int userId;
 
-    @Column(name = "name")
     private String name;
 
-    @Column(name = "surname")
     private String surname;
 
-    @Column(name = "email")
     private String email;
 
-    @Column(name = "tel")
     private String tel;
 
-    @Column(name = "last_login")
     private Date last_login;
 
-    @Column(name = "create_date")
     private Date create_date;
 
-    @Column(name = "local_ID")
     private String localId;
 
     public UserModel() {

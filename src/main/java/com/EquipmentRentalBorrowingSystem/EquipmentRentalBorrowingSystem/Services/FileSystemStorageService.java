@@ -32,7 +32,7 @@ public class FileSystemStorageService implements StorageService {
     @Autowired
     public FileSystemStorageService(StorageProperties properties) throws IOException {
         this.Direct = "itemImg/Kanit-10001";
-        this.rootLocation = Paths.get(properties.getLocation() + "\\" + this.Direct.replace("/", "\\"));
+        this.rootLocation = Paths.get(properties.getLocation() + "/" + this.Direct);
         if (Files.notExists(this.rootLocation)) {
             try {
                 Files.createDirectories(this.rootLocation);

@@ -1,5 +1,6 @@
 package com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Controllers;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -7,8 +8,10 @@ import java.util.Set;
 
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.ChatMessageModel;
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.RoomModel;
+import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.UserModel;
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Services.ChatMessageService;
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Services.RoomService;
+import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -20,17 +23,17 @@ import org.springframework.web.bind.annotation.*;
 public class ChatRoomController {
 
 
-    @Autowired
     private RoomService roomService;
-    
-    @Autowired
-    private ChatMessageService chatMessageService;
 
-    // public ChatRoomController(RoomService roomService, ChatMessageService
-    // chatMessageService) {
-    // this.roomService = roomService;
-    // this.chatMessageService = chatMessageService;
-    // }
+    private ChatMessageService chatMessageService;
+private UserService userService;
+    public ChatRoomController(RoomService roomService,
+                              ChatMessageService chatMessageService,
+                              UserService userService) {
+        this.roomService = roomService;
+        this.chatMessageService = chatMessageService;
+        this.userService = userService;
+    }
 
     @GetMapping("/getMessage")
     @CrossOrigin(origins = "*")
@@ -38,12 +41,14 @@ public class ChatRoomController {
         System.out.println(roomId + " " + userId);
         return roomService.getMessage(roomId, userId);
     }
+
     @GetMapping("/getRoom")
-    public Iterable<RoomModel> getRoom(){
+    public Iterable<RoomModel> getRoom(Principal principal) {
         return roomService.getRoom();
     }
+
     @GetMapping("/getRoom/by")
-    public Optional<RoomModel> getRoom(@RequestParam int roomId){
+    public Optional<RoomModel> getRoom(@RequestParam int roomId) {
         return roomService.getRoom(roomId);
     }
 
@@ -53,16 +58,18 @@ public class ChatRoomController {
     // return roomService.joinRoom(roomModel);
     // }
     @GetMapping("/searchRoom")
-    public Map<String, Object> searchRoom(@RequestParam int userOne, @RequestParam int userTwo) {
+    public  Map<String,Object> searchRoom(@RequestParam int userOne, @RequestParam int userTwo) {
         return roomService.findRoomByTwoUserId(userOne, userTwo);
     }
 
     // @SendTo("/listChat-{userId}")
     @GetMapping("/getListChat")
     @CrossOrigin("*")
-    public List<Map<String, Object[]>> roomList(@RequestParam int userId) {
-        System.out.println(userId);
-        return roomService.roomList(userId);
+    public Iterable<RoomModel> roomList(Principal principal) {
+        Optional<UserModel> userModel = userService.userInformation(principal);
+        if(userModel.isEmpty())
+            return null;
+        return roomService.roomList(userModel.get());
     }
 
     @PostMapping("/sendMessage")

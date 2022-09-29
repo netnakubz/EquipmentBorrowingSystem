@@ -5,6 +5,8 @@ import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Repositories.TypeRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class TypeService {
 
@@ -16,5 +18,9 @@ public class TypeService {
 
     public Iterable<TypeModel> getAllTypes(){
         return typeRepository.findAll();
+    }
+
+    public Optional<TypeModel> get(Integer typeId){
+        return typeRepository.findById(typeId);
     }
 }

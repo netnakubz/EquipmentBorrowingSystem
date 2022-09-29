@@ -7,10 +7,8 @@ import javax.persistence.*;
 public class TypeModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="type_ID")
     private int typeId;
 
-    @Column(name="name")
     private String name;
 
     public TypeModel(){

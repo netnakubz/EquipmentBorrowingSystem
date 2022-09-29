@@ -1,6 +1,7 @@
 package com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Services;
 
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.LikeModel;
+import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.PostRentModel;
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Repositories.LikeRepository;
 import org.springframework.stereotype.Service;
 
@@ -15,8 +16,8 @@ public class LikeService {
         this.likeRepository = likeRepository;
     }
 
-    public boolean isLiked(int postId) {
-        Optional<LikeModel> likeModel = likeRepository.findByPostIdAndUserId(postId, 10001);
+    public boolean isLiked(PostRentModel postRentModel) {
+        Optional<LikeModel> likeModel = likeRepository.findByPostRentModelAndUserId(postRentModel, 10001);
         return likeModel.isPresent();
     }
 
@@ -25,7 +26,7 @@ public class LikeService {
      *                  click like again
      */
     public void likePost(LikeModel likeModel) {
-        Optional<LikeModel> res = likeRepository.findByPostIdAndUserId(likeModel.getPostId(), likeModel.getUserId());
+        Optional<LikeModel> res = likeRepository.findByPostRentModelAndUserId(likeModel.getPostRentModel(), likeModel.getUserId());
         if (res.isPresent()) {
             likeRepository.manualDelete(res.get().getLikeId());
         } else {

@@ -7,6 +7,7 @@ import java.util.Optional;
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.ChatMessageModel;
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.RoomModel;
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.Temp;
+import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.UserModel;
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Repositories.ChatMessageRepository;
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Repositories.RoomRepository;
 
@@ -74,7 +75,7 @@ public class RoomService {
      * @param chatMessageModel
      */
     public void sendMessage(ChatMessageModel chatMessageModel) {
-        RoomModel roomModel = roomRepository.findRoomModelById(chatMessageModel.getRoomId());
+        RoomModel roomModel = roomRepository.findRoomModelByRoomId(chatMessageModel.getRoomId());
         if (roomModel.getUserOne().getUserId() == chatMessageModel.getSenderId()
                 || roomModel.getUserTwo().getUserId() == chatMessageModel.getSenderId()) {
             String input = chatMessageModel.getText();
@@ -83,8 +84,8 @@ public class RoomService {
         }
     }
 
-    public List<Map<String, Object[]>> roomList(int userId) {
-        return roomRepository.getRoomList(userId);
+    public Iterable<RoomModel> roomList(UserModel userModel) {
+        return roomRepository.getAllByUserOneOrUserTwo(userModel, userModel);
     }
 
     private RoomModel createNewRoom(int userOne, int userTwo) {
@@ -92,17 +93,20 @@ public class RoomService {
 //        return roomRepository.save(room);
         return new RoomModel();
     }
-    public Iterable<RoomModel> getRoom(){
+
+    public Iterable<RoomModel> getRoom() {
         return roomRepository.findAll();
     }
-    public Optional<RoomModel> getRoom(int roomId){
+
+    public Optional<RoomModel> getRoom(int roomId) {
         return roomRepository.findById(roomId);
     }
+
     public Map<String, Object> findRoomByTwoUserId(int userOne, int userTwo) {
-        Map<String, Object> obj = roomRepository.findRoomByTwoUserId(userOne, userTwo);
-        if (obj.isEmpty()) {
-            return (Map<String, Object>) createNewRoom(userOne, userTwo);
-        }
+//        Map<String, Object> obj = roomRepository.findRoomByTwoUserId(userOne, userTwo);
+//        if (obj.isEmpty()) {
+//            return (Map<String, Object>) createNewRoom(userOne, userTwo);
+//        }
         return roomRepository.findRoomByTwoUserId(userOne, userTwo);
     }
 }

@@ -6,26 +6,21 @@ import javax.persistence.*;
 @Table(name = "like_post")
 public class LikeModel {
     @Id
-    @Column(name = "like_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int likeId;
 
-    @Column(name = "post_ID")
-    private int postId;
-
-    @Column(name = "user_ID")
     private int userId;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "post_ID", insertable = false, updatable = false)
+    @JoinColumn(name = "postId")
     private PostRentModel postRentModel;
 
     public LikeModel() {
         super();
     }
 
-    public LikeModel(int postId, int userId) {
-        this.postId = postId;
+    public LikeModel(PostRentModel postRentModel, int userId) {
+        this.postRentModel = postRentModel;
         this.userId = userId;
     }
 
@@ -37,13 +32,6 @@ public class LikeModel {
         this.likeId = likeId;
     }
 
-    public int getPostId() {
-        return postId;
-    }
-
-    public void setPostId(int postId) {
-        this.postId = postId;
-    }
 
     public int getUserId() {
         return userId;
@@ -65,7 +53,6 @@ public class LikeModel {
     public String toString() {
         return "LikeModel{" +
                 "likeId=" + likeId +
-                ", postId=" + postId +
                 ", userId=" + userId +
                 ", postRentModel=" + postRentModel +
                 '}';

@@ -9,60 +9,51 @@ import java.util.Set;
 @Table(name = "equipment")
 public class EquipmentModel {
     @Id
-    @Column(name = "item_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int itemId;
 
-    @Column(name = "display")
     private boolean display;
 
-    @Column(name = "total_rent")
     private int totalRent;
 
-    @Column(name = "create_date")
     private Date create_date;
 
-    @Column(name = "quantity")
     private int quantity;
 
-    @Column(name = "price")
     private int price;
 
-    @Column(name = "name")
     private String name;
 
-    @Column(name = "user_ID")
-    private int userId;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_ID", insertable = false, updatable = false)
-    private UserModel user;
+    @JoinColumn(name = "userId")
+    private UserModel userId;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "item_ID")
+    @JoinColumn(name = "itemId")
     private Set<ItemImgModel> itemImg;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "item_ID", insertable = false, updatable = false)
+    @JoinColumn(name = "itemId")
     private Set<SuggestionModel> suggestion;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "item_ID")
+    @JoinColumn(name = "itemId")
     private Set<EquipmentType> equipmentTypes;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "item_ID")
+    @JoinColumn(name = "itemId")
     private Set<EquipmentSerial> equipmentSerials;
 
 
     public EquipmentModel() {
     }
 
-    public EquipmentModel(int quantity, int price, String name, int userId) {
+    public EquipmentModel(int quantity, int price, String name, UserModel userModel) {
         this.quantity = quantity;
         this.price = price;
         this.name = name;
-        this.userId = userId;
+        this.userId = userModel;
     }
 
     public int getItemId() {
@@ -121,20 +112,16 @@ public class EquipmentModel {
         this.name = name;
     }
 
-    public int getUserId() {
+
+
+
+
+    public UserModel getUser() {
         return userId;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
-    public UserModel getUser() {
-        return user;
-    }
-
     public void setUser(UserModel user) {
-        this.user = user;
+        this.userId = user;
     }
 
     public Set<ItemImgModel> getItemImg() {
@@ -180,7 +167,6 @@ public class EquipmentModel {
                 ", price=" + price +
                 ", name='" + name + '\'' +
                 ", userId=" + userId +
-                ", user=" + user +
                 ", itemImg=" + itemImg +
                 ", suggestion=" + suggestion +
                 ", equipmentTypes=" + equipmentTypes +

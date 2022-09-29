@@ -9,19 +9,14 @@ import java.util.Date;
 public class ReceiptModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "receipt_ID")
     private int receiptId;
 
-    @Column(name = "user_id")
     private int userId;
 
-    @Column(name = "item_ID")
     private int itemId;
 
-    @Column(name = "create_date")
-    private Date create_date;
+    private Date createDate;
 
-    @Column(name = "price")
     private int price;
 
     public ReceiptModel() {
@@ -32,7 +27,7 @@ public class ReceiptModel {
     public ReceiptModel(int userId,int itemId,int price){
         Date date = new Date();
         Timestamp timestamp = new Timestamp(date.getTime());
-        this.create_date = timestamp;
+        this.createDate = timestamp;
         this.price = price;
         this.userId = userId;
         this.itemId = itemId;
@@ -64,12 +59,12 @@ public class ReceiptModel {
         this.itemId = itemId;
     }
 
-    public Date getCreate_date() {
-        return create_date;
+    public Date getCreateDate() {
+        return createDate;
     }
 
-    public void setCreate_date(Date create_date) {
-        this.create_date = create_date;
+    public void setCreateDate(Date create_date) {
+        this.createDate = create_date;
     }
 
     public int getPrice() {
@@ -86,7 +81,7 @@ public class ReceiptModel {
                 "receiptId=" + receiptId +
                 ", userId=" + userId +
                 ", itemId=" + itemId +
-                ", create_date=" + create_date +
+                ", create_date=" + createDate +
                 ", price=" + price +
                 '}';
     }
