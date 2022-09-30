@@ -19,7 +19,7 @@ public class PostService {
     private final PostBorrowRepository postBorrowRepository;
     private final LikeRepository likeRepository;
 
-    public PostService(PostRentRepository postRentRepository, LikeRepository likeRepository,PostBorrowRepository postBorrowRepository) {
+    public PostService(PostRentRepository postRentRepository, LikeRepository likeRepository, PostBorrowRepository postBorrowRepository) {
         this.postRentRepository = postRentRepository;
         this.likeRepository = likeRepository;
         this.postBorrowRepository = postBorrowRepository;
@@ -27,7 +27,6 @@ public class PostService {
 
     public PostRentModel post(PostRentModel postRentModel) {
         return postRentRepository.save(postRentModel);
-//        return new ResponseEntity<>("Post success", HttpStatus.OK);
     }
 
     public ResponseEntity<String> deletePost(int postId) {
@@ -66,7 +65,7 @@ public class PostService {
 //        });
 //        return new ResponseEntity<>(postRentModels, HttpStatus.OK);
 //    }
-    public Iterable<PostRentModel> getPost(int limit){
+    public Iterable<PostRentModel> getPost(int limit) {
 //        return postRentRepository.getPost(limit);
         return postRentRepository.findAll();
     }
@@ -75,21 +74,31 @@ public class PostService {
         return postRentRepository.getAllByItemTypeName(type);
     }
 
+    public Iterable<PostRentModel> search(String query) {
+        if (query.isBlank())
+            return postRentRepository.findAll();
+        return postRentRepository.search(query);
+    }
 
+    public Iterable<PostBorrowModel> searchPostBorrow(String query) {
+        if (query.isBlank())
+            return postBorrowRepository.findAll();
+        return postBorrowRepository.search(query);
+    }
 
     public Iterable<LikeModel> getLikePost(int userId) {
         return likeRepository.getLikePostByUserId(userId);
     }
 
-    public List<PostRentModel> test(){
+    public List<PostRentModel> test() {
         return postRentRepository.test();
     }
 
-    public Optional<PostRentModel> getPostByPostId(Integer postId){
+    public Optional<PostRentModel> getPostByPostId(Integer postId) {
         return postRentRepository.findById(postId);
     }
 
-    public void savePostBorrow(PostBorrowModel postBorrowModel){
+    public void savePostBorrow(PostBorrowModel postBorrowModel) {
         postBorrowRepository.save(postBorrowModel);
     }
 

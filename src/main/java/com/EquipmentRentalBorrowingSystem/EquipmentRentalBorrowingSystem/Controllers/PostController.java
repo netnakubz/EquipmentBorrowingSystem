@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,7 +28,6 @@ public class PostController {
     private final PostService postService;
     private final PostRentRepository postRentRepository;
     private final PostBorrowRepository postBorrowRepository;
-
     private final EquipmentService equipmentService;
 
 
@@ -38,20 +38,27 @@ public class PostController {
         this.equipmentService = equipmentService;
     }
 
+    @GetMapping("/post/rent/search")
+    public Iterable<PostRentModel> searchPostRentModel(@RequestParam String query) {
+        return postService.search(query);
+    }
+
     @PostMapping("/post/rent")
     public PostRentModel postRent(@RequestBody PostRentModel postRentModel) {
         Date date = new Date();
         Timestamp timestamp = new Timestamp(date.getTime());
         postRentModel.setCreateDate(timestamp);
         Optional<EquipmentModel> equipmentModel = equipmentService.getEquipmentById(postRentModel.getEquipment().getItemId());
-        if (equipmentModel.isPresent()){
-            System.out.println("Helloooooooooooooo");
-            System.out.println(equipmentModel.get().getName());
+        if (equipmentModel.isPresent()) {
             postRentModel.setEquipment(equipmentModel.get());
-        }else{
+        } else {
             System.out.println("Equipment doesn't exist");
         }
         return postService.post(postRentModel);
+    }
+    @GetMapping("/post/borrow/search")
+    public Iterable<PostBorrowModel> searchPostBorrow(@RequestParam String query){
+        return postService.searchPostBorrow(query);
     }
 
     @PostMapping("/post/borrow")
