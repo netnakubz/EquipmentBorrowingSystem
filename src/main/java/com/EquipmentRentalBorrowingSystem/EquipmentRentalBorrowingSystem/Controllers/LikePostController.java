@@ -33,14 +33,19 @@ public class LikePostController {
 
     @GetMapping("/get/LikePost")
     public Iterable<LikeModel> getLikePost(Principal principal) {
-        // return postService.getLikePost(userId);
-        return likeRepository.findAll();
+        Optional<UserModel> userModel = userService.userInformation(principal);
+        if(userModel.isEmpty())
+            return null;
+         return postService.getLikePost(userModel.get());
     }
 
     @GetMapping(value = "/isLiked")
-    public boolean isLiked(@RequestParam int postId) {
+    public boolean isLiked(@RequestParam int postId,Principal principal) {
         Optional<PostRentModel> postRentModel = postService.getPostByPostId(postId);
-        return likeService.isLiked(postRentModel.get());
+        Optional<UserModel> userModel = userService.userInformation(principal);
+        if(postRentModel.isEmpty())
+            return false;
+        return likeService.isLiked(postRentModel.get(),userModel.get());
     }
 
     @PostMapping("/like/post")

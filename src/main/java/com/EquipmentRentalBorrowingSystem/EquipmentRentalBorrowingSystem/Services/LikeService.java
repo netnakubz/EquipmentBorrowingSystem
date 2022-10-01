@@ -2,6 +2,7 @@ package com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Servic
 
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.LikeModel;
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.PostRentModel;
+import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.UserModel;
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Repositories.LikeRepository;
 import org.springframework.stereotype.Service;
 
@@ -16,8 +17,8 @@ public class LikeService {
         this.likeRepository = likeRepository;
     }
 
-    public boolean isLiked(PostRentModel postRentModel) {
-        Optional<LikeModel> likeModel = likeRepository.findByPostRentModelAndUserId(postRentModel, 10001);
+    public boolean isLiked(PostRentModel postRentModel, UserModel userModel) {
+        Optional<LikeModel> likeModel = likeRepository.findByPostRentModelAndUserId(postRentModel, userModel.getUserId());
         return likeModel.isPresent();
     }
 

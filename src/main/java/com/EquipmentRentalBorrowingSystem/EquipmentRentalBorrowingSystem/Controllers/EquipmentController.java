@@ -20,7 +20,7 @@ public class EquipmentController {
     private final TypeService typeService;
     private final UserService userService;
 
-    public EquipmentController(EquipmentService equipmentService, FileSystemStorageService fileStorageService, SecurityService securityService, UserService userService,TypeService typeService) {
+    public EquipmentController(EquipmentService equipmentService, FileSystemStorageService fileStorageService, SecurityService securityService, UserService userService, TypeService typeService) {
         this.equipmentService = equipmentService;
         this.storageService = fileStorageService;
         this.securityService = securityService;
@@ -67,7 +67,7 @@ public class EquipmentController {
         });
         Arrays.stream(types).forEach(type -> {
             Optional<TypeModel> t = typeService.get(type);
-            if(t.isEmpty())
+            if (t.isEmpty())
                 return;
             equipmentTypes.add(new EquipmentType(t.get()));
         });
@@ -89,8 +89,11 @@ public class EquipmentController {
     }
 
     @GetMapping("/get/all/equipment")
-    public Iterable<EquipmentModel> getAllEquipment() {
-        return equipmentService.getAllEquipment();
+    public Iterable<EquipmentModel> getAllEquipment(Principal principal) {
+        Optional<UserModel> userModel = userService.userInformation(principal);
+        if (userModel.isEmpty())
+            return null;
+        return equipmentService.getAllEquipment(userModel.get());
     }
 
     @GetMapping("/get/equipment/by")

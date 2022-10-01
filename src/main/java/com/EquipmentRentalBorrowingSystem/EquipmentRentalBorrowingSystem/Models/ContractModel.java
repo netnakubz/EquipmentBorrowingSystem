@@ -16,6 +16,7 @@ public class ContractModel {
     private Integer creator;
     private Integer fineLate;
     private Integer fineBroken;
+    private Integer quantity;
     private Boolean editStatus;
 
     @ManyToOne(cascade = CascadeType.ALL)
@@ -34,7 +35,7 @@ public class ContractModel {
         this.editStatus = false;
     }
 
-    public ContractModel(Integer contractId, RoomModel roomId, Integer totalRent, Date startDate, Date endDate, Integer price, Integer creator, Integer fineLate, Integer fineBroken, Boolean editStatus, EquipmentModel equipmentModel, Boolean editAble) {
+    public ContractModel(Integer contractId, RoomModel roomId, Integer totalRent, Date startDate, Date endDate, Integer price, Integer creator, Integer fineLate, Integer fineBroken, Boolean editStatus, EquipmentModel equipmentModel, Boolean editAble,Integer quantity) {
         this.contractId = contractId;
         this.roomModel = roomId;
         this.totalRent = totalRent;
@@ -47,6 +48,7 @@ public class ContractModel {
         this.editStatus = editStatus;
         this.equipmentModel = equipmentModel;
         this.editAble = editAble;
+        this.quantity = quantity;
     }
 
     public Integer getContractId() {
@@ -145,11 +147,18 @@ public class ContractModel {
         this.editAble = editAble;
     }
 
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
+
     @Override
     public String toString() {
         return "ContractModel{" +
                 "contractId=" + contractId +
-                ", roomId=" + roomModel +
                 ", totalRent=" + totalRent +
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
@@ -157,7 +166,9 @@ public class ContractModel {
                 ", creator=" + creator +
                 ", fineLate=" + fineLate +
                 ", fineBroken=" + fineBroken +
+                ", quantity=" + quantity +
                 ", editStatus=" + editStatus +
+                ", roomModel=" + roomModel +
                 ", equipmentModel=" + equipmentModel +
                 ", editAble=" + editAble +
                 '}';

@@ -26,7 +26,8 @@ public class ChatRoomController {
     private RoomService roomService;
 
     private ChatMessageService chatMessageService;
-private UserService userService;
+    private UserService userService;
+
     public ChatRoomController(RoomService roomService,
                               ChatMessageService chatMessageService,
                               UserService userService) {
@@ -40,7 +41,7 @@ private UserService userService;
     public Iterable<ChatMessageModel> getMessage(@RequestParam int roomId, Principal principal) {
         System.out.println("Error here");
         Optional<UserModel> userModel = userService.userInformation(principal);
-        if(userModel.isEmpty())
+        if (userModel.isEmpty())
             return null;
         return roomService.getMessage(roomId, userModel.get().getUserId());
     }
@@ -55,28 +56,22 @@ private UserService userService;
         return roomService.getRoom(roomId);
     }
 
-    // @PostMapping("/joinChatRoom")
-    // public Iterable<ChatMessageModel> joinChatRoom(@RequestBody RoomModel
-    // roomModel) {
-    // return roomService.joinRoom(roomModel);
-    // }
+
     @GetMapping("/searchRoom")
-    public  RoomModel searchRoom(Principal principal, @RequestParam int userTwo) {
+    public RoomModel searchRoom(Principal principal, @RequestParam int userTwo) {
         Optional<UserModel> userOne = userService.userInformation(principal);
         Optional<UserModel> two = userService.findUser(userTwo);
-        if(userOne.isEmpty() || two.isEmpty())
+        if (userOne.isEmpty() || two.isEmpty())
             return null;
         return roomService.findRoomByTwoUserId(userOne.get(), two.get());
     }
 
-    // @SendTo("/listChat-{userId}")
     @GetMapping("/getListChat")
     @CrossOrigin("*")
     public Iterable<RoomModel> roomList(Principal principal) {
         Optional<UserModel> userModel = userService.userInformation(principal);
-        if(userModel.isEmpty())
+        if (userModel.isEmpty())
             return null;
-        System.out.println(roomService.roomList(userModel.get()));
         return roomService.roomList(userModel.get());
     }
 

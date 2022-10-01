@@ -9,6 +9,7 @@ import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Repositories.UserRepository;
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Services.UserService;
 
+import org.apache.coyote.Response;
 import org.h2.engine.User;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

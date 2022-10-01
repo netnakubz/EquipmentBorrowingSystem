@@ -3,6 +3,7 @@ package com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Servic
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.LikeModel;
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.PostBorrowModel;
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.PostRentModel;
+import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.UserModel;
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Repositories.LikeRepository;
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Repositories.PostBorrowRepository;
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Repositories.PostRentRepository;
@@ -86,8 +87,8 @@ public class PostService {
         return postBorrowRepository.search(query);
     }
 
-    public Iterable<LikeModel> getLikePost(int userId) {
-        return likeRepository.getLikePostByUserId(userId);
+    public Iterable<LikeModel> getLikePost(UserModel userModel) {
+        return likeRepository.findAllByUserId(userModel.getUserId());
     }
 
     public List<PostRentModel> test() {

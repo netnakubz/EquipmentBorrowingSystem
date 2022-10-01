@@ -15,7 +15,8 @@ public interface LikeRepository extends CrudRepository<LikeModel, Integer> {
     @Query(value = "DELETE FROM like_post WHERE like_ID = :likeId",
     nativeQuery = true)
     void manualDelete(@Param("likeId") int likeId);
-    Iterable<LikeModel> getLikePostByUserId(int userId);
+
+    Iterable<LikeModel> findAllByUserId(int userId);
 
 
 

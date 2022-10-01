@@ -114,8 +114,8 @@ public class EquipmentService {
 //     public ResponseEntity<Iterable<EquipmentModel>> getAllEquipment(Principal principal){
 //         return equipmentRepository.findAllByUserId(principal.getName());
 //     }
-    public Iterable<EquipmentModel> getAllEquipment() {
-        return equipmentRepository.findAll();
+    public Iterable<EquipmentModel> getAllEquipment(UserModel userModel) {
+        return equipmentRepository.findAllByUserId(userModel);
     }
 
     public Optional<EquipmentModel> getEquipmentById(int equipmentId) {
