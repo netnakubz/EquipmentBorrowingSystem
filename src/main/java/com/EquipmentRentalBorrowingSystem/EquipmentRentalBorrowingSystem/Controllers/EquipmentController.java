@@ -44,16 +44,9 @@ public class EquipmentController {
     }
 
     @PostMapping("/uploadEquipment")
-    public String handleFileUpload(@RequestParam("files") MultipartFile[] files,
-                                   @RequestParam Integer quantity,
-                                   @RequestParam Integer price,
-                                   @RequestParam String[] serials,
-                                   @RequestParam String name,
-                                   @RequestParam Integer[] types,
-                                   Principal principal) {
-        Optional<UserModel> userModel = userService.userInformation(principal);
-        if (userModel.isEmpty())
-            return null;
+    public String handleFileUpload(@RequestParam("files") MultipartFile[] files, @RequestParam Integer quantity, @RequestParam Integer price, @RequestParam String[] serials, @RequestParam String name, @RequestParam Integer[] types, Principal principal) {
+        Optional<UserModel> userModel = userService.findByLocalId(principal.getName());
+        if (userModel.isEmpty()) return null;
         EquipmentModel equipmentModel = new EquipmentModel(quantity, price, name, userModel.get());
         equipmentModel.setUser(userModel.get());
         Set<ItemImgModel> itemImgModels = new HashSet<ItemImgModel>();
@@ -67,8 +60,7 @@ public class EquipmentController {
         });
         Arrays.stream(types).forEach(type -> {
             Optional<TypeModel> t = typeService.get(type);
-            if (t.isEmpty())
-                return;
+            if (t.isEmpty()) return;
             equipmentTypes.add(new EquipmentType(t.get()));
         });
         Arrays.stream(serials).forEach(serial -> {
@@ -90,9 +82,9 @@ public class EquipmentController {
 
     @GetMapping("/get/all/equipment")
     public Iterable<EquipmentModel> getAllEquipment(Principal principal) {
-        Optional<UserModel> userModel = userService.userInformation(principal);
-        if (userModel.isEmpty())
-            return null;
+        Optional<UserModel> userModel = userService.findByLocalId(principal.getName());
+        if (userModel.isEmpty()) return null;
+        System.out.println(userModel.get());
         return equipmentService.getAllEquipment(userModel.get());
     }
 

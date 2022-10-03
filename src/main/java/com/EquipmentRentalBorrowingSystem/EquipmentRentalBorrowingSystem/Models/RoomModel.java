@@ -1,6 +1,8 @@
 package com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
+import java.util.Date;
 
 @Entity()
 @Table(name = "room")
@@ -8,6 +10,8 @@ public class RoomModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int roomId;
+
+    private Date updateAt;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "userOne")
@@ -26,12 +30,20 @@ public class RoomModel {
         this.userTwo = userTwo;
     }
 
-    public void setRoomId(int id) {
-        this.roomId = id;
-    }
-
     public int getRoomId() {
         return roomId;
+    }
+
+    public void setRoomId(int roomId) {
+        this.roomId = roomId;
+    }
+
+    public Date getUpdateAt() {
+        return updateAt;
+    }
+
+    public void setUpdateAt(Date updateAt) {
+        this.updateAt = updateAt;
     }
 
     public UserModel getUserOne() {
@@ -53,7 +65,8 @@ public class RoomModel {
     @Override
     public String toString() {
         return "RoomModel{" +
-                "id=" + roomId +
+                "roomId=" + roomId +
+                ", updateAt=" + updateAt +
                 ", userOne=" + userOne +
                 ", userTwo=" + userTwo +
                 '}';

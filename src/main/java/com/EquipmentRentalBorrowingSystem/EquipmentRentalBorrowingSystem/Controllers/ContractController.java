@@ -4,16 +4,10 @@ import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.UserModel;
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Services.ContractService;
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Services.UserService;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthException;
-import com.google.firebase.auth.FirebaseToken;
-import com.google.firebase.auth.UserRecord;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.sql.Timestamp;
-import java.util.Date;
 import java.util.Optional;
 
 @RestController
@@ -23,17 +17,17 @@ public class ContractController {
     private final ContractService contractService;
 
     private final UserService userService;
-    public ContractController(ContractService contractService,UserService userService) {
+
+    public ContractController(ContractService contractService, UserService userService) {
         this.contractService = contractService;
         this.userService = userService;
     }
 
     @PostMapping("/createAgreement")
-    public ContractModel makeAgreement(@RequestBody ContractModel contractModel,Principal principal) {
+    public ContractModel makeAgreement(@RequestBody ContractModel contractModel, Principal principal) {
         System.out.println(contractModel.getRoomModel());
-        Optional<UserModel> userModel = userService.userInformation(principal);
-        if(userModel.isEmpty())
-            return null;
+        Optional<UserModel> userModel = userService.findByLocalId(principal.getName());
+        if (userModel.isEmpty()) return null;
         contractModel.setCreator(userModel.get().getUserId());
         return contractService.makeAgreement(contractModel);
     }
@@ -58,7 +52,7 @@ public class ContractController {
     }
 
     @PutMapping("/test")
-    public Principal test(Principal principal)  {
+    public Principal test(Principal principal) {
         return principal;
     }
 }

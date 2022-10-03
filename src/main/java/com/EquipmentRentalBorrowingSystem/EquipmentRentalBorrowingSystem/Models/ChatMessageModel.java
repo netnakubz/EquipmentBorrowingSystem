@@ -28,7 +28,7 @@ public class ChatMessageModel {
     private String function;
 
     @Transient
-    private Temp temp;
+    private User user;
 
     public ChatMessageModel() {
         super();
@@ -82,12 +82,12 @@ public class ChatMessageModel {
         this.createdAt = createdAt;
     }
 
-    public Temp getUser() {
-        return temp;
+    public User getUser() {
+        return user;
     }
 
-    public void setUser(Temp temp) {
-        this.temp = temp;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public boolean isSystem() {
@@ -100,10 +100,8 @@ public class ChatMessageModel {
 
     @Override
     public String toString() {
-        return "ChatMessageModel [_id=" + _id + ", createdAt=" + createdAt + ", roomId=" + roomId + ", senderId="
-                + senderId + ", text=" + text + ", user=" + temp + "]";
+        return "ChatMessageModel [_id=" + _id + ", createdAt=" + createdAt + ", roomId=" + roomId + ", senderId=" + senderId + ", text=" + text + ", user=" + user + "]";
     }
-
 
 
 }

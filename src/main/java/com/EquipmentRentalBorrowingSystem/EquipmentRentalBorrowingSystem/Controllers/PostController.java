@@ -3,8 +3,8 @@ package com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Contro
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.EquipmentModel;
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.PostBorrowModel;
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.PostRentModel;
-import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Repositories.PostBorrowRepository;
-import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Repositories.PostRentRepository;
+import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Config.Repositories.PostBorrowRepository;
+import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Config.Repositories.PostRentRepository;
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Services.EquipmentService;
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Services.PostService;
 import org.jetbrains.annotations.NotNull;
@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 import java.sql.Timestamp;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -56,8 +55,9 @@ public class PostController {
         }
         return postService.post(postRentModel);
     }
+
     @GetMapping("/post/borrow/search")
-    public Iterable<PostBorrowModel> searchPostBorrow(@RequestParam String query){
+    public Iterable<PostBorrowModel> searchPostBorrow(@RequestParam String query) {
         return postService.searchPostBorrow(query);
     }
 
@@ -81,16 +81,13 @@ public class PostController {
     }
 
     @GetMapping("/get/post")
-    public Iterable<PostRentModel> getPost(@RequestParam(defaultValue = "0") Integer pageNo,
-                                           @RequestParam(defaultValue = "10") Integer pageSize,
-                                           Principal principal) {
+    public Iterable<PostRentModel> getPost(@RequestParam(defaultValue = "0") Integer pageNo, @RequestParam(defaultValue = "10") Integer pageSize, Principal principal) {
         Pageable paging = PageRequest.of(pageNo, pageSize);
         return postRentRepository.findAll(paging);
     }
 
     @GetMapping("/get/lendPost")
-    public Iterable<PostBorrowModel> getLendPost(@RequestParam(defaultValue = "0") Integer pageNo,
-                                                 @RequestParam(defaultValue = "10") Integer pageSize) {
+    public Iterable<PostBorrowModel> getLendPost(@RequestParam(defaultValue = "0") Integer pageNo, @RequestParam(defaultValue = "10") Integer pageSize) {
         Pageable paging = PageRequest.of(pageNo, pageSize);
         return postBorrowRepository.findAll(paging);
     }

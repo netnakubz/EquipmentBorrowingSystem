@@ -1,4 +1,4 @@
-package com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Repositories;
+package com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Config.Repositories;
 
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.TypeModel;
 import org.springframework.data.repository.CrudRepository;

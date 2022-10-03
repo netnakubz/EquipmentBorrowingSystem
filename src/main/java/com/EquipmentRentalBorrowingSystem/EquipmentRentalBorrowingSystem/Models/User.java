@@ -1,15 +1,15 @@
 package com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models;
 
 
-public class Temp {
+public class User {
 
     private int _id;
 
-    public Temp() {
+    public User() {
         super();
     }
 
-    public Temp(int _id) {
+    public User(int _id) {
         this._id = _id;
     }
 

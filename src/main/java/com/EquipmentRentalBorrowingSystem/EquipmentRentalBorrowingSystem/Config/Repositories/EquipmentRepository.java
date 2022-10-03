@@ -1,4 +1,4 @@
-package com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Repositories;
+package com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Config.Repositories;
 
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.EquipmentModel;
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.UserModel;

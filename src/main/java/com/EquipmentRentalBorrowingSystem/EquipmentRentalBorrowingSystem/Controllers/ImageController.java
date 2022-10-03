@@ -28,31 +28,21 @@ public class ImageController {
     @ResponseBody
     public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
         Resource file = fileSystemStorageService.loadAsResource(filename);
-        return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION,
-                "attachment; filename=\"" + file.getFilename() + "\"")
-                .contentType(MediaType.IMAGE_JPEG)
-                .body(file);
+        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"").contentType(MediaType.IMAGE_JPEG).body(file);
     }
 
     @GetMapping("/{imgGroup}/{owner}/{filename:.+}")
-    public ResponseEntity<byte[]> getImage(@PathVariable String filename,
-                                           @PathVariable String imgGroup,
-                                           @PathVariable String owner) throws IOException {
+    public ResponseEntity<byte[]> getImage(@PathVariable String filename, @PathVariable String imgGroup, @PathVariable String owner) throws IOException {
 
         var imgFile = new ClassPathResource(imgGroup + "/" + owner + "/" + filename);
         byte[] bytes = StreamUtils.copyToByteArray(imgFile.getInputStream());
 
-        return ResponseEntity
-                .ok()
-                .contentType(MediaType.IMAGE_JPEG)
-                .body(bytes);
+        return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(bytes);
     }
 
 
-
     @PostMapping("/test")
-    public String test(){
+    public String test() {
         ItemImgModel e = new ItemImgModel("qwe.jpg");
         return itemImgService.saveImg(e);
     }

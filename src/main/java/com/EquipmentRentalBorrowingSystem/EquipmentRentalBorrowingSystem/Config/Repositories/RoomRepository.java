@@ -1,4 +1,4 @@
-package com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Repositories;
+package com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Config.Repositories;
 
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.RoomModel;
 
@@ -23,12 +23,15 @@ public interface RoomRepository extends CrudRepository<RoomModel, Integer> {
             "where (r.user_one = :userId or r.user_two = :userId) and " +
             "(u1.user_ID = r.user_one) and " +
             "(u2.user_ID = r.user_two)", nativeQuery = true)
-    List<Map<String,Object[]>> getRoomList(@Param("userId") int userId);
+    List<Map<String, Object[]>> getRoomList(@Param("userId") int userId);
 
-    Iterable<RoomModel> getAllByUserOneOrUserTwo(UserModel userOne, UserModel userTwo);
-//    @Query(value = "SELECT room.room_ID FROM room " +
+    Iterable<RoomModel> getAllByUserOneOrUserTwoOrderByUpdateAtDesc(UserModel userOne, UserModel userTwo);
+
+    //    @Query(value = "SELECT room.room_ID FROM room " +
 //            "WHERE (user_one = :userOne and user_two = :userTwo) OR " +
 //            "(user_one = :userTwo and user_two = :userOne)",
 //            nativeQuery = true)
-    Optional<RoomModel> findRoomModelByUserOneAndUserTwo(UserModel userOne,UserModel userTwo);
+//    Optional<RoomModel> findRoomModelByUserOneAndUserTwoOrUserOneAndUserTwo(UserModel a, UserModel b, UserModel c, UserModel d);
+
+    Optional<RoomModel> findRoomModelByUserOneAndUserTwoOrUserOneAndUserTwo(UserModel userOne, UserModel userTwo, UserModel userTwo1, UserModel userOne1);
 }

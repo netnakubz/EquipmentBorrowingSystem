@@ -3,14 +3,13 @@ package com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Contro
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.LikeModel;
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.PostRentModel;
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.UserModel;
-import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Repositories.LikeRepository;
+import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Config.Repositories.LikeRepository;
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Services.LikeService;
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Services.PostService;
 
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Services.UserService;
 import org.springframework.web.bind.annotation.*;
 
-import javax.swing.text.html.Option;
 import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
@@ -33,26 +32,24 @@ public class LikePostController {
 
     @GetMapping("/get/LikePost")
     public Iterable<LikeModel> getLikePost(Principal principal) {
-        Optional<UserModel> userModel = userService.userInformation(principal);
-        if(userModel.isEmpty())
-            return null;
-         return postService.getLikePost(userModel.get());
+        Optional<UserModel> userModel = userService.findByLocalId(principal.getName());
+        if (userModel.isEmpty()) return null;
+        return postService.getLikePost(userModel.get());
     }
 
     @GetMapping(value = "/isLiked")
-    public boolean isLiked(@RequestParam int postId,Principal principal) {
+    public boolean isLiked(@RequestParam int postId, Principal principal) {
         Optional<PostRentModel> postRentModel = postService.getPostByPostId(postId);
-        Optional<UserModel> userModel = userService.userInformation(principal);
-        if(postRentModel.isEmpty())
-            return false;
-        return likeService.isLiked(postRentModel.get(),userModel.get());
+        Optional<UserModel> userModel = userService.findByLocalId(principal.getName());
+        if (postRentModel.isEmpty()) return false;
+        return likeService.isLiked(postRentModel.get(), userModel.get());
     }
 
     @PostMapping("/like/post")
     public void likePost(@RequestParam Integer postId, Principal principal) {
         Optional<PostRentModel> postRentModel = postService.getPostByPostId(postId);
         if (postRentModel.isPresent()) {
-            Optional<UserModel> userModel = userService.userInformation(principal);
+            Optional<UserModel> userModel = userService.findByLocalId(principal.getName());
             LikeModel likeModel = new LikeModel();
             likeModel.setPostRentModel(postRentModel.get());
             likeModel.setUserId(userModel.get().getUserId());

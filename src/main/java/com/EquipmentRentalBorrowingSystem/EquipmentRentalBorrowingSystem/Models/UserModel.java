@@ -1,10 +1,16 @@
 package com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models;
 
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.util.Collection;
 import java.util.Date;
 
 @Entity()
@@ -41,6 +47,20 @@ public class UserModel {
         this.last_login = last_login;
         this.create_date = create_date;
         this.localId = localId;
+    }
+
+    @Override
+    public String toString() {
+        return "UserModel{" +
+                "userId=" + userId +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", email='" + email + '\'' +
+                ", tel='" + tel + '\'' +
+                ", last_login=" + last_login +
+                ", create_date=" + create_date +
+                ", localId='" + localId + '\'' +
+                '}';
     }
 
     public int getUserId() {
@@ -105,19 +125,5 @@ public class UserModel {
 
     public void setLocalId(String localId) {
         this.localId = localId;
-    }
-
-    @Override
-    public String toString() {
-        return "UserModel{" +
-                "userId=" + userId +
-                ", name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
-                ", email='" + email + '\'' +
-                ", tel='" + tel + '\'' +
-                ", last_login=" + last_login +
-                ", create_date=" + create_date +
-                ", localId='" + localId + '\'' +
-                '}';
     }
 }

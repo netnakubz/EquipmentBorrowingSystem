@@ -1,9 +1,8 @@
 package com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Services;
 
-import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.EquipmentModel;
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.ReceiptModel;
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.UserModel;
-import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Repositories.ReceiptRepository;
+import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Config.Repositories.ReceiptRepository;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
@@ -26,7 +25,7 @@ public class ReceiptService {
     }
 
     public Iterable<ReceiptModel> getReceipt(Principal principal) {
-        Optional<UserModel> userModel = userService.userInformation(principal);
+        Optional<UserModel> userModel = userService.findByLocalId(principal.getName());
         System.out.println(userModel.isEmpty());
         if(userModel.isEmpty())
             return null;

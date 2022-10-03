@@ -1,19 +1,15 @@
 package com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Services;
 
-import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.ChatMessageModel;
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.RoomModel;
-import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.Temp;
+import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.User;
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.UserModel;
-import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Repositories.ChatMessageRepository;
-import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Repositories.RoomRepository;
+import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Config.Repositories.ChatMessageRepository;
+import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Config.Repositories.RoomRepository;
 
 import org.springframework.stereotype.Service;
-
-import javax.swing.text.html.Option;
 
 @Service
 public class RoomService {
@@ -42,31 +38,28 @@ public class RoomService {
      * @param roomModel
      * @return
      */
-    // public Iterable<ChatMessageModel> joinRoom(RoomModel roomModel) {
-    // RoomModel RoomModel =
-    // roomRepository.findRoomModelByUserOneAndUserTwoOrUserOneAndUserTwo(roomModel.getUserOne(),
-    // roomModel.getUserTwo(), roomModel.getUserTwo(), roomModel.getUserOne());
-    // if (RoomModel == null)
-    // RoomModel = addRoom(roomModel);
-    // return getMessage(RoomModel.getId());
-    // }
+//     public Iterable<ChatMessageModel> joinRoom(RoomModel roomModel) {
+//     Optional<RoomModel> RoomModel =
+//     roomRepository.findRoomModelByUserOneAndUserTwoOrUserOneAndUserTwo(roomModel.getUserOne(),
+//     roomModel.getUserTwo(), roomModel.getUserTwo(), roomModel.getUserOne());
+//     if (RoomModel == null)
+//     RoomModel = addRoom(roomModel);
+//     return getMessage(RoomModel.get().getRoomId());
+//     }
 
     /**
-     * return messages to user
-     *
-     * @param id
+     * @param roomId
      * @return
      */
-    public Iterable<ChatMessageModel> getMessage(int id, int userId) {
-        Iterable<ChatMessageModel> chatMessageModel = chatMessageRepository.findChatMessageModelsByRoomId(id);
+    public Iterable<ChatMessageModel> getMessage(int roomId) {
+        Iterable<ChatMessageModel> chatMessageModel = chatMessageRepository.findChatMessageModelsByRoomId(roomId);
         // for (int i = 0; i < chatMessageModel.size(); i++) {
         // String text = chatMessageModel.get(i).getText();
         // String decrypt = AES.Decrypt(text);
         // chatMessageModel.get(i).setText(text);
         // }
         for (ChatMessageModel chat : chatMessageModel) {
-            int _id = chat.getSenderId() == userId ? 1 : 2;
-            chat.setUser(new Temp(chat.getSenderId()));
+            chat.setUser(new User(chat.getSenderId()));
         }
         return chatMessageModel;
     }
@@ -85,12 +78,16 @@ public class RoomService {
     }
 
     public Iterable<RoomModel> roomList(UserModel userModel) {
-        return roomRepository.getAllByUserOneOrUserTwo(userModel, userModel);
+        return roomRepository.getAllByUserOneOrUserTwoOrderByUpdateAtDesc(userModel, userModel);
     }
 
     private RoomModel createNewRoom(UserModel userOne, UserModel userTwo) {
         RoomModel room = new RoomModel(userOne, userTwo);
         return roomRepository.save(room);
+    }
+
+    public void save(RoomModel roomModel) {
+        roomRepository.save(roomModel);
     }
 
     public Iterable<RoomModel> getRoom() {
@@ -102,9 +99,9 @@ public class RoomService {
     }
 
     public RoomModel findRoomByTwoUserId(UserModel userOne, UserModel userTwo) {
-        Optional<RoomModel> obj = roomRepository.findRoomModelByUserOneAndUserTwo(userOne, userTwo);
+        Optional<RoomModel> obj = roomRepository.findRoomModelByUserOneAndUserTwoOrUserOneAndUserTwo(userOne, userTwo, userTwo, userOne);
         if (obj.isEmpty()) {
-            return createNewRoom(userOne,userTwo);
+            return createNewRoom(userOne, userTwo);
         }
         return obj.get();
     }

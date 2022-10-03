@@ -18,7 +18,7 @@ public class ReceiptController {
     }
 
     @GetMapping("/get/receipt")
-    public Iterable<ReceiptModel> receiptModels(Principal principal){
+    public Iterable<ReceiptModel> receiptModels(Principal principal) {
         System.out.println(principal.getName());
         return receiptService.getReceipt(principal);
     }

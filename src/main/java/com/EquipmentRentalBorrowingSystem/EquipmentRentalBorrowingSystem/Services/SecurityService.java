@@ -1,7 +1,7 @@
  package com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Services;
 
  import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.UserModel;
- import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Repositories.UserRepository;
+ import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Config.Repositories.UserRepository;
 import com.google.firebase.auth.FirebaseAuth;
  import com.google.firebase.auth.FirebaseAuthException;
  import com.google.firebase.auth.FirebaseToken;

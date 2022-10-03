@@ -11,15 +11,15 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1")
 public class TypeController {
-    
+
     private final TypeService typeService;
-    
-    public TypeController(TypeService typeService){
+
+    public TypeController(TypeService typeService) {
         this.typeService = typeService;
     }
 
     @GetMapping("/getItemType")
-    public Iterable<TypeModel> typeModels(){
+    public Iterable<TypeModel> typeModels() {
         return typeService.getAllTypes();
     }
 }

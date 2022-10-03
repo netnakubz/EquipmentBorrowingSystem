@@ -1,7 +1,7 @@
 package com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Services;
 
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.ChatMessageModel;
-import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Repositories.ChatMessageRepository;
+import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Config.Repositories.ChatMessageRepository;
 
 import org.springframework.stereotype.Service;
 
