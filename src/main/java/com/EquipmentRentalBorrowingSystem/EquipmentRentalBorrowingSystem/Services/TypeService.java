@@ -2,7 +2,7 @@ package com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Servic
 
 
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.TypeModel;
-import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Config.Repositories.TypeRepository;
+import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Repositories.TypeRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;

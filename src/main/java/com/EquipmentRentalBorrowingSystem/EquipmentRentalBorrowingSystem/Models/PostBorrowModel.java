@@ -8,17 +8,19 @@ import java.util.Date;
 public class PostBorrowModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int postId;
+    private Integer postId;
 
     private String details;
 
-    private int userId;
+    @ManyToOne
+    @JoinColumn(name = "userId")
+    private UserModel userModel;
 
     private Date create_date;
 
-    private int price;
+    private Integer price;
 
-    private int period;
+    private Integer period;
 
 
     public PostBorrowModel() {
@@ -41,12 +43,12 @@ public class PostBorrowModel {
         this.details = detail;
     }
 
-    public int getUserId() {
-        return userId;
+    public UserModel getUserId() {
+        return userModel;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setUserId(UserModel userModel) {
+        this.userModel = userModel;
     }
 
     public Date getCreate_date() {
@@ -79,7 +81,7 @@ public class PostBorrowModel {
         return "PostBorrowModel{" +
                 "postId=" + postId +
                 ", details='" + details + '\'' +
-                ", userId=" + userId +
+                ", userModel=" + userModel +
                 ", create_date=" + create_date +
                 ", price=" + price +
                 ", period=" + period +

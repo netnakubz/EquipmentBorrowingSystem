@@ -1,4 +1,4 @@
-package com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Config.Repositories;
+package com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Repositories;
 
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.PostBorrowModel;
 import org.springframework.data.jpa.repository.Query;

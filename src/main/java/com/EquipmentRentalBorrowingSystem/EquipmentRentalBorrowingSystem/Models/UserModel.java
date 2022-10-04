@@ -5,11 +5,7 @@ import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Collection;
 import java.util.Date;
 
@@ -34,11 +30,17 @@ public class UserModel {
 
     private String localId;
 
+    private String idNumber;
+
+    @OneToOne
+    @JoinColumn(name = "homeId")
+    private HomeAddressModel homeAddressModel;
+
     public UserModel() {
         super();
     }
 
-    public UserModel(int userId, String name, String surname, String email, String tel, Date last_login, Date create_date, String localId) {
+    public UserModel(int userId, String name, String surname, String email, String tel, Date last_login, Date create_date, String localId, HomeAddressModel homeAddressModel) {
         this.userId = userId;
         this.name = name;
         this.surname = surname;
@@ -47,20 +49,15 @@ public class UserModel {
         this.last_login = last_login;
         this.create_date = create_date;
         this.localId = localId;
+        this.homeAddressModel = homeAddressModel;
     }
 
-    @Override
-    public String toString() {
-        return "UserModel{" +
-                "userId=" + userId +
-                ", name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
-                ", email='" + email + '\'' +
-                ", tel='" + tel + '\'' +
-                ", last_login=" + last_login +
-                ", create_date=" + create_date +
-                ", localId='" + localId + '\'' +
-                '}';
+    public String getIdNumber() {
+        return idNumber;
+    }
+
+    public void setIdNumber(String idNumber) {
+        this.idNumber = idNumber;
     }
 
     public int getUserId() {
@@ -125,5 +122,28 @@ public class UserModel {
 
     public void setLocalId(String localId) {
         this.localId = localId;
+    }
+
+    public HomeAddressModel getHomeAddressModel() {
+        return homeAddressModel;
+    }
+
+    public void setHomeAddressModel(HomeAddressModel homeAddressModel) {
+        this.homeAddressModel = homeAddressModel;
+    }
+
+    @Override
+    public String toString() {
+        return "UserModel{" +
+                "userId=" + userId +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", email='" + email + '\'' +
+                ", tel='" + tel + '\'' +
+                ", last_login=" + last_login +
+                ", create_date=" + create_date +
+                ", localId='" + localId + '\'' +
+                ", homeAddressModel=" + homeAddressModel +
+                '}';
     }
 }

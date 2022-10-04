@@ -6,9 +6,11 @@ import java.util.Date;
 import java.util.Optional;
 
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Jwt.JwtHelper;
+import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.HomeAddressModel;
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.UserModel;
-import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Config.Repositories.RefreshTokenRepository;
-import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Config.Repositories.UserRepository;
+import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Repositories.RefreshTokenRepository;
+import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Repositories.UserRepository;
+import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Services.HomeAdressService;
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Services.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,15 +35,17 @@ public class UserController {
     private final AuthenticationManager authenticationManager;
     private final RefreshTokenRepository refreshTokenRepository;
     private final JwtHelper jwtHelper;
+    private final HomeAdressService homeAdressService;
     @Autowired
     HttpServletRequest request;
 
-    public UserController(UserService userService, UserRepository userRepository, AuthenticationManager authenticationManager, RefreshTokenRepository refreshTokenRepository, JwtHelper jwtHelper) {
+    public UserController(UserService userService, UserRepository userRepository, AuthenticationManager authenticationManager, RefreshTokenRepository refreshTokenRepository, JwtHelper jwtHelper, HomeAdressService homeAdressService) {
         this.userService = userService;
         this.userRepository = userRepository;
         this.authenticationManager = authenticationManager;
         this.refreshTokenRepository = refreshTokenRepository;
         this.jwtHelper = jwtHelper;
+        this.homeAdressService = homeAdressService;
     }
 
     @GetMapping("/profile")
@@ -72,6 +76,8 @@ public class UserController {
 
     @PostMapping("/updateUserInformation")
     public ResponseEntity<UserModel> updateUserInformation(@RequestBody UserModel userModel, Principal principal) {
+        HomeAddressModel homeAddressModel = homeAdressService.save(userModel.getHomeAddressModel());
+        userModel.setHomeAddressModel(homeAddressModel);
         Date date = new Date();
         Timestamp timestamp = new Timestamp(date.getTime());
         userModel.setLocalId(principal.getName());
