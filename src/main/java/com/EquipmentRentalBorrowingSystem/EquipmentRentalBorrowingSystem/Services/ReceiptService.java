@@ -27,9 +27,15 @@ public class ReceiptService {
     public Iterable<ReceiptModel> getReceipt(Principal principal) {
         Optional<UserModel> userModel = userService.findByLocalId(principal.getName());
         System.out.println(userModel.isEmpty());
-        if(userModel.isEmpty())
+        if (userModel.isEmpty())
             return null;
         return receiptRepository.findAllByUserModel(userModel.get());
     }
 
+    public Iterable<ReceiptModel> findRenting(Principal principal) {
+        Optional<UserModel> userModel = userService.findByLocalId(principal.getName());
+        if (userModel.isEmpty())
+            return null;
+        return receiptRepository.findAllByBorrower(userModel.get());
+    }
 }

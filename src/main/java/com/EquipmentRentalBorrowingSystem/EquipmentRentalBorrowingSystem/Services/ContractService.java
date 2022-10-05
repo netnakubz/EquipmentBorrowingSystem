@@ -1,9 +1,6 @@
 package com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Services;
 
-import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.ContractModel;
-import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.EquipmentModel;
-import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.ReceiptModel;
-import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.RoomModel;
+import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.*;
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Repositories.ContractRepository;
 
 import org.springframework.http.HttpStatus;
@@ -41,6 +38,7 @@ public class ContractService {
 
     /**
      * @return contract model
+     * have to fix this critical bug !!
      */
     public Optional<ContractModel> getContract(int contractId) {
         Optional<ContractModel> contract = contractRepository.findById(contractId);
@@ -61,6 +59,8 @@ public class ContractService {
             return false;
         ReceiptModel receiptModel = new ReceiptModel(contract.get());
         receiptModel.setUserModel(contract.get().getEquipmentModel().getUser());
+        UserModel borrower = contract.get().getRoomModel().getUserOne() == contract.get().getEquipmentModel().getUser() ? contract.get().getRoomModel().getUserTwo():contract.get().getRoomModel().getUserOne();
+        receiptModel.setBorrower(borrower);
         receiptService.createReceipt(receiptModel);
         contract.get().setEditStatus(true);
         contractRepository.save(contract.get());

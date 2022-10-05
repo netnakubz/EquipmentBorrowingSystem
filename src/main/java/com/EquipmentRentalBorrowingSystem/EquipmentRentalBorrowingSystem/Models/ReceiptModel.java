@@ -21,6 +21,9 @@ public class ReceiptModel {
     @JoinColumn(name = "userId")
     private UserModel userModel;
 
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="borrowerId")
+    private UserModel borrower;
 
     public ReceiptModel(ContractModel contractModel) {
         this.contractModel = contractModel;
@@ -63,6 +66,14 @@ public class ReceiptModel {
 
     public void setUserModel(UserModel userModel) {
         this.userModel = userModel;
+    }
+
+    public UserModel getBorrower() {
+        return borrower;
+    }
+
+    public void setBorrower(UserModel borrower) {
+        this.borrower = borrower;
     }
 
     @Override
