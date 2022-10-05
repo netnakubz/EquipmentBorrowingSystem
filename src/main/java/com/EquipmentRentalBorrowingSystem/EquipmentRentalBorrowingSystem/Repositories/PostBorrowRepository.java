@@ -11,4 +11,6 @@ public interface PostBorrowRepository extends PagingAndSortingRepository<PostBor
     @Query(value = "SELECT * FROM post_borrow WHERE details like %:query%",
             nativeQuery = true)
     Iterable<PostBorrowModel> search(@Param("query") String query);
+
+    Iterable<PostBorrowModel> searchAllByDetailsIsContainingOrDetailsLike(String a,String b);
 }

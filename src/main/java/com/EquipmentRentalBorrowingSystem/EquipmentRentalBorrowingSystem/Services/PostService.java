@@ -78,13 +78,13 @@ public class PostService {
     public Iterable<PostRentModel> search(String query) {
         if (query.isBlank())
             return postRentRepository.findAll();
-        return postRentRepository.search(query);
+        return postRentRepository.searchAllByDetailsIsContainingOrDetailsLike(query,query);
     }
 
     public Iterable<PostBorrowModel> searchPostBorrow(String query) {
         if (query.isBlank())
             return postBorrowRepository.findAll();
-        return postBorrowRepository.search(query);
+        return postBorrowRepository.searchAllByDetailsIsContainingOrDetailsLike(query,query);
     }
 
     public Iterable<LikeModel> getLikePost(UserModel userModel) {

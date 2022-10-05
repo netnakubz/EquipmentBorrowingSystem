@@ -50,14 +50,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .authorizeRequests().antMatchers("/api/v1/**").permitAll()
 //                .anyRequest().authenticated();
 //        http.addFilterBefore(accessTokenFilter(), UsernamePasswordAuthenticationFilter.class);
-        http
-                .oauth2Login()
-                .authorizationEndpoint()
-                .authorizationRequestResolver(new CustomAuthorizationRequestResolver(this.clientRegistrationRepository))
-                .and()
-                .and()
-                .rememberMe()
-                .and().authorizeRequests().antMatchers("/*")
-                .fullyAuthenticated().and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().oauth2ResourceServer().jwt().and().and().cors().and().csrf().disable();
+//        http
+//                .oauth2Login()
+//                .authorizationEndpoint()
+//                .authorizationRequestResolver(new CustomAuthorizationRequestResolver(this.clientRegistrationRepository))
+//                .and()
+//                .and()
+//                .rememberMe()
+//                .and().authorizeRequests().antMatchers("/api/v1/**")
+//                .fullyAuthenticated().and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().oauth2ResourceServer().jwt().and().and().cors().and().csrf().disable();
+        http.authorizeRequests().antMatchers("/api/v1/**").fullyAuthenticated().and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().oauth2ResourceServer()
+                .jwt().and().and().cors().and().csrf().disable();
     }
 }

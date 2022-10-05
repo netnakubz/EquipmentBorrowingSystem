@@ -69,7 +69,6 @@ public class PostController {
         postService.savePostBorrow(postBorrowModel);
         return new ResponseEntity<>("Post borrow success", HttpStatus.OK);
     }
-
     @DeleteMapping("/delete/post")
     public ResponseEntity<String> delete(@RequestParam int postId) {
         return postService.deletePost(postId);

@@ -1,5 +1,6 @@
 package com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Repositories;
 
+import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.PostBorrowModel;
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.PostRentModel;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -42,4 +43,7 @@ public interface PostRentRepository extends PagingAndSortingRepository<PostRentM
     @Query(value = "SELECT * FROM post_rent_model",
             nativeQuery = true)
     List<PostRentModel> getAll(@Param("limit") int limit);
+
+    Iterable<PostRentModel> searchAllByDetailsIsContainingOrDetailsLike(String a, String b);
+
 }
