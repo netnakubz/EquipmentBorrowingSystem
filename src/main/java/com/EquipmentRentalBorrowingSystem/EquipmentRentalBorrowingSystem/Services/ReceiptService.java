@@ -38,4 +38,12 @@ public class ReceiptService {
             return null;
         return receiptRepository.findAllByBorrower(userModel.get());
     }
+
+    public ReceiptModel returnItem(Integer itemId){
+        Optional<ReceiptModel> receiptModel = receiptRepository.findById(itemId);
+        if(receiptModel.isEmpty())
+            return null;
+        receiptModel.get().setStatus(true);
+        return receiptRepository.save(receiptModel.get());
+    }
 }

@@ -15,11 +15,13 @@ public class ContractService {
     private final EquipmentService equipmentService;
     private final RoomService roomService;
     private final ReceiptService receiptService;
-    public ContractService(ContractRepository contractRepository, EquipmentService equipmentService, RoomService roomService,ReceiptService receiptService) {
+    private final UserService userService;
+    public ContractService(ContractRepository contractRepository, EquipmentService equipmentService, RoomService roomService,ReceiptService receiptService,UserService userService) {
         this.contractRepository = contractRepository;
         this.equipmentService = equipmentService;
         this.roomService = roomService;
         this.receiptService = receiptService;
+        this.userService = userService;
     }
 
     /**
@@ -40,11 +42,12 @@ public class ContractService {
      * @return contract model
      * have to fix this critical bug !!
      */
-    public Optional<ContractModel> getContract(int contractId) {
+    public Optional<ContractModel> getContract(int contractId,String localId) {
+        Optional<UserModel> userModel = userService.findByLocalId(localId);
         Optional<ContractModel> contract = contractRepository.findById(contractId);
         if (contract.isPresent()) {
             //check that creator is not the one who request this.
-            if (!contract.get().getCreator().equals(10002) && !contract.get().getEditStatus()) {
+            if (!contract.get().getCreator().equals(userModel.get().getUserId()) && !contract.get().getEditStatus()) {
                 contract.get().setEditAble(true);
             } else {
                 contract.get().setEditAble(false);
@@ -75,8 +78,8 @@ public class ContractService {
      * @param contractId find that contractId is existed
      * @return return contract
      */
-    public ResponseEntity<ContractModel> generateContract(int contractId) {
-        Optional<ContractModel> contractModel = getContract(contractId);
+    public ResponseEntity<ContractModel> generateContract(int contractId,String localId) {
+        Optional<ContractModel> contractModel = getContract(contractId,localId);
 //        if (contractModel.isPresent()) {
 //            Optional<EquipmentModel> equipmentModel = equipmentService
 //                    .getEquipmentById(contractModel.get().getEquipment().getItemId());

@@ -76,6 +76,10 @@ public class UserController {
 
     @PostMapping("/updateUserInformation")
     public ResponseEntity<UserModel> updateUserInformation(@RequestBody UserModel userModel, Principal principal) {
+        Optional<UserModel> user = userService.findByLocalId(principal.getName());
+        if(user.isPresent()){
+            userModel.setUserId(user.get().getUserId());
+        }
         HomeAddressModel homeAddressModel = homeAdressService.save(userModel.getHomeAddressModel());
         userModel.setHomeAddressModel(homeAddressModel);
         Date date = new Date();

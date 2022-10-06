@@ -12,7 +12,7 @@ public class ReceiptModel {
     private int receiptId;
 
     private Date createDate;
-
+    private Boolean status;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "contractId")
     private ContractModel contractModel;
@@ -32,6 +32,7 @@ public class ReceiptModel {
     }
 
     public ReceiptModel() {
+        this.status = false;
 
     }
 
@@ -74,6 +75,14 @@ public class ReceiptModel {
 
     public void setBorrower(UserModel borrower) {
         this.borrower = borrower;
+    }
+
+    public Boolean getStatus() {
+        return status;
+    }
+
+    public void setStatus(Boolean status) {
+        this.status = status;
     }
 
     @Override

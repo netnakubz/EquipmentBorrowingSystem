@@ -1,5 +1,6 @@
 package com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Controllers;
 
+import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.DTO.UpdateEquipmentDto;
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.*;
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Services.*;
 import org.springframework.http.ResponseEntity;
@@ -47,6 +48,7 @@ public class EquipmentController {
     public String handleFileUpload(@RequestParam("files") MultipartFile[] files, @RequestParam Integer quantity, @RequestParam Integer price, @RequestParam String[] serials, @RequestParam String name, @RequestParam Integer[] types, Principal principal) {
         Optional<UserModel> userModel = userService.findByLocalId(principal.getName());
         if (userModel.isEmpty()) return null;
+
         EquipmentModel equipmentModel = new EquipmentModel(quantity, price, name, userModel.get());
         equipmentModel.setUser(userModel.get());
         Set<ItemImgModel> itemImgModels = new HashSet<ItemImgModel>();
@@ -68,10 +70,28 @@ public class EquipmentController {
         });
         equipmentModel.setItemImg(itemImgModels);
         equipmentModel.setCreate_date(timestamp);
+        equipmentModel.setDisplay(true);
         equipmentModel.setEquipmentSerials(equipmentSerials);
         equipmentModel.setEquipmentTypes(equipmentTypes);
         equipmentService.addEquipment(equipmentModel);
         return "redirect:/";
+    }
+
+    @DeleteMapping("/delete")
+    public Boolean deleteEquipment(@RequestParam Integer itemId){
+        Optional<EquipmentModel> equipmentModel = equipmentService.getEquipmentById(itemId);
+        if(equipmentModel.isEmpty())
+            return false;
+        equipmentModel.get().setDisplay(false);
+        equipmentService.addEquipment(equipmentModel.get());
+        return true;
+    }
+    @PostMapping("/update/item")
+    public EquipmentModel updateEquipment(@RequestBody UpdateEquipmentDto updateEquipmentDto) {
+
+        Optional<EquipmentModel> equipmentModel = equipmentService.getEquipmentById(updateEquipmentDto.getItemId());
+        equipmentModel.get().setName(updateEquipmentDto.getName());
+       return equipmentService.addEquipment(equipmentModel.get());
     }
 
     @GetMapping("/equipment")

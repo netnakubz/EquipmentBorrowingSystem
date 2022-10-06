@@ -7,6 +7,7 @@ import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Repositories.LikeRepository;
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Repositories.PostBorrowRepository;
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Repositories.PostRentRepository;
+import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Repositories.SuggestionRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -19,15 +20,18 @@ public class PostService {
     private final PostRentRepository postRentRepository;
     private final PostBorrowRepository postBorrowRepository;
     private final LikeRepository likeRepository;
+    private final SuggestionRepository suggestionRepository;
 
-    public PostService(PostRentRepository postRentRepository, LikeRepository likeRepository, PostBorrowRepository postBorrowRepository) {
+    public PostService(PostRentRepository postRentRepository, LikeRepository likeRepository, PostBorrowRepository postBorrowRepository, SuggestionRepository suggestionRepository) {
         this.postRentRepository = postRentRepository;
         this.likeRepository = likeRepository;
         this.postBorrowRepository = postBorrowRepository;
+        this.suggestionRepository = suggestionRepository;
     }
 
     public PostRentModel post(PostRentModel postRentModel) {
-        return postRentRepository.save(postRentModel);
+        PostRentModel post = postRentRepository.save(postRentModel);
+        return post;
     }
 
     public ResponseEntity<String> deletePost(int postId) {
@@ -78,13 +82,13 @@ public class PostService {
     public Iterable<PostRentModel> search(String query) {
         if (query.isBlank())
             return postRentRepository.findAll();
-        return postRentRepository.searchAllByDetailsIsContainingOrDetailsLike(query,query);
+        return postRentRepository.searchAllByDetailsIsContainingOrDetailsLike(query, query);
     }
 
     public Iterable<PostBorrowModel> searchPostBorrow(String query) {
         if (query.isBlank())
             return postBorrowRepository.findAll();
-        return postBorrowRepository.searchAllByDetailsIsContainingOrDetailsLike(query,query);
+        return postBorrowRepository.searchAllByDetailsIsContainingOrDetailsLike(query, query);
     }
 
     public Iterable<LikeModel> getLikePost(UserModel userModel) {

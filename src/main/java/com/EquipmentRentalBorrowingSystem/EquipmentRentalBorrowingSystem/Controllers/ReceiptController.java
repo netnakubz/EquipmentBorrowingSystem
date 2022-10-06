@@ -4,9 +4,7 @@ import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Models.UserModel;
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Services.ReceiptService;
 import com.EquipmentRentalBorrowingSystem.EquipmentRentalBorrowingSystem.Services.UserService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.Optional;
@@ -32,4 +30,9 @@ public class ReceiptController {
         return receiptService.findRenting(principal);
     }
 
+    @GetMapping("/return")
+    public ReceiptModel returnItem(@RequestParam Integer  receiptId){
+        System.out.println(receiptId);
+        return receiptService.returnItem(receiptId);
+    }
 }

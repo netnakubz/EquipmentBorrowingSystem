@@ -29,7 +29,6 @@ public class PostController {
     private final PostBorrowRepository postBorrowRepository;
     private final EquipmentService equipmentService;
 
-
     public PostController(PostService postService, PostRentRepository postRentRepository, PostBorrowRepository postBorrowRepository, EquipmentService equipmentService) {
         this.postService = postService;
         this.postRentRepository = postRentRepository;
@@ -53,6 +52,7 @@ public class PostController {
         } else {
             System.out.println("Equipment doesn't exist");
         }
+
         return postService.post(postRentModel);
     }
 

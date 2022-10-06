@@ -33,8 +33,8 @@ public class ContractController {
     }
 
     @GetMapping("/getAgreement")
-    public Optional<ContractModel> getAgreement(@RequestParam int contractId) {
-        return contractService.getContract(contractId);
+    public Optional<ContractModel> getAgreement(@RequestParam int contractId,Principal principal) {
+        return contractService.getContract(contractId,principal.getName());
     }
 
     @PutMapping("/acceptContract")
@@ -43,10 +43,10 @@ public class ContractController {
     }
 
     @PostMapping("/generateContract")
-    public ResponseEntity<ContractModel> generateContract(@RequestParam int contractId) {
-        Optional<ContractModel> contractModel = contractService.getContract(contractId);
+    public ResponseEntity<ContractModel> generateContract(@RequestParam int contractId,Principal principal) {
+        Optional<ContractModel> contractModel = contractService.getContract(contractId,principal.getName());
         if (contractModel.isPresent()) {
-            return contractService.generateContract(contractId);
+            return contractService.generateContract(contractId, principal.getName());
         }
         return null;
     }
