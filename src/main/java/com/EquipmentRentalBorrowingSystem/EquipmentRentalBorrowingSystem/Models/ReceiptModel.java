@@ -13,6 +13,7 @@ public class ReceiptModel {
 
     private Date createDate;
     private Boolean status;
+    private Integer fineLate;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "contractId")
     private ContractModel contractModel;
@@ -36,6 +37,13 @@ public class ReceiptModel {
 
     }
 
+    public Integer getFineLate() {
+        return fineLate;
+    }
+
+    public void setFineLate(Integer fineLate) {
+        this.fineLate = fineLate;
+    }
 
     public int getReceiptId() {
         return receiptId;

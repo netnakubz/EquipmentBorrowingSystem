@@ -85,6 +85,7 @@ public class PostController {
         return postRentRepository.findAll(paging);
     }
 
+
     @GetMapping("/get/lendPost")
     public Iterable<PostBorrowModel> getLendPost(@RequestParam(defaultValue = "0") Integer pageNo, @RequestParam(defaultValue = "10") Integer pageSize) {
         Pageable paging = PageRequest.of(pageNo, pageSize);
